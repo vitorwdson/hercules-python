@@ -1,0 +1,19 @@
+{
+    "debug": true,
+    "db": {
+        "host": "localhost",
+        "port": "5432",
+        "db-name": "",
+        "username": "",
+        "password": ""
+    },
+    "allowed-hosts": ["localhost"],
+    "secret-key": "djang-secret-key",
+    "language-code": "pt-br",
+    "time-zone": "America/Cuiaba",
+    "secret-media-path": "secret-files",
+    "cache": {
+        "use-redis": false,
+        "location": ""
+    }
+}

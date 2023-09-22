@@ -1,0 +1,12 @@
+asgiref==3.7.2
+Django==4.2.5
+django-htmx==1.16.0
+gunicorn==21.2.0
+hiredis==2.2.3
+packaging==23.1
+Pillow==10.0.1
+psycopg==3.1.10
+psycopg-binary==3.1.10
+redis==5.0.0
+sqlparse==0.4.4
+typing_extensions==4.8.0
