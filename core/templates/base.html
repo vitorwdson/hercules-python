@@ -1,0 +1,24 @@
+{% load static set_title %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="htmx-config" content='{"includeIndicatorStyles": false}' />
+
+    {% set_title 'Home' %}
+  </head>
+  <body>
+    <nav></nav>
+
+    <main>
+      {% block content %}
+          {% if partial_content_template %}
+              {% include partial_content_template %}
+          {% endif %}
+      {% endblock %}
+    </main>
+
+    <footer></footer>
+  </body>
+</html>
