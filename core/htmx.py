@@ -34,7 +34,10 @@ def render_htmx(
         using,
     )
 
-def show_message(response: HttpResponse, icon: str|None = None, message: str|None = None) -> HttpResponse:
+def show_message(response: HttpResponse|None = None, icon: str|None = None, message: str|None = None) -> HttpResponse:
+    if response is None:
+        response = HttpResponse('')
+
     if icon is None and message is None:
         response.headers["HX-Trigger"] = "form:showMessage"
     else:
