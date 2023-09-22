@@ -25,10 +25,15 @@ def render_htmx(
             request, custom_full_template_name, context, content_type, status, using
         )
 
+    if context is None:
+        context = {}
+
+    context['partial_content_template'] = template_name
+
     return render(
         request,
         "base.html",
-        {**context, "partial_content_template": template_name},
+        context,
         content_type,
         status,
         using,
