@@ -1,0 +1,14 @@
+media
+static
+docker-db
+venv
+logs
+.git
+.gitignore
+.env.example
+.env
+.db.env.example
+.db.env
+.dockerignore
+config.json
+config.example.json

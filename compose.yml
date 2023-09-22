@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+    db:
+        image: postgres:15
+        restart: always
+        ports:
+            - 45432:5432
+        env_file:
+            - ./.db.env
+        volumes:
+            - type: bind
+              source: ./docker-db
+              target: /var/lib/postgresql/data/
+        networks:
+            - hercules_network
+    web:
+        build: .
+        command: supervisord -c ./supervisord.conf
+        restart: always
+        ports:
+            - 3333:3333
+        volumes:
+            - type: bind
+              source: ./logs
+              target: /code/logs
+            - type: bind
+              source: ./media
+              target: /code/media
+            - type: bind
+              source: ./static
+              target: /code/static
+        depends_on:
+            - db
+            - redis
+        networks:
+            - hercules_network
+        env_file:
+            - ./.env
+            - ./.db.env
+    redis:
+        image: redis
+        expose:
+            - 6379
+        networks:
+            - hercules_network
+
+networks:
+    hercules_network:
+        driver: bridge

@@ -163,6 +163,7 @@ cython_debug/
 config.json
 .env
 .db.env
+/docker-db/
 /logs/
 /media/
 /static/
