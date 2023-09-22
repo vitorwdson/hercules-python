@@ -166,3 +166,4 @@ config.json
 /logs/
 /media/
 /static/
+/supervisord.pid
