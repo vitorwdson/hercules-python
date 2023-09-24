@@ -1,0 +1,6 @@
+[tool.django-stubs]
+django_settings_module = "hercules.settings"
+
+[tool.black]
+line-length = 80
+target-version = ["py311"]

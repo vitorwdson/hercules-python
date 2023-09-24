@@ -1,6 +1,8 @@
 asgiref==3.7.2
 Django==4.2.5
 django-htmx==1.16.0
+django-stubs==4.2.4
+django-stubs-ext==4.2.2
 gunicorn==21.2.0
 hiredis==2.2.3
 packaging==23.1
@@ -10,4 +12,6 @@ psycopg-binary==3.1.10
 redis==5.0.0
 sqlparse==0.4.4
 supervisor==4.2.5
+types-pytz==2023.3.1.1
+types-PyYAML==6.0.12.12
 typing_extensions==4.8.0
