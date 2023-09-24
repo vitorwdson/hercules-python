@@ -1,13 +1,19 @@
 import json
-from core.typing import HttpRequest, HttpResponse
-from django.shortcuts import render
 from typing import Any
+
+from django.shortcuts import render
+
+from core.typing import HttpRequest, HttpResponse
 
 
 def render_htmx(
     request: HttpRequest,
     template_name: str,
-    context: dict[str, Any] | None = None,
+    context: dict[
+        str,
+        Any,
+    ]
+    | None = None,
     custom_full_template_name: str | None = None,
     content_type: str | None = None,
     status: int | None = None,
@@ -17,11 +23,23 @@ def render_htmx(
         context = {}
 
     if request.htmx:
-        return render(request, template_name, context, content_type, status, using)
+        return render(
+            request,
+            template_name,
+            context,
+            content_type,
+            status,
+            using,
+        )
 
     if custom_full_template_name:
         return render(
-            request, custom_full_template_name, context, content_type, status, using
+            request,
+            custom_full_template_name,
+            context,
+            content_type,
+            status,
+            using,
         )
 
     if context is None:
@@ -51,7 +69,12 @@ def show_message(
         response.headers["HX-Trigger"] = "form:showMessage"
     else:
         response.headers["HX-Trigger"] = json.dumps(
-            {"form:showMessage": {"icon": icon, "message": message}}
+            {
+                "form:showMessage": {
+                    "icon": icon,
+                    "message": message,
+                }
+            }
         )
 
     return response
