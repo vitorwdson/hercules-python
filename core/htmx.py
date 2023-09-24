@@ -9,11 +9,7 @@ from core.typing import HttpRequest, HttpResponse
 def render_htmx(
     request: HttpRequest,
     template_name: str,
-    context: dict[
-        str,
-        Any,
-    ]
-    | None = None,
+    context: dict[str, Any] | None = None,
     custom_full_template_name: str | None = None,
     content_type: str | None = None,
     status: int | None = None,
