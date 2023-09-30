@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.urls import path
+from django.urls import include, path
 
 from .media_server import media_server
 
@@ -24,5 +24,6 @@ if media_url[0] == "/":
     media_url = media_url[1:]
 
 urlpatterns = [
+    path('', include('core.urls')),
     path(f"{media_url}<path:file_path>", media_server),
 ]
