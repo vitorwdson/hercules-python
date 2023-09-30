@@ -168,3 +168,4 @@ config.json
 /media/
 /static/
 /supervisord.pid
+/core/static/vendor/tailwind/bundle.css
