@@ -6,13 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="htmx-config" content='{"includeIndicatorStyles": false}' />
     <link rel="stylesheet" href="{% static 'vendor/tailwind/bundle.css' %}">
+    <script src="https://kit.fontawesome.com/995a8f6e56.js" crossorigin="anonymous"></script>
 
     {% set_title 'Home' %}
   </head>
-  <body>
-    <nav></nav>
+  <body class="grid md:grid-cols-[15rem_1fr] grid-rows-[5rem_1fr] h-screen">
+    <nav class="hidden md:flex flex-col items-start justify-start row-span-2 bg-white">
+      <img
+        class="h-20 self-center object-contain"
+        src="{% static 'img/logo.png' %}"
+        alt="Hercules Logo"
+      >
+    </nav>
 
-    <main>
+    <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
+      <img
+        class="md:hidden h-20 mr-auto object-contain"
+        src="{% static 'img/logo.png' %}"
+        alt="Hercules Logo"
+      />
+      <div class="text-3xl text-gray-600">
+        <i class="fa-regular fa-bell"></i>
+      </div>
+      <div class="w-16 h-16 rounded-full overflow-hidden mr-8">
+        <img
+          class="object-contain"
+          src="{% static 'img/profile-placeholder.png' %}"
+          alt="Profile picture"
+        />
+      </div>
+    </header>
+
+    <main class="bg-gray-200">
       {% block content %}
           {% if partial_content_template %}
               {% include partial_content_template %}
@@ -20,7 +45,6 @@
       {% endblock %}
     </main>
 
-    <footer></footer>
 
     <script src="{% static 'vendor/sweetalert/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'vendor/htmx/htmx.min.js' %}"></script>
