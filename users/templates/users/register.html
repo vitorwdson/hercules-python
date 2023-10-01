@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n set_title %}
+
+{% block content %}
+    {% translate "Register" context "page title" as register_title %}
+    {% set_title register_title %}
+
+    <div class="p-4 w-[90vw] md:w-96 bg-white rounded-lg">
+        <form
+            id="register-form"
+    
+            hx-post="{{ request.path }}"
+            hx-select="#register-form"
+            hx-select="#register-form"
+            hx-swap="outerHTML"
+
+            class="flex flex-col gap-4"
+        >
+            {% csrf_token %}
+            <h2 class="text-green-800 font-bold text-xl text-center">{{ register_title }}</h2>
+
+            <div class="flex flex-col">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div class="flex flex-col">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+            <div class="flex flex-col">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+
+            <div class="flex flex-row gap-4 items-center justify-center">
+                <a
+                    href="{% url 'users:login' %}"
+                    class="text-center border-2 border-green-800 hover:border-green-700 text-green-800 hover:text-green-700 font-bold transition rounded p-2 flex-1"
+                >{% translate "Login" context "button" %}</a>
+                <button
+                    type="submit"
+                    class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded p-2 flex-1"
+                >{% translate "Register" context "button" %}</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
