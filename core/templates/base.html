@@ -10,8 +10,8 @@
 
     {% set_title 'Home' %}
   </head>
-  <body hx-indicator="body" class="grid md:grid-cols-[15rem_1fr] grid-rows-[5rem_1fr] h-screen">
-    <nav class="hidden md:flex flex-col items-start justify-start row-span-2 bg-white">
+  <body hx-indicator="body" class="grid {% if not hide_sidebar %}md:grid-cols-[15rem_1fr]{% endif %} grid-rows-[5rem_1fr] h-screen">
+    <nav class="hidden {% if not hide_sidebar %}md:flex{% endif %} flex-col items-start justify-start row-span-2 bg-white">
       <img
         class="h-20 self-center object-contain"
         src="{% static 'img/logo.png' %}"
@@ -21,7 +21,7 @@
 
     <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
       <img
-        class="md:hidden h-20 mr-auto object-contain"
+        class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 mr-auto object-contain"
         src="{% static 'img/logo.png' %}"
         alt="Hercules Logo"
       />
