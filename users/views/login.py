@@ -2,6 +2,7 @@ from typing import Any
 
 from django.conf import settings
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django_htmx.http import HttpResponseClientRedirect
@@ -19,7 +20,9 @@ class Login(LoginView):
 
         return context
 
-    def form_valid(self, _):
+    def form_valid(self, form):
+        auth_login(self.request, form.get_user())
+
         redirect_url = self.get_success_url()
 
         if self.request.htmx and not self.request.htmx.boosted:
