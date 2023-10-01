@@ -3,5 +3,5 @@ from core import views
 
 app_name = 'core'
 urlpatterns = [
-    path('', views.template),
+    path('', views.template, name='index'),
 ]
