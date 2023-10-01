@@ -10,7 +10,7 @@
 
     {% set_title 'Home' %}
   </head>
-  <body class="grid md:grid-cols-[15rem_1fr] grid-rows-[5rem_1fr] h-screen">
+  <body hx-indicator="body" class="grid md:grid-cols-[15rem_1fr] grid-rows-[5rem_1fr] h-screen">
     <nav class="hidden md:flex flex-col items-start justify-start row-span-2 bg-white">
       <img
         class="h-20 self-center object-contain"
@@ -25,26 +25,27 @@
         src="{% static 'img/logo.png' %}"
         alt="Hercules Logo"
       />
-      <div class="flex-shrink-0 text-3xl text-gray-600">
-        <i class="fa-regular fa-bell"></i>
-      </div>
-      <div class="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden mr-8">
-        <img
-          class="object-contain"
-          src="{% static 'img/profile-placeholder.png' %}"
-          alt="Profile picture"
-        />
-      </div>
+      {% if user.is_authenticated %}
+        <div class="flex-shrink-0 text-3xl text-gray-600">
+          <i class="fa-regular fa-bell"></i>
+        </div>
+        <div class="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden mr-8">
+          <img
+            class="object-contain"
+            src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+            alt="Profile picture"
+          />
+        </div>
+      {% endif %}
     </header>
 
-    <main class="bg-gray-200">
+    <main class="flex items-center justify-center bg-gray-200">
       {% block content %}
           {% if partial_content_template %}
               {% include partial_content_template %}
           {% endif %}
       {% endblock %}
     </main>
-
 
     <script src="{% static 'vendor/sweetalert/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'vendor/htmx/htmx.min.js' %}"></script>
