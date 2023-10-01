@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="p-4 w-[90vw] md:w-96 bg-white rounded-lg">
+        <form
+            id="login-form"
+    
+            hx-post="{{ request.path }}"
+            hx-select="#login-form"
+            hx-select="#login-form"
+            hx-swap="outerHTML"
+
+            class="flex flex-col gap-4"
+        >
+            {% csrf_token %}
+            <h2 class="text-green-800 font-bold text-xl text-center">{% translate "Login" context "page title" %}</h2>
+
+            <div class="flex flex-col">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="flex flex-col">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+
+            <div class="flex flex-row gap-4 items-center justify-center">
+                <a
+                    href=""
+                    class="text-center border-2 border-green-800 hover:border-green-700 text-green-800 hover:text-green-700 font-bold transition rounded p-2 flex-1"
+                >{% translate "Register" context "button" %}</a>
+                <button
+                    type="submit"
+                    class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded p-2 flex-1"
+                >{% translate "Login" context "button" %}</button>
+            </div>
+
+            {% if form.non_field_errors %}
+                <script type="module">
+                    Swal.fire({
+                        icon: 'error',
+                        html: `{{ form.non_field_errors }}`,
+                        heightAuto: false,
+                    });
+                </script>
+            {% endif %}
+        </form>
+    </div>
+
+{% endblock %}
