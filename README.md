@@ -7,26 +7,26 @@ This project is part of my Software Engineering course's final paper.
 
 - [ ] Users
 
-  - [ ] Register
-  - [ ] Login
-
-- [ ] Teams
-
-  - [ ] CRUD
-  - [ ] Assign members
+  - [X] Register
+  - [X] Login
+  - [ ] Profile page
 
 - [ ] Projects
 
   - [ ] CRUD
-  - [ ] Assign members (users or teams) and their roles
+  - [ ] Assign members and their roles (related to the project)
+  - [ ] Teams
 
-- [ ] Issues
+    - [ ] CRUD
+    - [ ] Assign members and their roles (related to the team)
 
-  - [ ] CRUD
-  - [ ] Assign responsibilities to members (users or teams) over issues
-  - [ ] History
-    - [ ] Comments
-      - [ ] Text Messages
-      - [ ] Images
-      - [ ] Videos
-    - [ ] Status Changes
+  - [ ] Issues
+
+    - [ ] CRUD
+    - [ ] Assign responsibilities to members (users or teams) over issues
+    - [ ] History
+      - [ ] Comments
+        - [ ] Text Messages
+        - [ ] Images
+        - [ ] Videos
+      - [ ] Status Changes
