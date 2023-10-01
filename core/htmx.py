@@ -18,7 +18,7 @@ def render_htmx(
     if context is None:
         context = {}
 
-    if request.htmx:
+    if request.htmx and not request.htmx.boosted:
         return render(
             request,
             template_name,
