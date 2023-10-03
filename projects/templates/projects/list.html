@@ -1,0 +1,12 @@
+<div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4">
+    <h1>Projects</h1>
+    <ul>
+        {% for project in page_obj %}
+        <li>{{ project.name }}</li>
+        {% empty %}
+        <li>No projects yet.</li>
+        {% endfor %}
+    </ul>
+
+        {% include 'partials/list-navigation.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
+</div>
