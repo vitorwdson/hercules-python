@@ -20,10 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Load the config file
 if os.environ.get("HERCULES_USE_ENV", "0") == "1":
     allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(" ")
+    trusted_origins = os.environ.get("DJANGO_TRUSTED_ORIGINS", "").split(" ")
 
     server_host = os.environ.get("NGINX_SERVER_HOSTNAME")
     if server_host:
         allowed_hosts.append(server_host)
+        trusted_origins.append(f'https://{server_host}')
 
     cache = None
     if os.environ.get("DJANGO_CACHE", "default") == "redis":
@@ -42,6 +44,7 @@ if os.environ.get("HERCULES_USE_ENV", "0") == "1":
             "db-name": os.environ.get("POSTGRES_DB"),
         },
         "allowed-hosts": allowed_hosts,
+        "trusted-origins": trusted_origins,
         "secret-key": os.environ.get("DJANGO_SECRET_KEY"),
         "language-code": os.environ.get("DJANGO_LANGUAGE_CODE"),
         "time-zone": os.environ.get("TZ"),
@@ -235,8 +238,13 @@ STATIC_ROOT = BASE_DIR / "static"
 MEDIA_URL = f"/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+
 # Uses nginx X-Accel-Redirect to an internal location
 SECRET_MEDIA_PATH = f'/{config["secret-media-path"]}/'
+
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = config["trusted-origins"]
 
 
 # Default primary key field type

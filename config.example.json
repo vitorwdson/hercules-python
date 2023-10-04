@@ -8,6 +8,7 @@
         "password": ""
     },
     "allowed-hosts": ["localhost"],
+    "trusted-origins": [],
     "secret-key": "djang-secret-key",
     "language-code": "pt-br",
     "time-zone": "America/Cuiaba",
