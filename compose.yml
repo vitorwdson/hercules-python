@@ -15,7 +15,7 @@ services:
             - hercules_network
     web:
         build: .
-        command: supervisord -c ./supervisord.conf
+        command: supervisord -c ./supervisord.conf -n
         restart: always
         ports:
             - 3333:3333
