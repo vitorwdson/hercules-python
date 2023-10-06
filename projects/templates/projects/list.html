@@ -1,12 +1,47 @@
 <div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4">
-    <h1>Projects</h1>
-    <ul>
-        {% for project in page_obj %}
-        <li>{{ project.name }}</li>
-        {% empty %}
-        <li>No projects yet.</li>
-        {% endfor %}
-    </ul>
+    <h1 class="text-green-800 text-2xl font-bold text-center">Projects</h1>
+    
+    <table
+        class="table-auto border-separate border-spacing-0"
+    >
+        <thead>
+            <tr class="text-white text-xl">
+                <th class="bg-green-800 text-left p-2 rounded-tl-xl">Project Name</th>
+                <th class="bg-green-800 min-w-[10rem] w-2/12 p-2 rounded-tr-xl">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in page_obj %}
+                <tr class="even:bg-gray-50 hover:bg-gray-50 hover:even:bg-gray-100 transition text-xl">
+                    <td class="p-2">{{ project.name }}</td>
+                    <td class="text-center p-2">
+                        {% if project.can_edit %}
+                            <a
+                                class="text-green-800 hover:text-green-700 transition mr-2"
+                                href=""
+                                hx-boost
+                                hx-push-url
+                                title="Edit project"
+                            ><i class="fa-solid fa-pen-to-square"></i></a>
+                            <button
+                                class="text-red-600 hover:text-red-500 transition mr-2"
+                                hx-delete=""
+                                title="Delete project"
+                            ><i class="fa-solid fa-trash"></i></button>
+                        {% endif %}
+                        <a
+                            class="text-cyan-700 hover:text-cyan-600 transition"
+                            href=""
+                            hx-boost
+                            hx-push-url
+                            title="Open project"
+                        ><i class="fa-solid fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+            {% empty %}
+            {% endfor %}
+        </tbody>
+    </table>
 
-        {% include 'partials/list-navigation.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
+    {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
 </div>

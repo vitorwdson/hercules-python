@@ -1,0 +1,44 @@
+<ul 
+  class="flex flex-row gap-1 items-center justify-center mt-auto"
+  hx-boost="true"
+  hx-target="main"
+  hx-select="main"
+  hx-swap="outerHTML"
+  hx-push-url="true"
+>
+
+  {% if page > min %}
+    {% include 'partials/list/nav-item.html' with page=min label='<i class="fa-solid fa-backward"></i>' %}
+    {% include 'partials/list/nav-item.html' with page=page|add:-1 label='<i class="fa-solid fa-caret-left"></i>' %}
+  {% endif %}
+
+  {% with ref_page=page|add:-2 %}
+    {% if ref_page >= min %}
+      {% include 'partials/list/nav-item.html' with page=ref_page label=ref_page %}
+    {% endif %}
+  {% endwith %}
+  {% with ref_page=page|add:-1 %}
+    {% if ref_page >= min %}
+      {% include 'partials/list/nav-item.html' with page=ref_page label=ref_page %}
+    {% endif %}
+  {% endwith %}
+ 
+  {% include 'partials/list/nav-item.html' with page=page label=page disabled=True %}
+
+  {% with ref_page=page|add:1 %}
+    {% if ref_page <= max %}
+      {% include 'partials/list/nav-item.html' with page=ref_page label=ref_page %}
+    {% endif %}
+  {% endwith %}
+  {% with ref_page=page|add:2 %}
+    {% if ref_page <= max %}
+      {% include 'partials/list/nav-item.html' with page=ref_page label=ref_page %}
+    {% endif %}
+  {% endwith %}
+
+  {% if page < max %}
+    {% include 'partials/list/nav-item.html' with page=page|add:1 label='<i class="fa-solid fa-caret-right"></i>' %}
+    {% include 'partials/list/nav-item.html' with page=max label='<i class="fa-solid fa-forward"></i>' %}
+  {% endif %}
+
+</ul>

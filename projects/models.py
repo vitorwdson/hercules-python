@@ -22,6 +22,14 @@ class ProjectMember(models.Model):
     accepted = models.BooleanField(default=False)
     rejected = models.BooleanField(default=False)
 
+    class Meta(TypedModelMeta):
+        constraints = [
+            models.UniqueConstraint(
+                fields=["project", "user"],
+                name="unique_project_member",
+            ),
+        ]
+
 
 class Team(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
