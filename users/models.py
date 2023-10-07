@@ -19,3 +19,6 @@ class User(AbstractUser):
     picture = models.ImageField(
         upload_to=get_picture_path, null=True, blank=True
     )
+    last_project = models.ForeignKey(
+        "projects.Project", on_delete=models.SET_NULL, null=True, blank=True
+    )
