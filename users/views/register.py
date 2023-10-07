@@ -1,3 +1,4 @@
+from django.contrib.auth import login as auth_login
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
@@ -29,6 +30,8 @@ class RegisterView(View):
 
         if form.is_valid():
             user = form.save()
+
+            auth_login(self.request, user)
 
             if request.htmx and not request.htmx.boosted:
                 return HttpResponseClientRedirect(
