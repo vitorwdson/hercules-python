@@ -1,7 +1,10 @@
 import json
 from typing import Any
 
+from django.http.response import HttpResponse as BHttpResponse
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
+from django_htmx.http import HttpResponseClientRedirect
 
 from core.typing import HttpRequest, HttpResponse
 
@@ -74,3 +77,10 @@ def show_message(
         )
 
     return response
+
+
+def redirect_htmx(request: HttpRequest, url: str) -> BHttpResponse:
+    if request.htmx and not request.htmx.boosted:
+        return HttpResponseClientRedirect(url)
+    else:
+        return HttpResponseRedirect(url)

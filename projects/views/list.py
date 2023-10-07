@@ -1,6 +1,5 @@
 from typing import Any
 
-from django.contrib.auth.decorators import login_required
 from django.db.models import Model
 from django.db.models.query import Prefetch
 from django.utils.decorators import method_decorator
@@ -9,6 +8,7 @@ from django.views.generic.list import ListView
 from core.htmx import render_htmx
 from core.typing import HttpRequest
 from projects.models import Project, ProjectMember, Role
+from users.decorators import login_required
 from users.models import User
 
 
@@ -18,7 +18,7 @@ class ProjectList(ListView):
     allow_empty = True
     template_name = "projects/list.html"
     request: HttpRequest
-    ordering = ['name']
+    ordering = ["name"]
 
     def render_to_response(self, context: dict[str, Any], **_: Any):
         return render_htmx(self.request, self.template_name, context)
@@ -35,7 +35,10 @@ class ProjectList(ListView):
             return qs.filter(pk__isnull=True)
 
         qs = qs.prefetch_related(
-            Prefetch('projectmember_set', queryset=ProjectMember.objects.filter(user=user))
+            Prefetch(
+                "projectmember_set",
+                queryset=ProjectMember.objects.filter(user=user),
+            )
         ).filter(projectmember__user=user)
 
         ordering = self.get_ordering()
@@ -44,12 +47,12 @@ class ProjectList(ListView):
                 ordering = (ordering,)
             qs = qs.order_by(*ordering)
 
-        return  qs.distinct()
+        return qs.distinct()
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         data = super().get_context_data(**kwargs)
 
-        for obj in data['object_list']:
+        for obj in data["object_list"]:
             obj.can_edit = False
 
             member: ProjectMember | None = obj.projectmember_set.first()

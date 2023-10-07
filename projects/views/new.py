@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -7,6 +6,7 @@ from core.typing import HttpRequest
 from projects.forms.project import ProjectForm
 from projects.models import Project, ProjectMember, Role
 from projects.user import select_project
+from users.decorators import login_required
 
 
 class NewProject(View):
