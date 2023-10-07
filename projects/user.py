@@ -46,6 +46,4 @@ def get_selected_project(request: HttpRequest):
 
 def select_last_project(request: HttpRequest):
     if request.user.last_project:
-        request.session["selected_project_id"] = request.user.last_project.pk
-    else:
-        request.session["selected_project_id"] = None
+        select_project(request, request.user.last_project)
