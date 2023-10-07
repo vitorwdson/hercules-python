@@ -1,21 +1,44 @@
-from core.typing import HttpRequest
-from projects.models import Project
+from typing import TypedDict
+
+from core.typing import HttpRequest, SelectedProject
+from projects.models import Project, ProjectMember
 
 
-def select_project(request: HttpRequest, project: Project):
+class SelectedProjectSession(TypedDict):
+    project_id: int
+    member_id: int
+    role: int
+
+
+def select_project(
+    request: HttpRequest, project: Project, member: ProjectMember | None = None
+):
     user = request.user
     user.last_project = project
     user.save()
 
-    request.session["selected_project_id"] = project.pk
+    if member is None:
+        member = ProjectMember.objects.get(project=project, user=user)
+
+    request.session["selected_project"] = SelectedProjectSession(
+        project_id=project.pk, member_id=member.pk, role=member.role
+    )
 
 
-def get_selected_project(request: HttpRequest) -> Project | None:
-    project_id = request.session.get("selected_project_id")
-    if project_id is None:
-        return None
+def get_selected_project(request: HttpRequest):
+    selected_project: SelectedProjectSession | None = request.session.get(
+        "selected_project"
+    )
+    if selected_project is None:
+        request.selected_project = None
+        return
 
-    return Project.objects.filter(pk=project_id).first()
+    project = Project.objects.filter(pk=selected_project["project_id"]).first()
+    if project is None:
+        request.selected_project = None
+        return
+
+    request.selected_project = SelectedProject(project, selected_project["role"])
 
 
 def select_last_project(request: HttpRequest):
@@ -23,8 +46,3 @@ def select_last_project(request: HttpRequest):
         request.session["selected_project_id"] = request.user.last_project.pk
     else:
         request.session["selected_project_id"] = None
-
-
-def get_last_selected_project(request: HttpRequest) -> Project | None:
-    select_last_project(request)
-    return get_selected_project(request)
