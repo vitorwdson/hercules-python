@@ -1,47 +1,35 @@
-<div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4">
+<div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4 relative">
     <h1 class="text-green-800 text-2xl font-bold text-center">Projects</h1>
-    
-    <table
-        class="table-auto border-separate border-spacing-0"
-    >
-        <thead>
-            <tr class="text-white text-xl">
-                <th class="bg-green-800 text-left p-2 rounded-tl-xl">Project Name</th>
-                <th class="bg-green-800 min-w-[10rem] w-2/12 p-2 rounded-tr-xl">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for project in page_obj %}
-                <tr class="even:bg-gray-50 hover:bg-gray-50 hover:even:bg-gray-100 transition text-xl">
-                    <td class="p-2">{{ project.name }}</td>
-                    <td class="text-center p-2">
-                        {% if project.can_edit %}
-                            <a
-                                class="text-green-800 hover:text-green-700 transition mr-2"
-                                href=""
-                                hx-boost
-                                hx-push-url
-                                title="Edit project"
-                            ><i class="fa-solid fa-pen-to-square"></i></a>
-                            <button
-                                class="text-red-600 hover:text-red-500 transition mr-2"
-                                hx-delete=""
-                                title="Delete project"
-                            ><i class="fa-solid fa-trash"></i></button>
-                        {% endif %}
-                        <a
-                            class="text-cyan-700 hover:text-cyan-600 transition"
-                            href=""
-                            hx-boost
-                            hx-push-url
-                            title="Open project"
-                        ><i class="fa-solid fa-arrow-right"></i></a>
-                    </td>
-                </tr>
-            {% empty %}
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="text-2xl text-center min-w-[5rem] w-1/12 absolute right-4 top-4">
+        <button
+            class="w-8 h-8 rounded-full text-green-700 hover:text-green-800 bg-green-800 bg-opacity-5 hover:bg-opacity-30 transition"
+            title="Create new project"
+        >
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
 
-    {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
+    {% if page_obj %}
+        <table class="table-auto border-separate border-spacing-0">
+            <tbody>
+                {% for project in page_obj %}
+                    <tr class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-xl cursor-pointer">
+                        <td class="p-2 border-transparent border-b-2 group-hover:border-b-green-700 transition">{{ project.name }}</td>
+                        <td
+                            class="min-w-[5rem] w-1/12 p-2 text-green-700 text-center border-transparent border-b-2 group-hover:border-b-green-700 transition">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
+    {% else %}
+        <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
+            <i class="fa-solid fa-diagram-project text-9xl md:text-[12rem]"></i>
+            <p class="text-2xl md:text-4xl">No projects found!</p>
+            <p class="text-lg md:text-2xl">You can create a new project or ask for your manager to invite you to their project.</p>
+        </div>
+    {% endif %}
 </div>
