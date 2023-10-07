@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django_htmx.http import HttpResponseClientRedirect
 
 from core.typing import HttpRequest
+from projects.user import select_last_project
 
 
 class Login(LoginView):
@@ -22,7 +23,8 @@ class Login(LoginView):
 
     def form_valid(self, form):
         auth_login(self.request, form.get_user())
-
+        select_last_project(self.request)
+        
         redirect_url = self.get_success_url()
 
         if self.request.htmx and not self.request.htmx.boosted:

@@ -6,6 +6,7 @@ from core.htmx import render_htmx
 from core.typing import HttpRequest
 from projects.forms.project import ProjectForm
 from projects.models import Project, ProjectMember, Role
+from projects.user import select_project
 
 
 class NewProject(View):
@@ -45,7 +46,7 @@ class NewProject(View):
                 accepted=True
             )
 
-            request.user.select_project(request, project)
+            select_project(request, project)
 
         return render_htmx(
             request,
