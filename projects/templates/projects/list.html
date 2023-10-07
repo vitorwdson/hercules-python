@@ -1,7 +1,18 @@
+{% load set_title %}
+{% set_title 'Select a Project' %}
+
+<dialog
+    id="new-project-dialog"
+    class="w-[90vw] md:w-[40vw]"
+></dialog>
+
 <div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4 relative">
     <h1 class="text-green-800 text-2xl font-bold text-center">Projects</h1>
     <div class="text-2xl text-center min-w-[5rem] w-1/12 absolute right-4 top-4">
         <button
+            hx-get="{% url 'projects:new_project' %}"
+            hx-target="#new-project-dialog"
+            hx-swap="innerHTML"
             class="w-8 h-8 rounded-full text-green-700 hover:text-green-800 bg-green-800 bg-opacity-5 hover:bg-opacity-30 transition"
             title="Create new project"
         >

@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<h1>{% translate "Create new Project" context "title" %}</h1>
+
+<form
+    hx-post="{% url 'projects:new_project' %}"
+    hx-swap="innerHTML"
+    hx-target="closest dialog"
+    class="flex flex-col gap-2 p-2"
+>
+    {% csrf_token %}
+
+    <div class="flex flex-col">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {{ form.name.errors }}
+    </div>
+
+    <div class="flex flex-row justify-end gap-4">
+        <button
+            type="button"
+            class="border-2 border-red-800 hover:border-red-700 text-red-800 hover:text-red-700 font-bold transition rounded py-2 px-8"
+            onclick="this.closest('dialog').close();"
+        >{% translate "Close" context "button" %}</button>
+        <button
+            type="submit"
+            class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded py-2 px-8"
+        >{% translate "Create" context "button" %}</button>
+    </div>
+</form>

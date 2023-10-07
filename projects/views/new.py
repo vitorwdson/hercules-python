@@ -1,8 +1,10 @@
+import json
+
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from core.htmx import render_htmx
-from core.typing import HttpRequest
+from core.htmx import render_htmx, show_message
+from core.typing import HttpRequest, HttpResponse
 from projects.forms.project import ProjectForm
 from projects.models import Project, ProjectMember, Role
 from projects.user import select_project
@@ -13,7 +15,7 @@ class NewProject(View):
     form = ProjectForm
     model = Project
 
-    def get_initial(self, request: HttpRequest):
+    def get_initial(self, _: HttpRequest):
         return {}
 
     @method_decorator(login_required)
@@ -22,13 +24,19 @@ class NewProject(View):
             initial=self.get_initial(request),
         )
 
-        return render_htmx(
+        response = render_htmx(
             request,
-            "",
+            "projects/new.html",
             {
                 "form": form,
             },
         )
+
+        response.headers["HX-Trigger"] = json.dumps(
+            {"form:showModal": "#new-project-dialog"}
+        )
+
+        return response
 
     @method_decorator(login_required)
     def post(self, request: HttpRequest):
@@ -43,14 +51,24 @@ class NewProject(View):
                 project=project,
                 user=request.user,
                 role=Role.OWNER,
-                accepted=True
+                accepted=True,
             )
 
             select_project(request, project)
 
+            response = HttpResponse(b"")
+            response.headers["HX-Trigger"] = json.dumps(
+                {
+                    "form:hideModal": "#new-project-dialog",
+                },
+            )
+            response.headers["HX-Location"] = "/"
+
+            return response
+
         return render_htmx(
             request,
-            "",
+            "projects/new.html",
             {
                 "form": form,
             },

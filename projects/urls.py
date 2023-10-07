@@ -9,4 +9,9 @@ urlpatterns = [
         views.list.ProjectList.as_view(),
         name="select_project",
     ),
+    path(
+        "select-project/new",
+        views.new.NewProject.as_view(),
+        name="new_project",
+    ),
 ]
