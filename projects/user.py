@@ -30,15 +30,18 @@ def get_selected_project(request: HttpRequest):
         "selected_project"
     )
     if selected_project is None:
-        request.selected_project = None
+        request.selected_project = None  # type: ignore
         return
 
     project = Project.objects.filter(pk=selected_project["project_id"]).first()
     if project is None:
-        request.selected_project = None
+        request.selected_project = None  # type: ignore
         return
 
-    request.selected_project = SelectedProject(project, selected_project["role"])
+    request.selected_project = SelectedProject(
+        project,
+        selected_project["role"],
+    )
 
 
 def select_last_project(request: HttpRequest):

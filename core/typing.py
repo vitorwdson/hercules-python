@@ -17,7 +17,7 @@ class SelectedProject:
 class HttpRequest(BHttpRequest):
     htmx: HtmxDetails
     user: User
-    selected_project: SelectedProject | None
+    selected_project: SelectedProject
 
 
 class HttpResponse(BHttpResponse):
