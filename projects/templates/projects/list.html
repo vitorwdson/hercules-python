@@ -1,4 +1,4 @@
-{% load set_title %}
+{% load set_title htmx_csrf_token %}
 {% set_title 'Select a Project' %}
 
 <dialog
@@ -24,7 +24,12 @@
         <table class="table-auto border-separate border-spacing-0">
             <tbody>
                 {% for project in page_obj %}
-                    <tr class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-xl cursor-pointer">
+                    <tr
+                        class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-xl cursor-pointer"
+                        hx-put="{% url 'projects:select_project' %}?project_id={{ project.pk }}"
+                        hx-swap="none"
+                        {% htmx_csrf_token %}
+                    >
                         <td class="p-2 border-transparent border-b-2 group-hover:border-b-green-700 transition">{{ project.name }}</td>
                         <td
                             class="min-w-[5rem] w-1/12 p-2 text-green-700 text-center border-transparent border-b-2 group-hover:border-b-green-700 transition">

@@ -1,9 +1,10 @@
 import json
+from django.urls import reverse
 
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from core.htmx import render_htmx, show_message
+from core.htmx import render_htmx
 from core.typing import HttpRequest, HttpResponse
 from projects.forms.project import ProjectForm
 from projects.models import Project, ProjectMember, Role
@@ -62,7 +63,7 @@ class NewProject(View):
                     "form:hideModal": "#new-project-dialog",
                 },
             )
-            response.headers["HX-Location"] = "/"
+            response.headers["HX-Location"] = reverse('core:index')
 
             return response
 
@@ -73,3 +74,4 @@ class NewProject(View):
                 "form": form,
             },
         )
+

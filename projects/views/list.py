@@ -2,12 +2,15 @@ from typing import Any
 
 from django.db.models import Model
 from django.db.models.query import Prefetch
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 
-from core.htmx import render_htmx
+from core.htmx import render_htmx, redirect_htmx
 from core.typing import HttpRequest
 from projects.models import Project, ProjectMember, Role
+from projects.user import select_project
 from users.decorators import login_required
 from users.models import User
 
@@ -26,6 +29,15 @@ class ProjectList(ListView):
     @method_decorator(login_required)
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any):
         return super().get(request, *args, **kwargs)
+
+    @method_decorator(login_required)
+    def put(self, request: HttpRequest, *args: Any, **kwargs: Any):
+        project_id = request.GET.get('project_id')
+
+        project = get_object_or_404(Project, pk=project_id)
+        select_project(request, project)
+
+        return redirect_htmx(request, reverse('core:index'))
 
     def get_queryset(self):
         qs = self.model.objects
