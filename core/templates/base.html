@@ -11,7 +11,7 @@
 
     {% set_title 'Home' %}
   </head>
-  <body hx-indicator="body" class="grid {% if not hide_sidebar %} md:grid-cols-[15rem_1fr] {% endif %} grid-rows-[5rem_1fr] h-screen">
+  <body hx-indicator="body" class="overflow-y-hidden grid {% if not hide_sidebar %} md:grid-cols-[15rem_1fr] {% endif %} grid-rows-[5rem_1fr] h-screen">
     <nav class="hidden {% if not hide_sidebar %} md:flex {% endif %} flex-col items-start justify-start row-span-2 bg-white">
       <img
         class="h-20 self-center object-contain"
@@ -40,7 +40,7 @@
       {% endif %}
     </header>
 
-    <main class="flex items-center justify-center bg-gray-200">
+    <main class="overflow-y-hidden flex items-center justify-center bg-gray-200">
       {% block content %}
           {% if partial_content_template %}
               {% include partial_content_template %}

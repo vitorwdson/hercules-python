@@ -33,3 +33,25 @@ dialog > h1:first-child {
     position: relative;
     margin-top: 0;
 }
+
+* {
+    scrollbar-color: rgb(22 101 52) #eee;
+}
+
+*::-webkit-scrollbar {
+    width: 0.5em;
+    border: 0;
+}
+
+*::-webkit-scrollbar-track {
+    border: 0;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 1em;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: rgb(22 101 52);
+}

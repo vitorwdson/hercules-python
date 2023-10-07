@@ -10,7 +10,7 @@ from django.views.generic.list import ListView
 from core.htmx import render_htmx, redirect_htmx
 from core.typing import HttpRequest
 from projects.models import Project, ProjectMember, Role
-from projects.user import select_project
+from projects.user import get_selected_project, select_project
 from users.decorators import login_required
 from users.models import User
 
@@ -28,6 +28,8 @@ class ProjectList(ListView):
 
     @method_decorator(login_required)
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any):
+        get_selected_project(request)
+
         return super().get(request, *args, **kwargs)
 
     @method_decorator(login_required)
@@ -61,17 +63,3 @@ class ProjectList(ListView):
 
         return qs.distinct()
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        data = super().get_context_data(**kwargs)
-
-        for obj in data["object_list"]:
-            obj.can_edit = False
-
-            member: ProjectMember | None = obj.projectmember_set.first()
-            if member is None:
-                continue
-
-            if member.role in [Role.OWNER, Role.MANAGER]:
-                obj.can_edit = True
-
-        return data

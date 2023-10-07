@@ -6,7 +6,7 @@
     class="w-[90vw] md:w-[40vw]"
 ></dialog>
 
-<div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4 relative">
+<div class="rounded-xl bg-white w-[calc(100%-2rem)] h-[calc(100%-2rem)] flex flex-col gap-4 p-4 relative overflow-auto">
     <h1 class="text-green-800 text-2xl font-bold text-center">Projects</h1>
     <div class="text-2xl text-center min-w-[5rem] w-1/12 absolute right-4 top-4">
         <button
@@ -21,24 +21,25 @@
     </div>
 
     {% if page_obj %}
-        <table class="table-auto border-separate border-spacing-0">
-            <tbody>
-                {% for project in page_obj %}
-                    <tr
-                        class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-xl cursor-pointer"
+        <ul>
+            {% for project in page_obj %}
+                <li
+                    class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg cursor-pointer"
+                >
+                    <a
+                        class="flex flex-row py-2 pl-2 {% if request.selected_project.project.pk != project.pk %} border-transparent group-hover:border-b-green-700 {% else %} border-b-green-700 {% endif %} border-b-2  transition"
                         hx-put="{% url 'projects:select_project' %}?project_id={{ project.pk }}"
                         hx-swap="none"
                         {% htmx_csrf_token %}
                     >
-                        <td class="p-2 border-transparent border-b-2 group-hover:border-b-green-700 transition">{{ project.name }}</td>
-                        <td
-                            class="min-w-[5rem] w-1/12 p-2 text-green-700 text-center border-transparent border-b-2 group-hover:border-b-green-700 transition">
+                        <p class="flex-1">{{ project.name }}</p>
+                        <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
                             <i class="fa-solid fa-arrow-right"></i>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     
         {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
     {% else %}
