@@ -4,6 +4,5 @@ from users.decorators import login_required, project_required
 
 @login_required
 @project_required
-def template(request: HttpRequest):
+def index(request: HttpRequest):
     return render(request, 'base.html')
-

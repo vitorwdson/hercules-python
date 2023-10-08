@@ -5,6 +5,11 @@ from . import views
 app_name = "projects"
 urlpatterns = [
     path(
+        "",
+        views.index.index,
+        name="index",
+    ),
+    path(
         "select-project",
         views.list.ProjectList.as_view(),
         name="select_project",

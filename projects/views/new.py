@@ -63,7 +63,7 @@ class NewProject(View):
                     "form:hideModal": "#new-project-dialog",
                 },
             )
-            response.headers["HX-Location"] = reverse('core:index')
+            response.headers["HX-Location"] = reverse('projects:index')
 
             return response
 

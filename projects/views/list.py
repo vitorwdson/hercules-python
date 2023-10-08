@@ -39,7 +39,7 @@ class ProjectList(ListView):
         project = get_object_or_404(Project, pk=project_id)
         select_project(request, project)
 
-        return redirect_htmx(request, reverse('core:index'))
+        return redirect_htmx(request, reverse('projects:index'))
 
     def get_queryset(self):
         qs = self.model.objects
