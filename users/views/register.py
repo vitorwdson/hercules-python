@@ -21,6 +21,7 @@ class RegisterView(View):
             self.template_name,
             {
                 "hide_sidebar": True,
+                "main_centered": True,
                 "form": form,
             },
         )
