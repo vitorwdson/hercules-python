@@ -2,20 +2,58 @@
 
 <div
     id="project-header"
-    {% if oob_header|default:False %} hx-oob-swap {% endif %}
     class="flex flex-row gap-4 relative"
 >
-    <h1 class="flex-1 text-green-800 text-3xl font-bold">
-        {{ request.selected_project.project.name }}
+    <h1 class="group flex-1 text-green-800 text-3xl font-bold flex flex-row justify-start items-center gap-2">
+        {% if request.selected_project.is_owner %}
+            {% if renaming|default:False %}
+                <input
+                    name="project-name"
+                    id="project-name-input"
+                    value="{{ request.selected_project.project.name }}"
+                    class="bg-transparent border-transparent border-0 border-b text-3xl p-0 m-0 outline-none focus:border-b-green-800 transition"
+                    size={{ request.selected_project.project.name|length }}
+                    oninput="this.size = this.value.length"
+                    onfocus="var temp_value=this.value; this.value=''; this.value=temp_value;"
+                    autofocus
+                >
+                <button
+                    class="opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
+                    hx-put="{% url 'projects:rename' %}"
+                    hx-swap="outerHTML"
+                    hx-target="#project-header"
+                    hx-include="#project-name-input"
+                    hx-trigger="click, keydown[key=='Enter'] from:#project-name-input"
+                    {% htmx_csrf_token %}
+                    title="Rename Project"
+                >
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+            {% else %}
+                {{ request.selected_project.project.name }}
+                <button
+                    class="opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
+                    hx-get="{% url 'projects:rename' %}"
+                    hx-swap="outerHTML"
+                    hx-target="#project-header"
+                    title="Rename Project"
+                >
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            {% endif %}
+        {% else %}
+            {{ request.selected_project.project.name }}
+        {% endif %}
     </h1>
     {% if request.selected_project.is_owner %}
         <button
-            class="h-9 w-9 rounded-full flex justify-center items-center text-white bg-red-700 hover:bg-red-600"
+            class="h-9 w-9 rounded-full flex justify-center items-center text-white bg-red-700 hover:bg-red-600 transition"
             hx-delete="{% url 'projects:index' %}"
             hx-confirm-swal="Are you sure you want to delete this project?"
             hx-confirm-swal-icon="warning"
             hx-swap="none"
             {% htmx_csrf_token %}
+            title="Delete Project"
         >
             <i class="fa-solid fa-trash"></i>
         </button>

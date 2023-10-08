@@ -13,7 +13,7 @@ This project is part of my Software Engineering course's final paper.
 
 - [ ] Projects
 
-  - [ ] CRUD
+  - [X] CRUD
   - [ ] Assign members and their roles (related to the project)
   - [ ] Teams
 

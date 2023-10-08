@@ -10,6 +10,11 @@ urlpatterns = [
         name="index",
     ),
     path(
+        "rename",
+        views.index.Rename.as_view(),
+        name="rename",
+    ),
+    path(
         "select-project",
         views.list.ProjectList.as_view(),
         name="select_project",
