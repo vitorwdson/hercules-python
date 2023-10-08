@@ -44,6 +44,12 @@ def get_selected_project(request: HttpRequest):
     )
 
 
+def deselect_project(request: HttpRequest):
+    request.session["selected_project"] = None
+
+
 def select_last_project(request: HttpRequest):
     if request.user.last_project:
         select_project(request, request.user.last_project)
+    else:
+        deselect_project(request)

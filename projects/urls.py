@@ -6,7 +6,7 @@ app_name = "projects"
 urlpatterns = [
     path(
         "",
-        views.index.index,
+        views.index.Index.as_view(),
         name="index",
     ),
     path(

@@ -13,6 +13,14 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     name = models.TextField()
 
+    def try_delete(self) -> tuple[bool, str]:
+        try:
+            self.delete()
+        except Exception as e:
+            return False, repr(e) # TODO: Treat possible reasons and return meaningful messages
+        
+        return True, ''
+
 
 class ProjectMember(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

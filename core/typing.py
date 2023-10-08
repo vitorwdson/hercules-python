@@ -4,7 +4,7 @@ from django.http import HttpRequest as BHttpRequest
 from django.http import HttpResponse as BHttpResponse
 from django_htmx.middleware import HtmxDetails
 
-from projects.models import Project
+from projects.models import Project, Role
 from users.models import User
 
 
@@ -12,6 +12,9 @@ from users.models import User
 class SelectedProject:
     project: Project
     role: int
+
+    def is_owner(self):
+        return self.role == Role.OWNER
 
 
 class HttpRequest(BHttpRequest):

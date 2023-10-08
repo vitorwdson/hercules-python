@@ -1,0 +1,23 @@
+{% load htmx_csrf_token %}
+
+<div
+    id="project-header"
+    {% if oob_header|default:False %} hx-oob-swap {% endif %}
+    class="flex flex-row gap-4 relative"
+>
+    <h1 class="flex-1 text-green-800 text-3xl font-bold">
+        {{ request.selected_project.project.name }}
+    </h1>
+    {% if request.selected_project.is_owner %}
+        <button
+            class="h-9 w-9 rounded-full flex justify-center items-center text-white bg-red-700 hover:bg-red-600"
+            hx-delete="{% url 'projects:index' %}"
+            hx-confirm-swal="Are you sure you want to delete this project?"
+            hx-confirm-swal-icon="warning"
+            hx-swap="none"
+            {% htmx_csrf_token %}
+        >
+            <i class="fa-solid fa-trash"></i>
+        </button>
+    {% endif %}
+</div>
