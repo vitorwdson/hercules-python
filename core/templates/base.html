@@ -15,7 +15,7 @@
     <nav class="hidden {% if not hide_sidebar %} md:flex {% endif %} flex-col items-start justify-start row-span-2 bg-white">
       <img
         class="h-20 self-center object-contain p-2"
-        src="{% static 'img/logo.svg' %}"
+        src="{% static 'img/logo.png' %}"
         alt="Hercules Logo"
       >
     </nav>
@@ -23,7 +23,7 @@
     <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
       <img
         class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 mr-auto object-contain p-6 pl-2"
-        src="{% static 'img/logo-mobile.svg' %}"
+        src="{% static 'img/logo-mobile.png' %}"
         alt="Hercules Logo"
       />
       {% if user.is_authenticated %}
