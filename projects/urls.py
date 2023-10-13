@@ -21,7 +21,7 @@ urlpatterns = [
     ),
     path(
         "select-project",
-        views.list.ProjectList.as_view(),
+        views.select.ProjectList.as_view(),
         name="select_project",
     ),
     path(

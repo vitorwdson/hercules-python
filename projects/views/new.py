@@ -27,7 +27,7 @@ class NewProject(View):
 
         response = render_htmx(
             request,
-            "projects/new.html",
+            "projects/select/dialog.html",
             {
                 "form": form,
             },
@@ -69,7 +69,7 @@ class NewProject(View):
 
         return render_htmx(
             request,
-            "projects/new.html",
+            "projects/select/dialog.html",
             {
                 "form": form,
             },

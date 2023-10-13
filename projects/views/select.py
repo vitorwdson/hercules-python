@@ -19,7 +19,7 @@ class ProjectList(ListView):
     model: type[Model] = Project
     paginate_by = 15
     allow_empty = True
-    template_name = "projects/list.html"
+    template_name = "projects/select/list.html"
     request: HttpRequest
     ordering = ["name"]
 
