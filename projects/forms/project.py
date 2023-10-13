@@ -8,5 +8,5 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ("name",)
         widgets = {
-            'name': forms.TextInput,
+            'name': forms.TextInput(attrs={'autofocus': True}),
         }
