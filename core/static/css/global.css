@@ -21,6 +21,11 @@ dialog {
     opacity: 1;
 }
 
+dialog:modal {
+    display: flex;
+    flex-direction: column;
+}
+
 dialog > h1:first-child {
     height: 2.7em;
     display: flex;

@@ -47,7 +47,7 @@
     </h1>
     {% if request.selected_project.is_owner %}
         <button
-            class="h-9 w-9 rounded-full flex justify-center items-center text-white bg-red-700 hover:bg-red-600 transition"
+            class="mr-[0.875rem] h-9 w-9 rounded-full flex justify-center items-center text-white bg-red-700 hover:bg-red-600 transition"
             hx-delete="{% url 'projects:index' %}"
             hx-confirm-swal="Are you sure you want to delete this project?"
             hx-confirm-swal-icon="warning"

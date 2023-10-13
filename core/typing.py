@@ -16,6 +16,9 @@ class SelectedProject:
     def is_owner(self):
         return self.role == Role.OWNER
 
+    def can_invite(self):
+        return self.role in [Role.OWNER, Role.MANAGER]
+
 
 class HttpRequest(BHttpRequest):
     htmx: HtmxDetails
