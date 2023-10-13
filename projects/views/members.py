@@ -52,7 +52,7 @@ class InviteMember(View):
 
         response = render(
             request,
-            "projects/index/members-dialog.html",
+            "projects/members/dialog.html",
             {"roles": Role.choices[1:]},
         )
         response.headers["HX-Trigger"] = json.dumps(
@@ -111,7 +111,7 @@ class InviteMember(View):
 
         response = render(
             request,
-            "projects/index/members-dialog.html",
+            "projects/members/dialog.html",
             {
                 "user_error": user_error,
                 "role_error": role_error,
