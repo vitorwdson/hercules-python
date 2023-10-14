@@ -15,6 +15,11 @@ urlpatterns = [
         name="rename",
     ),
     path(
+        "members",
+        views.members.Members.as_view(),
+        name="members",
+    ),
+    path(
         "members/invite",
         views.members.InviteMember.as_view(),
         name="invite_member",

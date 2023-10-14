@@ -1,12 +1,12 @@
 from django.http import QueryDict
-from django.http.response import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotAllowed
+from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
-from projects.models import Role
+from projects.models import ProjectMember, Role
 from projects.user import deselect_project
 from users.decorators import login_required, project_required
 
@@ -15,7 +15,24 @@ class Index(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
     def get(self, request: HttpRequest):
-        return render_htmx(request, "projects/index/page.html")
+        members = ProjectMember.objects.filter(
+            project=request.selected_project.project,
+            rejected=False,
+            accepted=True,
+        ).order_by(
+            "role",
+            "user__first_name",
+            "user__last_name",
+            "user__username",
+        )
+
+        return render_htmx(
+            request,
+            "projects/index/page.html",
+            {
+                "members": members[:3],
+            },
+        )
 
     @method_decorator(login_required)
     @method_decorator(project_required)
@@ -58,11 +75,11 @@ class Rename(View):
             )
 
         data = QueryDict(request.body, True)
-        new_name = str(data.get('project-name') or '')
+        new_name = str(data.get("project-name") or "")
         if not new_name:
             return show_message(
-                HttpResponseBadRequest(), # type: ignore
-                'error',
+                HttpResponseBadRequest(),  # type: ignore
+                "error",
                 "The project name can't be empty",
             )
 

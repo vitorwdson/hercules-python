@@ -22,3 +22,9 @@ class User(AbstractUser):
     last_project = models.ForeignKey(
         "projects.Project", on_delete=models.SET_NULL, null=True, blank=True
     )
+
+    
+    def get_name(self):
+        full_name = self.get_full_name()
+
+        return full_name.strip() or self.username

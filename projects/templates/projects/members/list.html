@@ -1,10 +1,17 @@
+{% load i18n set_title %}
+
+{% translate "Project Members" context "page title" as title %}
+{% if not compact|default:False %}
+    {% set_title title %}
+{% endif %}
+
 <dialog
     id="invite-member-dialog"
     class="w-[90vw] md:w-[40vw] overflow-hidden h-60"
 ></dialog>
 
 <div class="rounded-xl bg-white w-full flex flex-col gap-4 p-4 mt-4 relative {% if compact|default:False %} h-auto flex-0 {% else %} overflow-auto h-full {% endif %}">
-    <h1 class="text-green-800 text-2xl font-bold text-center">Members</h1>
+    <h1 class="text-green-800 text-2xl font-bold text-center">{{ title }}</h1>
     {% if request.selected_project.can_invite %}
         <button
             hx-get="{% url 'projects:invite_member' %}"
@@ -15,5 +22,40 @@
         >
             <i class="fa-solid fa-user-plus"></i>
         </button>
+    {% endif %}
+
+    {% if page_obj %}
+        <table class="table-auto">
+            {% for member in page_obj %}
+                <tr>
+                    <td class="md:text-center font-bold w-20 md:w-32">{{ member.get_role_display }}</td>
+                    <td>{{ member.user.get_name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        {% if compact|default:False %}
+            <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
+                 <i class="fa-solid fa-users-slash text-4xl md:text-8xl"></i>
+                 <p class="text-xl md:text-2xl select-none">No project members</p>
+             </div>
+        {% else %}
+             <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
+                 <i class="fa-solid fa-users-slash text-9xl md:text-[12rem]"></i>
+                 <p class="text-2xl md:text-4xl select-none">No project members</p>
+                 <p class="text-lg md:text-2xl select-none">You can use the button above to invite new members.</p>
+             </div>
+        {% endif %}
+    {% endif %}
+
+    {% if compact|default:False %}
+        <a
+            class="underline text-teal-600 text-right"
+            href="{% url 'projects:members' %}"
+            hx-boost
+            hx-push-url
+    >{% translate "See more" context "button" %}</a>
+    {% elif page_obj %}
+        {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
     {% endif %}
 </div>

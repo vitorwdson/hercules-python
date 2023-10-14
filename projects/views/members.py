@@ -1,18 +1,54 @@
 import json
+from typing import Any
 
-from django.db.models import Q
+from django.db.models import Model, Q
 from django.db.models.expressions import Value
 from django.db.models.functions import Concat
 from django.http.response import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.generic.list import ListView
 
-from core.htmx import show_message
+from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
 from projects.models import ProjectMember, Role
 from users.decorators import login_required, project_required
 from users.models import User
+
+
+class Members(ListView):
+    request: HttpRequest
+    template_name = "projects/members/list.html"
+    model: type[Model] = ProjectMember
+    paginate_by = 15
+    allow_empty = True
+    ordering = ["role", "user__first_name", "user__last_name", "user__username"]
+
+    @method_decorator(login_required)
+    @method_decorator(project_required)
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any):
+        return super().get(request, *args, **kwargs)
+
+    def render_to_response(self, context: dict[str, Any], **_: Any):
+        return render_htmx(self.request, self.template_name, context)
+
+    def get_queryset(self):
+        qs = self.model.objects
+
+        qs = qs.filter(
+            project=self.request.selected_project.project,
+            rejected=False,
+            accepted=True,
+        )
+
+        ordering = self.get_ordering()
+        if ordering:
+            if isinstance(ordering, str):
+                ordering = (ordering,)
+            qs = qs.order_by(*ordering)
+
+        return qs.distinct()
 
 
 class InviteMember(View):

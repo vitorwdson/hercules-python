@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 
-from core.htmx import render_htmx, redirect_htmx
+from core.htmx import redirect_htmx, render_htmx
 from core.typing import HttpRequest
 from projects.models import Project, ProjectMember, Role
 from projects.user import get_selected_project, select_project
@@ -34,12 +34,12 @@ class ProjectList(ListView):
 
     @method_decorator(login_required)
     def put(self, request: HttpRequest, *args: Any, **kwargs: Any):
-        project_id = request.GET.get('project_id')
+        project_id = request.GET.get("project_id")
 
         project = get_object_or_404(Project, pk=project_id)
         select_project(request, project)
 
-        return redirect_htmx(request, reverse('projects:index'))
+        return redirect_htmx(request, reverse("projects:index"))
 
     def get_queryset(self):
         qs = self.model.objects
@@ -51,7 +51,9 @@ class ProjectList(ListView):
         qs = qs.prefetch_related(
             Prefetch(
                 "projectmember_set",
-                queryset=ProjectMember.objects.filter(user=user),
+                queryset=ProjectMember.objects.filter(
+                    user=user, accepted=True, rejected=False
+                ),
             )
         ).filter(projectmember__user=user)
 
@@ -62,4 +64,3 @@ class ProjectList(ListView):
             qs = qs.order_by(*ordering)
 
         return qs.distinct()
-
