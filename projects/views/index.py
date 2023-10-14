@@ -15,15 +15,19 @@ class Index(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
     def get(self, request: HttpRequest):
-        members = ProjectMember.objects.filter(
-            project=request.selected_project.project,
-            rejected=False,
-            accepted=True,
-        ).order_by(
-            "role",
-            "user__first_name",
-            "user__last_name",
-            "user__username",
+        members = (
+            ProjectMember.objects.filter(
+                project=request.selected_project.project,
+                rejected=False,
+                accepted=True,
+            )
+            .exclude(user=request.user)
+            .order_by(
+                "role",
+                "user__first_name",
+                "user__last_name",
+                "user__username",
+            )
         )
 
         return render_htmx(
