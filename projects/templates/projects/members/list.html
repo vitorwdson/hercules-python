@@ -25,14 +25,22 @@
     {% endif %}
 
     {% if page_obj %}
-        <table class="table-auto">
+        <ul>
             {% for member in page_obj %}
-                <tr>
-                    <td class="md:text-center font-bold w-20 md:w-32">{{ member.get_role_display }}</td>
-                    <td>{{ member.user.get_name }}</td>
-                </tr>
+                <li
+                    class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg"
+                >
+                    <a
+                        class="flex flex-row py-2 pl-2"
+                    >
+                        <p class="flex-0 font-bold">{{ member.get_role_display }}&nbsp;&nbsp;</p>
+                        <p class="flex-1">{{ member.user.get_name }}</p>
+                        <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
+                        </p>
+                    </a>
+                </li>
             {% endfor %}
-        </table>
+        </ul>
     {% else %}
         {% if compact|default:False %}
             <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
@@ -49,12 +57,14 @@
     {% endif %}
 
     {% if compact|default:False %}
-        <a
-            class="underline text-teal-600 text-right"
-            href="{% url 'projects:members' %}"
-            hx-boost
-            hx-push-url
-    >{% translate "See more" context "button" %}</a>
+        <p class="text-right">
+            <a
+                class="underline text-teal-600"
+                href="{% url 'projects:members' %}"
+                hx-boost
+                hx-push-url
+            >{% translate "See more" context "button" %}</a>
+        </p>
     {% elif page_obj %}
         {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
     {% endif %}
