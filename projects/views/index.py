@@ -41,6 +41,13 @@ class Index(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
     def delete(self, request: HttpRequest):
+        if not request.selected_project.is_owner:
+            return show_message(
+                HttpResponseForbidden(),  # type: ignore
+                "error",
+                "Only the owner of a project can delete it.",
+            )
+        
         project = request.selected_project.project
 
         deleted, message = project.try_delete()
@@ -71,7 +78,7 @@ class Rename(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
     def put(self, request: HttpRequest):
-        if request.selected_project.role != Role.OWNER:
+        if not request.selected_project.is_owner:
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",

@@ -55,6 +55,13 @@ class InviteMember(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
     def get(self, request: HttpRequest):
+        if not request.selected_project.can_invite:
+            return show_message(
+                HttpResponseForbidden(),  # type: ignore
+                "error",
+                "You must be the project Owner or a Manager to invite members",
+            )
+
         accept = request.headers.get("Accept")
         if accept == "application/json":
             member_ids: list[int] = ProjectMember.objects.filter(  # type: ignore
@@ -100,11 +107,11 @@ class InviteMember(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
     def post(self, request: HttpRequest):
-        if request.selected_project.role > 2:
+        if not request.selected_project.can_invite:
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or Manager to invite members",
+                "You must be the project Owner or a Manager to invite members",
             )
 
         user_id = request.POST.get("user")

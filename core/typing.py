@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from django.http import HttpRequest as BHttpRequest
 from django.http import HttpResponse as BHttpResponse
+from django.utils.functional import cached_property
 from django_htmx.middleware import HtmxDetails
 
 from projects.models import Project, Role
@@ -13,10 +14,16 @@ class SelectedProject:
     project: Project
     role: int
 
+    @cached_property
     def is_owner(self):
         return self.role == Role.OWNER
 
+    @cached_property
     def can_invite(self):
+        return self.role in [Role.OWNER, Role.MANAGER]
+
+    @cached_property
+    def can_create_team(self):
         return self.role in [Role.OWNER, Role.MANAGER]
 
 
