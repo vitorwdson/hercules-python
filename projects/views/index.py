@@ -6,7 +6,7 @@ from django.views import View
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
-from projects.models import ProjectMember, Role
+from projects.models import ProjectMember, Role, Team
 from projects.user import deselect_project
 from users.decorators import login_required, project_required
 
@@ -29,12 +29,19 @@ class Index(View):
                 "user__username",
             )
         )
+        teams = (
+            Team.objects.filter(
+                project=request.selected_project.project,
+            )
+            .order_by("name")
+        )
 
         return render_htmx(
             request,
             "projects/index/page.html",
             {
                 "members": members[:3],
+                "teams": teams[:3],
             },
         )
 

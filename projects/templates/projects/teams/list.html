@@ -1,41 +1,41 @@
 {% load i18n set_title %}
 
-{% translate "Project Members" context "page title" as title %}
+{% translate "Teams" context "page title" as title %}
 {% if not compact|default:False %}
     {% set_title title %}
 {% endif %}
 
 <dialog
-    id="invite-member-dialog"
+    id="new-team-dialog"
     class="w-[90vw] md:w-[40vw] overflow-hidden h-60"
 ></dialog>
 
 <div class="rounded-xl bg-white w-full flex flex-col p-4 mt-4 relative {% if compact|default:False %} h-auto flex-0 gap-2 {% else %} overflow-auto h-full gap-4 {% endif %}">
     <h1 class="text-green-800 text-2xl font-bold text-center">{{ title }}</h1>
-    {% if request.selected_project.can_invite %}
+    {% if request.selected_project.can_create_team %}
         <button
-            hx-get="{% url 'projects:invite_member' %}"
-            hx-target="#invite-member-dialog"
+            hx-get="{% url 'projects:new_team' %}"
+            hx-target="#new-team-dialog"
             hx-swap="innerHTML"
             class="text-md w-8 h-8 rounded-full text-green-700 hover:text-green-800 bg-green-800 bg-opacity-5 hover:bg-opacity-30 transition absolute right-4 top-4"
-            title="Invite member"
+            title="Create new team"
         >
-            <i class="fa-solid fa-user-plus"></i>
+            <i class="fa-solid fa-plus"></i>
         </button>
     {% endif %}
 
     {% if page_obj %}
         <ul>
-            {% for member in page_obj %}
+            {% for team in page_obj %}
                 <li
                     class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg"
                 >
                     <a
                         class="flex flex-row py-2 pl-2"
                     >
-                        <p class="flex-0 font-bold">{{ member.get_role_display }}&nbsp;&nbsp;</p>
-                        <p class="flex-1">{{ member.user.get_name }}</p>
+                        <p class="flex-1">{{ team.name }}</p>
                         <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
+                            <i class="fa-solid fa-arrow-right"></i>
                         </p>
                     </a>
                 </li>
@@ -44,14 +44,14 @@
     {% else %}
         {% if compact|default:False %}
             <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-2 justify-center items-center">
-                 <i class="fa-solid fa-user-slash text-4xl md:text-8xl"></i>
-                 <p class="text-xl md:text-2xl select-none">No project members</p>
+                 <i class="fa-solid fa-users-slash text-4xl md:text-8xl"></i>
+                 <p class="text-xl md:text-2xl select-none">No teams created</p>
              </div>
         {% else %}
              <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
                  <i class="fa-solid fa-users-slash text-9xl md:text-[12rem]"></i>
-                 <p class="text-2xl md:text-4xl select-none">No project members</p>
-                 <p class="text-lg md:text-2xl select-none">You can use the button above to invite new members.</p>
+                 <p class="text-2xl md:text-4xl select-none">No teams created</p>
+                 <p class="text-lg md:text-2xl select-none">You can use the button above to create a new team.</p>
              </div>
         {% endif %}
     {% endif %}
@@ -60,7 +60,7 @@
         <p class="text-right">
             <a
                 class="underline text-teal-600"
-                href="{% url 'projects:members' %}"
+                href="{% url 'projects:teams' %}"
                 hx-boost
                 hx-push-url
             >{% translate "See more" context "button" %}</a>

@@ -25,6 +25,16 @@ urlpatterns = [
         name="invite_member",
     ),
     path(
+        "teams",
+        views.teams.Teams.as_view(),
+        name="teams",
+    ),
+    path(
+        "teams/new",
+        views.teams.NewTeam.as_view(),
+        name="new_team",
+    ),
+    path(
         "select-project",
         views.select.ProjectList.as_view(),
         name="select_project",
