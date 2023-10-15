@@ -7,14 +7,20 @@ This project is part of my Software Engineering course's final paper.
 
 - [ ] Users
 
-  - [X] Register
-  - [X] Login
+  - [x] Register
+  - [x] Login
+  - [ ] Notification popup
+
+    - [ ] Accepting project invitations
+    - [ ] Team assignment
+    - [ ] Issue assignment
+
   - [ ] Profile page
 
 - [ ] Projects
 
-  - [X] CRUD
-  - [X] Assign members and their roles (related to the project)
+  - [x] CRUD
+  - [x] Assign members and their roles (related to the project)
   - [ ] Teams
 
     - [ ] CRUD
