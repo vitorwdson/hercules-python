@@ -14,11 +14,11 @@ This project is part of my Software Engineering course's final paper.
 - [ ] Projects
 
   - [X] CRUD
-  - [ ] Assign members and their roles (related to the project)
+  - [X] Assign members and their roles (related to the project)
   - [ ] Teams
 
     - [ ] CRUD
-    - [ ] Assign members and their roles (related to the team)
+    - [ ] Assign members
 
   - [ ] Issues
 
