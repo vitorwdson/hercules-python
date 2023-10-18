@@ -161,11 +161,13 @@ class InviteMember(View):
                 "roles": Role.choices[1:],
             },
         )
-        response.headers["HX-Trigger"] = json.dumps(
-            {
-                "form:hideModal": "#invite-member-dialog",
-                "form:showMessage": "Member invited successfully!",
-            },
-        )
+
+        if not user_error and not role_error:
+            response.headers["HX-Trigger"] = json.dumps(
+                {
+                    "form:hideModal": "#invite-member-dialog",
+                    "form:showMessage": "Member invited successfully!",
+                },
+            )
 
         return response

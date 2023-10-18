@@ -1,0 +1,41 @@
+{% load i18n set_title %}
+
+{% translate "Team Members" context "page title" as title %}
+{% if not compact|default:False %}
+    {% set_title title %}
+{% endif %}
+
+<dialog
+    id="assign-team-member-dialog"
+    class="w-[90vw] md:w-[40vw] overflow-hidden h-60"
+></dialog>
+
+<div class="rounded-xl bg-white w-full flex flex-col p-4 mt-4 relative overflow-auto h-full gap-4">
+    {% include 'projects/teams/members/header.html' %}
+
+    {% if page_obj %}
+        <ul>
+            {% for member in page_obj %}
+                <li
+                    class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg"
+                >
+                    <a
+                        class="flex flex-row py-2 pl-2"
+                    >
+                        <p class="flex-1">{{ member.member.user.get_name }}</p>
+                        <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
+                        </p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+         <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
+             <i class="fa-solid fa-users-slash text-9xl md:text-[12rem]"></i>
+             <p class="text-2xl md:text-4xl select-none">No team members</p>
+             <p class="text-lg md:text-2xl select-none">You can use the button above to assign new members.</p>
+         </div>
+    {% endif %}
+
+    {% include 'partials/list/nav.html' with page=page_obj.number min=1 max=page_obj.paginator.num_pages %}
+</div>

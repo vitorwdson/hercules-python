@@ -35,6 +35,21 @@ urlpatterns = [
         name="new_team",
     ),
     path(
+        "teams/<int:team_id>",
+        views.teams.Members.as_view(),
+        name="team",
+    ),
+    path(
+        "teams/<int:team_id>/rename",
+        views.teams.Rename.as_view(),
+        name="rename_team",
+    ),
+    path(
+        "teams/<int:team_id>/assign",
+        views.teams.AssignMember.as_view(),
+        name="assign_team_member",
+    ),
+    path(
         "select-project",
         views.select.ProjectList.as_view(),
         name="select_project",

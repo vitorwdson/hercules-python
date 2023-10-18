@@ -38,13 +38,15 @@
         <ul>
             {% for team in page_obj %}
                 <li
-                    class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg"
+                    class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg cursor-pointer"
                 >
                     <a
                         class="flex flex-row py-2 pl-2"
+                        href="{% url 'projects:team' team.id %}"
+                        hx-boost
                     >
                         <p class="flex-1">{{ team.name }}</p>
-                        <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
+                        <p class="{% if not compact|default:False %} min-w-[5rem] w-1/12 {% else %} mr-2 {% endif %} text-green-700 text-center">
                             <i class="fa-solid fa-arrow-right"></i>
                         </p>
                     </a>

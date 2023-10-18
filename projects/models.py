@@ -17,9 +17,11 @@ class Project(models.Model):
         try:
             self.delete()
         except Exception as e:
-            return False, repr(e) # TODO: Treat possible reasons and return meaningful messages
-        
-        return True, ''
+            return False, repr(
+                e
+            )  # TODO: Treat possible reasons and return meaningful messages
+
+        return True, ""
 
 
 class ProjectMember(models.Model):
@@ -44,16 +46,26 @@ class Team(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.TextField()
 
+    def try_delete(self) -> tuple[bool, str]:
+        try:
+            self.delete()
+        except Exception as e:
+            return False, repr(
+                e
+            )  # TODO: Treat possible reasons and return meaningful messages
+
+        return True, ""
+
 
 class TeamMember(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    member = models.ForeignKey(ProjectMember, on_delete=models.CASCADE)
 
     class Meta(TypedModelMeta):
         constraints = [
             models.UniqueConstraint(
-                fields=["team", "user"],
+                fields=["team", "member"],
                 name="unique_team_member",
             ),
         ]
