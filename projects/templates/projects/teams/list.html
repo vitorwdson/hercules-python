@@ -12,7 +12,7 @@
 
 <div 
     id="members-list-container"
-    class="rounded-xl bg-white w-full flex flex-col p-4 mt-4 relative {% if compact|default:False %} h-auto flex-0 gap-2 {% else %} overflow-auto h-full gap-4 {% endif %}"
+    class="rounded-xl bg-white w-full flex flex-col p-4 relative {% if compact|default:False %} h-auto flex-0 gap-2 mt-4 {% else %} overflow-auto h-full gap-4 {% endif %}"
     hx-get="{% url 'projects:teams' %}?page={{ page_obj.number }}&compact={{ compact|default:False }}"
     hx-target="this"
     hx-select="#members-list-container"
