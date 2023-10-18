@@ -21,10 +21,10 @@ This project is part of my Software Engineering course's final paper.
 
   - [x] CRUD
   - [x] Assign members and their roles (related to the project)
-  - [ ] Teams
+  - [x] Teams
 
-    - [ ] CRUD
-    - [ ] Assign members
+    - [x] CRUD
+    - [x] Assign members
 
   - [ ] Issues
 
