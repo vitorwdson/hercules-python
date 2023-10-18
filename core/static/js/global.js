@@ -10,9 +10,10 @@ document.body.addEventListener("htmx:confirm", function(evt) {
             title: target.getAttribute("hx-confirm-swal"),
             icon: target.getAttribute("hx-confirm-swal-icon") || "question",
             showCancelButton: true,
-            cancelButtonText: "Não",
+            cancelButtonText: "No",
             showConfirmButton: true,
-            confirmButtonText: "Sim",
+            confirmButtonText: "Yes",
+            heightAuto: false,
         })
         .then(({ isConfirmed }) => {
             if (isConfirmed) {
@@ -23,10 +24,11 @@ document.body.addEventListener("htmx:confirm", function(evt) {
 
 document.body.addEventListener("form:showMessage", function(evt) {
     swal.fire({
-        title: evt.detail.message || evt.detail.value || "Salvo com sucesso!",
+        title: evt.detail.message || evt.detail.value || "Success!",
         icon: evt.detail.icon || "success",
         showConfirmButton: true,
         confirmButtonText: "Ok",
+        heightAuto: false,
     });
 });
 

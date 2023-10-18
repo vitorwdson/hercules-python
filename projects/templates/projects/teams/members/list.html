@@ -10,7 +10,15 @@
     class="w-[90vw] md:w-[40vw] overflow-hidden h-60"
 ></dialog>
 
-<div class="rounded-xl bg-white w-full flex flex-col p-4 mt-4 relative overflow-auto h-full gap-4">
+<div
+    id="team-members-list-container"
+    class="rounded-xl bg-white w-full flex flex-col p-4 relative overflow-auto h-full gap-4"
+    hx-get="{% url 'projects:team' team.pk %}?page={{ page_obj.number }}"
+    hx-target="this"
+    hx-select="#team-members-list-container"
+    hx-trigger="teamMembers:reloadTable from:body"
+    hx-disinherit="hx-select hx-trigger hx-target hx-get"
+>
     {% include 'projects/teams/members/header.html' %}
 
     {% if page_obj %}

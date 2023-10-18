@@ -60,3 +60,7 @@ dialog > h1:first-child {
 *::-webkit-scrollbar-thumb:hover {
     background: rgb(22 101 52);
 }
+
+.choices {
+  margin-bottom: 0px !important;
+}

@@ -4,26 +4,26 @@
     id="team-header"
     class="flex flex-row gap-4 relative"
 >
-    <h1 class="group flex-1 text-green-800 text-3xl font-bold flex flex-row justify-start items-center gap-2">
+    <h1 class="group flex-1 text-green-800 text-2xl font-bold flex flex-row justify-start items-center gap-2">
         {% if request.selected_project.can_create_team %}
             {% if renaming|default:False %}
                 <input
                     name="team-name"
                     id="team-name-input"
                     value="{{ team.name }}"
-                    class="bg-transparent border-transparent border-0 border-b text-3xl p-0 m-0 outline-none focus:border-b-green-800 transition"
+                    class="bg-transparent border-transparent border-0 border-b text-2xl p-0 m-0 outline-none focus:border-b-green-800 transition"
                     size={{ team.name|length }}
                     oninput="this.size = this.value.length"
                     onfocus="var temp_value=this.value; this.value=''; this.value=temp_value;"
                     autofocus
                 >
                 <button
-                    class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
+                    class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-6 w-6 rounded-full inline-flex justify-center items-center text-base text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
                     hx-put="{% url 'projects:rename_team' team.id %}"
                     hx-swap="outerHTML"
-                    hx-target="#project-header"
-                    hx-include="#project-name-input"
-                    hx-trigger="click, keydown[key=='Enter'] from:#project-name-input"
+                    hx-target="#team-header"
+                    hx-include="#team-name-input"
+                    hx-trigger="click, keydown[key=='Enter'] from:#team-name-input"
                     {% htmx_csrf_token %}
                     title="Rename Team"
                 >
@@ -32,7 +32,7 @@
             {% else %}
                 {{ team.name }}
                 <button
-                    class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
+                    class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-6 w-6 rounded-full inline-flex justify-center items-center text-base text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
                     hx-get="{% url 'projects:rename_team' team.id %}"
                     hx-swap="outerHTML"
                     hx-target="#team-header"
@@ -46,7 +46,7 @@
         {% endif %}
     </h1>
     {% if request.selected_project.can_create_team %}
-        <div class="flex flex-row gap-4 justify-center items-center text-center min-w-[5rem] w-1/12 absolute right-4 top-4">
+        <div class="flex flex-row gap-4 justify-center items-center text-center min-w-[5rem] w-1/12 absolute top-0 right-0">
             <button
                 class="text-lg w-8 h-8 rounded-full text-red-700 hover:text-red-800 bg-red-800 bg-opacity-5 hover:bg-opacity-30 transition"
                 hx-delete="{% url 'projects:team' team.id %}"

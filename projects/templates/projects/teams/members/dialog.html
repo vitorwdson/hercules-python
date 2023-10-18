@@ -11,10 +11,10 @@
     {% csrf_token %}
 
     <div class="flex flex-col">
-        <label for="invite-member-select"></label>
-        <select name="user" id="invite-member-select" required></select>
-        {% if user_error %}
-            <ul class="errorlist"><li>{{ user_error }}</li></ul>
+        <label for="invite-member-select">Member</label>
+        <select name="member" id="invite-member-select" required></select>
+        {% if member_error %}
+            <ul class="errorlist"><li>{{ member_error }}</li></ul>
         {% endif %}
     </div>
 

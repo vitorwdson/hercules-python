@@ -1,9 +1,11 @@
 import json
 from typing import Any
 
-from django.db.models import Model
+from django.db.models import Model, Q, Value
+from django.db.models.functions import Concat
 from django.http.request import QueryDict
-from django.shortcuts import get_object_or_404
+from django.http.response import JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -12,7 +14,7 @@ from django.views.generic.list import ListView
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest, HttpResponse
 from projects.forms.team import TeamForm
-from projects.models import Team, TeamMember
+from projects.models import ProjectMember, Team, TeamMember
 from users.decorators import login_required, project_required
 
 
@@ -242,119 +244,110 @@ class Rename(View):
 class AssignMember(View):
     @method_decorator(login_required)
     @method_decorator(project_required)
-    def get(self, request: HttpRequest):
-        if not request.selected_project.can_invite:
+    def get(self, request: HttpRequest, team_id: int):
+        team = get_object_or_404(Team, pk=team_id)
+
+        if not request.selected_project.can_create_team:
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or a Manager to invite members",
+                "You must be the project Owner or a Manager to assign members",
             )
 
         accept = request.headers.get("Accept")
         if accept == "application/json":
-            member_ids: list[int] = ProjectMember.objects.filter(  # type: ignore
-                project=request.selected_project.project,
-                rejected=False,
-            ).values_list(
-                "user_id", flat=True
-            )
+            member_ids: list[int] = TeamMember.objects.filter(  # type: ignore
+                team=team
+            ).values_list("member_id", flat=True)
 
             filter = request.GET.get("filter") or ""
-            users = (
-                User.objects.annotate(
-                    fullname=Concat("first_name", Value(" "), "last_name")
+            members = (
+                ProjectMember.objects.annotate(
+                    fullname=Concat(
+                        "user__first_name", Value(" "), "user__last_name"
+                    )
                 )
+                .select_related("user")
                 .exclude(pk__in=member_ids)
+                .filter(project=request.selected_project.project)
                 .filter(
                     Q(fullname__istartswith=filter)
-                    | Q(username__istartswith=filter)
+                    | Q(user__username__istartswith=filter)
                 )
             )
 
             options = [
                 {
-                    "value": user.pk,
-                    "label": user.fullname.strip() or user.username,  # type: ignore
+                    "value": member.pk,
+                    "label": member.fullname.strip() or member.user.username,  # type: ignore
                 }
-                for user in users
+                for member in members
             ]
 
             return JsonResponse(options, safe=False)
 
         response = render(
             request,
-            "projects/members/dialog.html",
-            {"roles": Role.choices[1:]},
+            "projects/teams/members/dialog.html",
+            {
+                "team": team,
+            },
         )
         response.headers["HX-Trigger"] = json.dumps(
-            {"form:showModal": "#invite-member-dialog"}
+            {"form:showModal": "#assign-team-member-dialog"}
         )
 
         return response
 
     @method_decorator(login_required)
     @method_decorator(project_required)
-    def post(self, request: HttpRequest):
-        if not request.selected_project.can_invite:
+    def post(self, request: HttpRequest, team_id: int):
+        team = get_object_or_404(Team, pk=team_id)
+
+        if not request.selected_project.can_create_team:
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or a Manager to invite members",
+                "You must be the project Owner or a Manager to assign members",
             )
 
-        user_id = request.POST.get("user")
-        role_str = request.POST.get("role")
+        member_id = request.POST.get("member")
 
-        user_error = ""
-        user = User.objects.filter(pk=user_id).first()
-        if user is None:
-            user_error = "User not found"
+        member_error = ""
+        member = ProjectMember.objects.filter(pk=member_id).first()
+        if member is None:
+            member_error = "Member not found"
+        elif member.project != request.selected_project.project:
+            member_error = "The selected member is not part of this project"
 
-        member = ProjectMember.objects.filter(
-            project=request.selected_project.project,
-            user=user,
+        team_member = TeamMember.objects.filter(
+            team=team,
+            member=member,
         ).first()
-        if member is not None:
-            if member.accepted:
-                user_error = "The selected user is already a member"
-            elif not member.rejected:
-                user_error = "The selected user was already invited"
+        if team_member is not None:
+            member_error = "The selected member was already part of this team."
 
-        role_error = ""
-        role: int | None = None
-        try:
-            role = int(role_str or "")
-        except:
-            role_error = "No role selected"
-
-        if role not in Role.values:
-            role_error = "Invalid role"
-
-        if not user_error and not role_error:
-            if member is not None:
-                member.delete()
-
-            ProjectMember.objects.create(
-                project=request.selected_project.project,
-                user=user,
-                role=role,
+        if not member_error:
+            TeamMember.objects.create(
+                team=team,
+                member=member,
             )
 
         response = render(
             request,
-            "projects/members/dialog.html",
+            "projects/teams/members/dialog.html",
             {
-                "user_error": user_error,
-                "role_error": role_error,
-                "roles": Role.choices[1:],
+                "member_error": member_error,
+                "team": team,
             },
         )
 
-        if not user_error and not role_error:
+        if not member_error:
             response.headers["HX-Trigger"] = json.dumps(
                 {
-                    "form:hideModal": "#invite-member-dialog",
-                    "form:showMessage": "Member invited successfully!",
+                    "form:hideModal": "#assign-team-member-dialog",
+                    "form:showMessage": "Member assigned successfully!",
+                    "teamMembers:reloadTable": "",
                 },
             )
 
