@@ -1,0 +1,17 @@
+<div
+    hx-get="{% url 'users:notifications_counter' %}"
+    hx-target="this"
+    hx-swap="outerHTML"
+    {% if delay %}
+        hx-trigger="every 30s, notification:updateCounter from:body"
+    {% else %}
+        hx-trigger="load"
+    {% endif %}
+    hx-vals='{"previous-count": "{{ count }}"}'
+
+    {% if count %}
+        class="text-xs w-4 h-4 bg-red-500 text-white rounded-full flex justify-center items-center absolute right-0 top-0"
+    {% else %}
+        class="hidden"
+    {% endif %}
+>{{ count_str }}</div>

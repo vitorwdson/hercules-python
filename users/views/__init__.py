@@ -1,1 +1,1 @@
-from . import login, register, profile
+from . import login, notifications, profile, register
