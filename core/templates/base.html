@@ -30,6 +30,7 @@
       {% if user.is_authenticated %}
         <div class="flex-shrink-0 text-3xl text-gray-600 relative">
           <i class="fa-regular fa-bell"></i>
+          {% include 'users/notification/list-container.html' %}
           {% include 'users/notification/counter.html' with delay=False %}
         </div>
         <div class="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden mr-8">

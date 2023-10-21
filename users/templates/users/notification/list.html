@@ -1,0 +1,7 @@
+{% for notification in notifications %}
+    {% if lazy_load %}
+        {% include 'users/notification/list-item.html' with lazy_load=forloop.last %}
+    {% else %}
+        {% include 'users/notification/list-item.html' with lazy_load=False %}
+    {% endif %}
+{% endfor %}

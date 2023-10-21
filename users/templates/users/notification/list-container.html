@@ -1,0 +1,21 @@
+<div
+    id="notification-list"
+    hx-get="{% url 'users:notifications_list' %}"
+    hx-target="this"
+    hx-swap="afterbegin"
+    hx-trigger="notification:updateList from:body"
+    hx-vals='js:{"first-id": getFirstNotificationId()}'
+></div>
+
+<script>
+function getFirstNotificationId() {
+    const notification = document.querySelector(
+        '#notification-list > [data-notification-id]:first-child'
+    );
+
+    if (!notification) return '';
+
+    const id = notification.getAttribute('data-notification-id');
+    return id || '';
+}
+</script>

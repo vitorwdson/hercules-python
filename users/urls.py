@@ -12,4 +12,9 @@ urlpatterns = [
         views.notifications.counter,
         name="notifications_counter",
     ),
+    path(
+        "notifications/list",
+        views.notifications.notification_list,
+        name="notifications_list",
+    ),
 ]

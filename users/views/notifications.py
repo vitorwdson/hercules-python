@@ -32,6 +32,54 @@ def counter(request: HttpRequest):
     )
 
     if update_list:
-        response.headers['HX-Trigger'] = "notification:getNewList"
+        response.headers["HX-Trigger"] = "notification:updateList"
+
+    return response
+
+
+@login_required
+def notification_list(request: HttpRequest):
+    user = request.user
+    last_id_str = request.GET.get("last-id")
+    first_id_str = request.GET.get("first-id")
+
+    notifications = Notification.objects.filter(user=user).order_by(
+        "-created_at"
+    )
+
+    lazy_load = True
+    if last_id_str:
+        last_id = None
+        try:
+            last_id = int(last_id_str)
+        except:
+            pass
+
+        if last_id is not None:
+            notifications = notifications.filter(pk__lt=last_id)
+        notifications = notifications[:5]
+    elif first_id_str:
+        first_id = None
+        try:
+            first_id = int(first_id_str)
+        except:
+            pass
+
+        if first_id is not None:
+            notifications = notifications.filter(pk__gt=first_id)
+            lazy_load = False
+        else:
+            notifications = notifications.filter(pk=None)
+    else:
+        notifications = notifications[:5]
+
+    response = render(
+        request,
+        "users/notification/list.html",
+        {
+            "notifications": notifications,
+            "lazy_load": lazy_load,
+        },
+    )
 
     return response

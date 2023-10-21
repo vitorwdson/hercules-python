@@ -1,0 +1,13 @@
+<div
+    {% if lazy_load %}
+        hx-get="{% url 'users:notifications_list' %}?last-id={{ notification.pk }}"
+        hx-target="#notification-list"
+        hx-swap="beforeend"
+        hx-trigger="intersect once"
+        hx-vals='{"first-id": ""}'
+    {% endif %}
+
+    data-notification-id="{{ notification.pk }}"
+>
+    {{ notification.pk }}
+</div>
