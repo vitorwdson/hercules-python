@@ -11,6 +11,8 @@ This project is part of my Software Engineering course's final paper.
   - [x] Login
   - [ ] Notification popup
 
+    - [x] Notification counter
+    - [x] Lazy loading
     - [ ] Accepting project invitations
     - [ ] Team assignment
     - [ ] Issue assignment
