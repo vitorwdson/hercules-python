@@ -2,12 +2,12 @@
     color: #991b1b;
 }
 
-dialog::backdrop {
+dialog:not(.ignore-styles)::backdrop {
     background: #0007;
     filter: blur(3px);
 }
 
-dialog {
+dialog:not(.ignore-styles) {
     background: linear-gradient(
         0deg,
         #fff 0px,
@@ -21,12 +21,12 @@ dialog {
     opacity: 1;
 }
 
-dialog:modal {
+dialog:not(.ignore-styles):modal {
     display: flex;
     flex-direction: column;
 }
 
-dialog > h1:first-child {
+dialog:not(.ignore-styles) > h1:first-child {
     height: 2.7em;
     display: flex;
     align-items: center;

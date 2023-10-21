@@ -1,21 +1,67 @@
-<div
+<dialog
     id="notification-list"
     hx-get="{% url 'users:notifications_list' %}"
     hx-target="this"
     hx-swap="afterbegin"
     hx-trigger="notification:updateList from:body"
     hx-vals='js:{"first-id": getFirstNotificationId()}'
-></div>
+
+    class="ignore-styles absolute z-50 open:flex flex-col p-2 gap-2 outline-none rounded-lg border-gray-700 border w-[70vw] md:w-96 translate-x-[calc(-100%+6.7rem)] h-[50vh] overflow-y-scroll cursor-auto"
+></dialog>
 
 <script>
-function getFirstNotificationId() {
-    const notification = document.querySelector(
-        '#notification-list > [data-notification-id]:first-child'
-    );
+    const dialog = document.querySelector('#notification-list');
+    const notificationButton = dialog.parentElement;
 
-    if (!notification) return '';
+    function getFirstNotificationId() {
+        const notification = document.querySelector(
+            '#notification-list > [data-notification-id]:first-child'
+        );
 
-    const id = notification.getAttribute('data-notification-id');
-    return id || '';
-}
+        if (!notification) return '';
+
+        const id = notification.getAttribute('data-notification-id');
+        return id || '';
+    }
+
+    function closeDialogKeydown(e) {
+        if (e.key === 'Escape') {
+            dialog.close();
+            document.body.removeEventListener('click', closeDialogClick);
+            document.body.removeEventListener('keydown', closeDialogKeydown);
+        }
+    }
+
+    function closeDialogClick(e) {
+        if (
+            e.target == notificationButton ||
+            notificationButton.contains(e.target)
+        ) {
+            return;
+        }
+        
+        dialog.close();
+        document.body.removeEventListener('click', closeDialogClick);
+        document.body.removeEventListener('keydown', closeDialogKeydown);
+    }
+
+    function toggleNotificationList(e) {
+        if (
+            e.target == dialog ||
+            e.target.closest('dialog') == dialog
+        ) {
+            return;
+        }
+
+        if (dialog.open) {
+            dialog.close();
+            document.body.removeEventListener('keydown', closeDialogKeydown);
+            document.body.removeEventListener('click', closeDialogClick);
+        } else {
+            dialog.show();
+            document.body.addEventListener('keydown', closeDialogKeydown);
+            document.body.addEventListener('click', closeDialogClick);
+        }
+    }
+    notificationButton.addEventListener('click', toggleNotificationList);
 </script>
