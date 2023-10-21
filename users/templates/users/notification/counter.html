@@ -10,8 +10,13 @@
     hx-vals='{"previous-count": "{{ count }}"}'
 
     {% if count %}
-        class="text-xs w-4 h-4 bg-red-500 text-white rounded-full flex justify-center items-center absolute right-0 top-0"
+        class="w-4 h-4 absolute right-0 top-0 select-none"
     {% else %}
         class="hidden"
     {% endif %}
->{{ count_str }}</div>
+>
+    <div class="absolute h-full w-full rounded-full bg-red-300 animate-ping z-0"></div>
+    <span 
+        class="absolute text-xs h-full w-full bg-red-500 text-white rounded-full flex justify-center items-center z-10"
+    >{{ count_str }}</span>
+</div>
