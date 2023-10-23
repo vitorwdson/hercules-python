@@ -55,7 +55,11 @@ class ProjectList(ListView):
                     user=user, accepted=True, rejected=False
                 ),
             )
-        ).filter(projectmember__user=user)
+        ).filter(
+            projectmember__user=user,
+            projectmember__accepted=True,
+            projectmember__rejected=False,
+        )
 
         ordering = self.get_ordering()
         if ordering:
