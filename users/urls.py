@@ -17,4 +17,16 @@ urlpatterns = [
         views.notifications.notification_list,
         name="notifications_list",
     ),
+    path(
+        "notifications/invitation/<int:notification_id>/accept",
+        views.notifications.invitation,
+        kwargs={'accept': True},
+        name="notifications_accept_invitation",
+    ),
+    path(
+        "notifications/invitation/<int:notification_id>/reject",
+        views.notifications.invitation,
+        kwargs={'accept': False},
+        name="notifications_reject_invitation",
+    ),
 ]

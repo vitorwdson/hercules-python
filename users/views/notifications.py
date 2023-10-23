@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_http_methods
 
 from core.typing import HttpRequest
 from users.decorators import login_required
-from users.models import Notification
+from users.models import Notification, NotificationType
 
 
 @login_required
+@require_http_methods(["GET"])
 def counter(request: HttpRequest):
     user = request.user
 
@@ -38,13 +40,21 @@ def counter(request: HttpRequest):
 
 
 @login_required
+@require_http_methods(["GET"])
 def notification_list(request: HttpRequest):
     user = request.user
     last_id_str = request.GET.get("last-id")
     first_id_str = request.GET.get("first-id")
 
-    notifications = Notification.objects.filter(user=user).order_by(
-        "-created_at"
+    notifications = (
+        Notification.objects.select_related(
+            "project_invitation__project",
+            "project_invitation",
+            "team_assignment",
+            "team_assignment__team",
+        )
+        .filter(user=user)
+        .order_by("-created_at")
     )
 
     lazy_load = True
@@ -79,6 +89,41 @@ def notification_list(request: HttpRequest):
         {
             "notifications": notifications,
             "lazy_load": lazy_load,
+        },
+    )
+
+    return response
+
+
+@login_required
+@require_http_methods(["PUT"])
+def invitation(request: HttpRequest, notification_id: int, accept: bool):
+    notification = get_object_or_404(
+        Notification.objects.select_related("project_invitation"),
+        pk=notification_id,
+        user=request.user,
+        notification_type=NotificationType.PROJECT_INVITATION,
+        project_invitation__accepted=False,
+        project_invitation__rejected=False,
+    )
+
+    notification.read = True
+    if accept:
+        notification.project_invitation.accepted = True
+        notification.project_invitation.rejected = False
+    else:
+        notification.project_invitation.accepted = False
+        notification.project_invitation.rejected = True
+
+    notification.save()
+    notification.project_invitation.save()
+
+    response = render(
+        request,
+        "users/notification/list-item.html",
+        {
+            "notification": notification,
+            "lazy_load": False,
         },
     )
 

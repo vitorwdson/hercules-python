@@ -1,3 +1,5 @@
+{% load htmx_csrf_token %}
+
 <div
     {% if lazy_load %}
         hx-get="{% url 'users:notifications_list' %}?last-id={{ notification.pk }}"
@@ -8,6 +10,59 @@
     {% endif %}
 
     data-notification-id="{{ notification.pk }}"
+
+    class="text-base py-1 px-2 first:pt-2 last:pb-2 odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition"
 >
-    {{ notification.pk }}
+    {% if notification.notification_type == 1 %}
+        <!-- Project Invitation -->
+        <h3 class="text-lg text-green-800 font-bold">Project Invitation</h3>
+        <p>You were invited to the <span class="font-bold">"{{ notification.project_invitation.project.name }}"</span> project.</p>
+        {% if notification.project_invitation.accepted %}
+            <p><i class="fa-solid fa-check text-green-800"></i> You already accepted the invitation.</p>
+        {% elif notification.project_invitation.rejected %}
+            <p><i class="fa-solid fa-xmark text-red-500"></i> You already rejected the invitation.</p>
+        {% else %}
+            <p class="flex flex-row justify-center align-center gap-2">
+                <span style="line-height: 2rem;">Do you accept?</span>
+                <button
+                    hx-put="{% url 'users:notifications_accept_invitation' notification.pk %}"
+                    {% htmx_csrf_token %}
+                    hx-confirm-swal="Are you sure you want to accept the invitation?"
+                    hx-confirm-swal-icon="question"
+                    hx-target="closest [data-notification-id]"
+                    hx-swap="outerHTML"
+
+                    class="text-green-800 hover:text-green-700 active:text-green-900 focus:text-green-700 transition text-2xl outline-none ml-auto"
+                    title="Accept invitation"
+                >
+                    <i class="fa-solid fa-square-check"></i>
+                </button>
+                <button
+                    hx-put="{% url 'users:notifications_reject_invitation' notification.pk %}"
+                    {% htmx_csrf_token %}
+                    hx-confirm-swal="Are you sure you want to reject the invitation?"
+                    hx-confirm-swal-icon="warning"
+                    hx-target="closest [data-notification-id]"
+                    hx-swap="outerHTML"
+
+                    class="text-red-600 hover:text-red-500 active:text-red-700 focus:text-red-500 transition text-2xl outline-none"
+                    title="Reject invitation"
+                >
+                    <i class="fa-solid fa-square-xmark"></i>
+                </button>
+            </p>
+        {% endif %}
+    {% elif notification.notification_type == 2 %}
+        <!-- Team Assignment -->
+        <h3 class="text-lg text-green-800 font-bold">Team Assignment</h3>
+        <p>Notification type not implemented.</p>
+    {% elif notification.notification_type == 3 %}
+        <!-- Issue Assignment -->
+        <h3 class="text-lg text-green-800 font-bold">Issue Assignment</h3>
+        <p>Notification type not implemented.</p>
+    {% elif notification.notification_type == 4 %}
+        <!-- Team Issue Assignment -->
+        <h3 class="text-lg text-green-800 font-bold">Issue Assignment</h3>
+        <p>Notification type not implemented.</p>
+    {% endif %}
 </div>
