@@ -14,15 +14,21 @@ def select_project(
     request: HttpRequest, project: Project, member: ProjectMember | None = None
 ):
     user = request.user
-    user.last_project = project
-    user.save()
 
     if member is None:
-        member = ProjectMember.objects.get(project=project, user=user)
+        member = ProjectMember.objects.filter(
+            project=project, user=user
+        ).first()
 
-    request.session["selected_project"] = SelectedProjectSession(
-        project_id=project.pk, member_id=member.pk, role=member.role
-    )
+        if member is None:
+            return
+
+    if member.accepted and not member.rejected:
+        request.session["selected_project"] = SelectedProjectSession(
+            project_id=project.pk, member_id=member.pk, role=member.role
+        )
+        user.last_project = project
+        user.save()
 
 
 def get_selected_project(request: HttpRequest):
