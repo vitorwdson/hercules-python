@@ -270,7 +270,11 @@ class AssignMember(View):
                 )
                 .select_related("user")
                 .exclude(pk__in=member_ids)
-                .filter(project=request.selected_project.project)
+                .filter(
+                    project=request.selected_project.project,
+                    accepted=True,
+                    rejected=False,
+                )
                 .filter(
                     Q(fullname__istartswith=filter)
                     | Q(user__username__istartswith=filter)
@@ -315,7 +319,12 @@ class AssignMember(View):
         member_id = request.POST.get("member")
 
         member_error = ""
-        member = ProjectMember.objects.filter(pk=member_id).first()
+        member = ProjectMember.objects.filter(
+            pk=member_id,
+            project=request.selected_project.project,
+            accepted=True,
+            rejected=False,
+        ).first()
         if member is None:
             member_error = "Member not found"
         elif member.project != request.selected_project.project:
