@@ -55,7 +55,7 @@
     {% elif notification.notification_type == 2 %}
         <!-- Team Assignment -->
         <h3 class="text-lg text-green-800 font-bold">Team Assignment</h3>
-        <p>Notification type not implemented.</p>
+        <p>You were assigned to the <span class="font-bold">"{{ notification.team_assignment.team.name }}"</span> team.</p>
     {% elif notification.notification_type == 3 %}
         <!-- Issue Assignment -->
         <h3 class="text-lg text-green-800 font-bold">Issue Assignment</h3>
