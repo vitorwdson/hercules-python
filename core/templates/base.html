@@ -14,19 +14,23 @@
   </head>
   <body hx-indicator="body" class="overflow-y-hidden grid {% if not hide_sidebar %} md:grid-cols-[15rem_1fr] {% endif %} grid-rows-[5rem_minmax(0,1fr)] h-screen">
     <nav class="hidden {% if not hide_sidebar %} md:flex {% endif %} flex-col items-start justify-start row-span-2 bg-white">
-      <img
-        class="h-20 self-center object-contain p-2"
-        src="{% static 'img/logo.png' %}"
-        alt="Hercules Logo"
-      >
+      <a href="{% url 'projects:index' %}" hx-boost hx-push-url>
+        <img
+          class="h-20 self-center object-contain p-2"
+          src="{% static 'img/logo.png' %}"
+          alt="Hercules Logo"
+        >
+      </a>
     </nav>
 
     <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
-      <img
-        class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 mr-auto object-contain p-6 pl-2"
-        src="{% static 'img/logo-mobile.png' %}"
-        alt="Hercules Logo"
-      />
+      <a href="{% url 'projects:index' %}" hx-boost hx-push-url>
+        <img
+          class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 mr-auto object-contain p-6 pl-2"
+          src="{% static 'img/logo-mobile.png' %}"
+          alt="Hercules Logo"
+        />
+      </a>
       {% if user.is_authenticated %}
         <div class="flex-shrink-0 text-3xl text-gray-600 relative cursor-pointer overflow-visible">
           <i class="fa-regular fa-bell"></i>
