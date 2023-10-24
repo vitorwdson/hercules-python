@@ -13,8 +13,8 @@ This project is part of my Software Engineering course's final paper.
 
     - [x] Notification counter
     - [x] Lazy loading
-    - [ ] Accepting project invitations
-    - [ ] Team assignment
+    - [x] Accepting project invitations
+    - [x] Team assignment
     - [ ] Issue assignment
 
   - [ ] Profile page

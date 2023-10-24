@@ -138,5 +138,6 @@ def invitation(request: HttpRequest, notification_id: int, accept: bool):
             "lazy_load": False,
         },
     )
+    response.headers["HX-Trigger"] = "projects:updateList"
 
     return response
