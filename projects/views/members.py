@@ -14,7 +14,7 @@ from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
 from projects.models import ProjectMember, Role
 from users.decorators import login_required, project_required
-from users.models import User
+from users.models import Notification, NotificationType, User
 
 
 class Members(ListView):
@@ -144,12 +144,22 @@ class InviteMember(View):
 
         if not user_error and not role_error:
             if member is not None:
+                Notification.objects.filter(
+                    user=user,
+                    notification_type=NotificationType.PROJECT_INVITATION,
+                    project_invitation=member,
+                ).delete()
                 member.delete()
 
-            ProjectMember.objects.create(
+            member = ProjectMember.objects.create(
                 project=request.selected_project.project,
                 user=user,
                 role=role,
+            )
+            Notification.objects.create(
+                user=user,
+                notification_type=NotificationType.PROJECT_INVITATION,
+                project_invitation=member,
             )
 
         response = render(

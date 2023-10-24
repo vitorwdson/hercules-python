@@ -16,6 +16,7 @@ from core.typing import HttpRequest, HttpResponse
 from projects.forms.team import TeamForm
 from projects.models import ProjectMember, Team, TeamMember
 from users.decorators import login_required, project_required
+from users.models import Notification, NotificationType
 
 
 class Teams(ListView):
@@ -327,10 +328,15 @@ class AssignMember(View):
         if team_member is not None:
             member_error = "The selected member was already part of this team."
 
-        if not member_error:
-            TeamMember.objects.create(
+        if not member_error and member:
+            team_member = TeamMember.objects.create(
                 team=team,
                 member=member,
+            )
+            Notification.objects.create(
+                user=member.user,
+                notification_type=NotificationType.TEAM_ASSIGNMENT,
+                team_assignment=team_member,
             )
 
         response = render(
