@@ -11,7 +11,8 @@ from users.models import Notification, NotificationType
 def counter(request: HttpRequest):
     user = request.user
 
-    previous_count = int(request.GET.get("previous-count") or "0")
+    previous_count_str = request.GET.get("previous-count")
+    previous_count = int(previous_count_str or "0")
     count = Notification.objects.filter(user=user, read=False).count()
     update_list = count > previous_count
 
@@ -33,7 +34,7 @@ def counter(request: HttpRequest):
         },
     )
 
-    if update_list:
+    if update_list or not previous_count_str:
         response.headers["HX-Trigger"] = "notification:updateList"
 
     return response
@@ -58,6 +59,7 @@ def notification_list(request: HttpRequest):
     )
 
     lazy_load = True
+    marked_as_read = 0
     if last_id_str:
         last_id = None
         try:
@@ -67,6 +69,13 @@ def notification_list(request: HttpRequest):
 
         if last_id is not None:
             notifications = notifications.filter(pk__lt=last_id)
+
+            marked_as_read = Notification.objects.filter(
+                pk__gte=last_id,
+                user=user,
+                read=False,
+            ).update(read=True)
+
         notifications = notifications[:5]
     elif first_id_str:
         first_id = None
@@ -91,6 +100,9 @@ def notification_list(request: HttpRequest):
             "lazy_load": lazy_load,
         },
     )
+
+    if marked_as_read > 0:
+        response.headers["HX-Trigger"] = "notification:updateCounter"
 
     return response
 
