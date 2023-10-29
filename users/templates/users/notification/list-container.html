@@ -6,13 +6,10 @@
     hx-trigger="notification:updateList from:body"
     hx-vals='js:{"first-id": getFirstNotificationId()}'
 
-    class="ignore-styles absolute z-50 open:flex flex-col outline-none rounded-lg border-gray-700 border w-[70vw] md:w-96 translate-x-[calc(-100%+6.7rem)] h-[50vh] overflow-y-scroll cursor-auto"
+    class="ignore-styles absolute z-50 open:flex flex-col outline-none rounded-lg border-gray-700 border w-[70vw] md:w-96 translate-x-[calc(-100%+6.65rem)] translate-y-[1.4rem] h-[50vh] overflow-y-scroll cursor-auto"
 ></dialog>
 
 <script>
-    const dialog = document.querySelector('#notification-list');
-    const notificationButton = dialog.parentElement;
-
     function getFirstNotificationId() {
         const notification = document.querySelector(
             '#notification-list > [data-notification-id]:first-child'
@@ -23,6 +20,11 @@
         const id = notification.getAttribute('data-notification-id');
         return id || '';
     }
+</script>
+
+<script type="module">
+    const dialog = document.querySelector('#notification-list');
+    const notificationButton = dialog.parentElement;
 
     function closeDialogKeydown(e) {
         if (e.key === 'Escape') {

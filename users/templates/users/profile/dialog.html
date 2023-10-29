@@ -1,0 +1,71 @@
+<dialog
+    id="profile-dialog"
+    class="ignore-styles absolute z-50 open:flex flex-col outline-none rounded-lg border-gray-700 border w-[30vw] md:w-32 translate-x-[calc(-100%+4rem)] translate-y-2 cursor-auto overflow-hidden"
+>
+    <ul>
+        <li
+            class="text-base py-1 px-2 first:pt-2 last:pb-2 hover:bg-gray-100 focus-within:bg-gray-100 transition outline-none"
+        >
+            <a
+                class="outline-none"
+                href="{% url 'users:profile' %}"
+                hx-boost="true"
+           >Your Profile</a>
+        </li>
+        <li
+            class="text-base py-1 px-2 first:pt-2 last:pb-2 hover:bg-gray-100 focus-within:bg-gray-100 transition outline-none"
+        >
+            <a
+                class="outline-none"
+                href="{% url 'users:logout' %}"
+            >Logout</a>
+        </li>
+    </ul>
+</dialog>
+
+<script type="module">
+    const dialog = document.querySelector('#profile-dialog');
+    const profilePicture = dialog.parentElement;
+
+    function closeDialogKeydown(e) {
+        if (e.key === 'Escape') {
+            dialog.close();
+            document.body.removeEventListener('click', closeDialogClick);
+            document.body.removeEventListener('keydown', closeDialogKeydown);
+        }
+    }
+
+    function closeDialogClick(e) {
+        if (
+            e.target == profilePicture ||
+            profilePicture.contains(e.target)
+        ) {
+            return;
+        }
+        
+        dialog.close();
+        document.body.removeEventListener('click', closeDialogClick);
+        document.body.removeEventListener('keydown', closeDialogKeydown);
+    }
+
+    function toggleProfileDialog(e) {
+        if (
+            e.target == dialog ||
+            e.target.closest('dialog') == dialog
+        ) {
+            return;
+        }
+
+        if (dialog.open) {
+            dialog.close();
+            document.body.removeEventListener('keydown', closeDialogKeydown);
+            document.body.removeEventListener('click', closeDialogClick);
+        } else {
+            dialog.show();
+            document.body.addEventListener('keydown', closeDialogKeydown);
+            document.body.addEventListener('click', closeDialogClick);
+        }
+    }
+    profilePicture.addEventListener('click', toggleProfileDialog);
+</script>
+

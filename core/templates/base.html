@@ -24,9 +24,9 @@
     </nav>
 
     <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
-      <a href="{% url 'projects:index' %}" hx-boost hx-push-url>
+      <a href="{% url 'projects:index' %}" hx-boost hx-push-url class="mr-auto">
         <img
-          class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 mr-auto object-contain p-6 pl-2"
+          class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 object-contain p-6 pl-2"
           src="{% static 'img/logo-mobile.png' %}"
           alt="Hercules Logo"
         />
@@ -37,12 +37,13 @@
           {% include 'users/notification/list-container.html' %}
           {% include 'users/notification/counter.html' with delay=False %}
         </div>
-        <div class="flex-shrink-0 w-16 h-16 rounded-full overflow-hidden mr-8">
+        <div class="flex-shrink-0 mr-8 relative cursor-pointer overflow-visible">
           <img
-            class="object-contain"
+            class="object-contain w-16 h-16 rounded-full overflow-hidden"
             src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
             alt="Profile picture"
           />
+          {% include 'users/profile/dialog.html' %}
         </div>
       {% endif %}
     </header>

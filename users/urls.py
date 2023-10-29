@@ -7,6 +7,7 @@ urlpatterns = [
     path("login", views.login.Login.as_view(), name="login"),
     path("logout", views.login.logout, name="logout"),
     path("register", views.register.RegisterView.as_view(), name="register"),
+    path("profile", views.profile.Profile.as_view(), name="profile"),
     path(
         "notifications/counter",
         views.notifications.counter,
@@ -20,13 +21,13 @@ urlpatterns = [
     path(
         "notifications/invitation/<int:notification_id>/accept",
         views.notifications.invitation,
-        kwargs={'accept': True},
+        kwargs={"accept": True},
         name="notifications_accept_invitation",
     ),
     path(
         "notifications/invitation/<int:notification_id>/reject",
         views.notifications.invitation,
-        kwargs={'accept': False},
+        kwargs={"accept": False},
         name="notifications_reject_invitation",
     ),
 ]
