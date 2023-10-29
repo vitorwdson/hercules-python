@@ -39,8 +39,11 @@ This project is part of my Software Engineering course's final paper.
     - [ ] CRUD
     - [ ] Assign responsibilities to members (users or teams) over issues
     - [ ] History
+
       - [ ] Comments
+
         - [ ] Text Messages
         - [ ] Images
         - [ ] Videos
+
       - [ ] Status Changes
