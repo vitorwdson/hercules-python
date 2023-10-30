@@ -1,0 +1,29 @@
+{% load static %}
+
+<div
+    id="profile-picture-card"
+    class="rounded-xl bg-white overflow-hidden relative flex flex-col justify-center items-center gap-4 p-4"
+>
+    <label
+        for="profile-picture"
+        class="group w-36 h-36 md:w-[25vh] md:h-[25vh] max-w-full max-h-full flex justify-center items-center relative cursor-pointer"
+    >
+        <img
+            src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+            alt="Profile picture"
+            class="object-contain rounded-full overflow-hidden"
+        />
+        <i style="display: inline-flex;" class="items-center justify-center fa-solid fa-pen absolute bottom-[7%] right-[7%] md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"></i>
+    </label>
+    <input
+        type="file"
+        name="profile-picture"
+        id="profile-picture"
+        accept="image/*"
+        class="hidden"
+    >
+    <p
+        class="font-bold text-2xl"
+    >{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</p>
+</div>
+
