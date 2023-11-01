@@ -20,7 +20,7 @@ This project is part of my Software Engineering course's final paper.
   - [ ] Profile page
 
     - [x] Profile picture popup (links to logout and see profile)
-    - [ ] Upload/Update profile picture
+    - [x] Upload/Update profile picture
     - [ ] Update user info (name and email)
     - [ ] Change password
     - [ ] See due issues from all projects
