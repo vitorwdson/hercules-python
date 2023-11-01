@@ -1,0 +1,12 @@
+{% load static %}
+
+<img
+    id="profile-picture-img"
+    src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+    alt="Profile picture"
+    class="object-contain rounded-full overflow-hidden"
+/>
+
+{% if oob %}
+    {% include 'header-profile-picture.html' with oob=True %}
+{% endif %}

@@ -7,7 +7,12 @@ urlpatterns = [
     path("login", views.login.Login.as_view(), name="login"),
     path("logout", views.login.logout, name="logout"),
     path("register", views.register.RegisterView.as_view(), name="register"),
-    path("profile", views.profile.Profile.as_view(), name="profile"),
+    path("profile", views.profile.profile, name="profile"),
+    path(
+        "profile/picture",
+        views.profile.upload_picture,
+        name="upload_picture",
+    ),
     path(
         "notifications/counter",
         views.notifications.counter,

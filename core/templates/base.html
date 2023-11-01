@@ -38,11 +38,7 @@
           {% include 'users/notification/counter.html' with delay=False %}
         </div>
         <div class="flex-shrink-0 mr-8 relative cursor-pointer overflow-visible">
-          <img
-            class="object-contain w-16 h-16 rounded-full overflow-hidden"
-            src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
-            alt="Profile picture"
-          />
+          {% include 'header-profile-picture.html' with oob=False %}
           {% include 'users/profile/dialog.html' %}
         </div>
       {% endif %}
