@@ -11,7 +11,7 @@ from users.forms.new import RegisterForm
 
 class RegisterView(View):
     template_name = "users/register.html"
-    redirect_after_register = "projects:index"  # TODO: Redirect to profile page
+    redirect_after_register = "users:profile"
 
     def get(self, request: HttpRequest):
         form = RegisterForm()
