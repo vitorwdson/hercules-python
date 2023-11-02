@@ -1,18 +1,26 @@
 from django.http.response import HttpResponseBadRequest
-from django.views import View
 from django.views.decorators.http import require_POST, require_safe
 from PIL import Image
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
 from users.decorators import login_required
+from users.forms.edit import AlterProfileForm
 from users.forms.picture import PictureForm
 
 
 @login_required
 @require_safe
 def profile(request: HttpRequest):
-    return render_htmx(request, "users/profile/profile.html")
+    user_data_form = AlterProfileForm(instance=request.user)
+
+    return render_htmx(
+        request,
+        "users/profile/profile.html",
+        {
+            "user_data_form": user_data_form,
+        },
+    )
 
 
 @login_required
@@ -20,8 +28,6 @@ def profile(request: HttpRequest):
 def upload_picture(request: HttpRequest):
     form = PictureForm(request.POST, request.FILES)
     if not form.is_valid():
-        print(request.FILES)
-        print(form.cleaned_data)
         return show_message(
             HttpResponseBadRequest(),  # type: ignore
             "error",
@@ -52,3 +58,27 @@ def upload_picture(request: HttpRequest):
     image.save(request.user.picture.path)
 
     return render_htmx(request, "users/profile/picture-img.html", {"oob": True})
+
+
+@login_required
+@require_POST
+def update_user_data(request: HttpRequest):
+    form = AlterProfileForm(request.POST, instance=request.user)
+    is_valid = form.is_valid()
+
+    if is_valid:
+        form.save()
+
+    response = render_htmx(
+        request,
+        "users/profile/user-data.html",
+        {
+            "oob": is_valid,
+            "form": form,
+        },
+    )
+
+    if is_valid:
+        response = show_message(response)
+
+    return response

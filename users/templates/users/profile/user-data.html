@@ -1,5 +1,54 @@
+{% load i18n %}
+
 <div
     id="profile-user-data-card"
-    class="rounded-xl bg-white overflow-hidden"
-></div>
+    class="rounded-xl bg-white overflow-hidden relative"
+>
+    <form
+        hx-post="{% url 'users:update_user_data' %}"
+        hx-target="#profile-user-data-card"
+        hx-swap="outerHTML"
+        class="flex flex-col w-full h-full p-4"
+    >
+        {% csrf_token %}
 
+        <div class="flex flex-row gap-2">
+            <div class="flex flex-col basis-[30%]">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+            <div class="flex flex-col basis-[70%]">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+        </div>
+        <div class="flex flex-row">
+            <div class="flex flex-col basis-full">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+        </div>
+        
+        <div class="flex flex-row justify-end gap-4 mt-auto">
+             <button
+                 type="button"
+                 class="border-2 border-green-800 hover:border-green-700 text-green-800 hover:text-green-700 font-bold transition rounded py-2 px-8"
+             >{% translate "Change Password" context "button" %}</button>
+             <button
+                 type="submit"
+                 class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded py-2 px-8"
+             >{% translate "Save" context "button" %}</button>
+         </div>
+    </form>
+</div>
+
+{% if oob %}
+    <p
+        id="profile-user-name"
+        class="font-bold text-2xl"
+        hx-swap-oob="true"
+    >{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</p>
+{% endif %}

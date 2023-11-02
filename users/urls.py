@@ -14,6 +14,11 @@ urlpatterns = [
         name="upload_picture",
     ),
     path(
+        "profile/update",
+        views.profile.update_user_data,
+        name="update_user_data",
+    ),
+    path(
         "notifications/counter",
         views.notifications.counter,
         name="notifications_counter",

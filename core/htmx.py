@@ -57,10 +57,10 @@ def render_htmx(
 
 
 def show_message(
-    response: HttpResponse | None = None,
+    response: HttpResponse | BHttpResponse | None = None,
     icon: str | None = None,
     message: str | None = None,
-) -> HttpResponse:
+) -> BHttpResponse:
     if response is None:
         response = HttpResponse(b"")
 

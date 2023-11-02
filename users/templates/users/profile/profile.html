@@ -5,6 +5,6 @@
     class="m-[-1rem] w-[calc(100%+2rem)] h-[calc(100%+2rem)] p-4 grid grid-rows-[30vh_60vh_60vh] md:grid-cols-[3fr_7fr] md:grid-rows-[4fr_6fr] gap-4 relative overflow-scroll md:overflow-hidden"
 >
     {% include 'users/profile/picture.html' %}
-    {% include 'users/profile/user-data.html' %}
+    {% include 'users/profile/user-data.html' with form=user_data_form %}
     {% include 'users/profile/issues.html' %}
 </div>
