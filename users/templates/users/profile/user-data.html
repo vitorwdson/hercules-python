@@ -12,13 +12,13 @@
     >
         {% csrf_token %}
 
-        <div class="flex flex-row gap-2">
-            <div class="flex flex-col basis-[30%]">
+        <div class="flex flex-col md:flex-row md:gap-2">
+            <div class="flex flex-col basis-full md:basis-[30%]">
                 {{ form.first_name.label_tag }}
                 {{ form.first_name }}
                 {{ form.first_name.errors }}
             </div>
-            <div class="flex flex-col basis-[70%]">
+            <div class="flex flex-col basis-full md:basis-[70%]">
                 {{ form.last_name.label_tag }}
                 {{ form.last_name }}
                 {{ form.last_name.errors }}
