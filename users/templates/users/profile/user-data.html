@@ -35,6 +35,11 @@
         <div class="flex flex-row justify-end gap-4 mt-auto">
              <button
                  type="button"
+
+                 hx-get="{% url 'users:change_password' %}"
+                 hx-target="#change-password-dialog"
+                 hx-swap="innerHTML"
+
                  class="border-2 border-green-800 hover:border-green-700 text-green-800 hover:text-green-700 font-bold transition rounded py-2 px-8"
              >{% translate "Change Password" context "button" %}</button>
              <button

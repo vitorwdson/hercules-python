@@ -19,6 +19,11 @@ urlpatterns = [
         name="update_user_data",
     ),
     path(
+        "profile/password",
+        views.profile.ChangePassword.as_view(),
+        name="change_password",
+    ),
+    path(
         "notifications/counter",
         views.notifications.counter,
         name="notifications_counter",
