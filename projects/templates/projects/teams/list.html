@@ -45,7 +45,7 @@
                         href="{% url 'projects:team' team.id %}"
                         hx-boost
                     >
-                        <p class="flex-1">{{ team.name }}</p>
+                        <p class="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">{{ team.name }}</p>
                         <p class="{% if not compact|default:False %} min-w-[5rem] w-1/12 {% else %} mr-2 {% endif %} text-green-700 text-center">
                             <i class="fa-solid fa-arrow-right"></i>
                         </p>

@@ -36,7 +36,7 @@
                         class="flex flex-row py-2 pl-2"
                     >
                         <p class="flex-0 font-bold">{{ member.get_role_display }}&nbsp;&nbsp;</p>
-                        <p class="flex-1">{{ member.user.get_name }}</p>
+                        <p class="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">{{ member.user.get_name }}</p>
                         <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
                         </p>
                     </a>

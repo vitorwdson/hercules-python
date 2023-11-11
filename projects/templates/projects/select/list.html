@@ -41,7 +41,7 @@
                         hx-swap="none"
                         {% htmx_csrf_token %}
                     >
-                        <p class="flex-1">{{ project.name }}</p>
+                        <p class="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">{{ project.name }}</p>
                         <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
                             <i class="fa-solid fa-arrow-right"></i>
                         </p>
