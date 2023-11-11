@@ -5,7 +5,7 @@
     {% set_title title %}
 {% endif %}
 
-<div class="rounded-xl bg-white w-full flex flex-col p-4 mt-4 relative {% if compact|default:False %} h-auto flex-1 gap-2 {% else %} overflow-auto h-full gap-4 {% endif %}">
+<div class="rounded-xl bg-white w-full flex flex-col p-4 relative {% if compact|default:False %} h-auto flex-1 gap-2 mt-4 {% else %} overflow-auto h-full gap-4 {% endif %}">
     <h1 class="text-green-800 text-2xl font-bold text-center">{{ title }}</h1>
     {% if request.selected_project.can_create_issue %}
         <div class="text-2xl text-center {% if not compact|default:False %} min-w-[5rem] w-1/12 {% endif %} absolute right-4 top-4">
