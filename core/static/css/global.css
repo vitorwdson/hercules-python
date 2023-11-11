@@ -64,3 +64,9 @@ dialog:not(.ignore-styles) > h1:first-child {
 .choices {
   margin-bottom: 0px !important;
 }
+
+.ql-container {
+    flex: 1;
+    height: auto !important;
+    overflow-y: auto;
+}

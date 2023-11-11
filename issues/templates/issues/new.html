@@ -1,0 +1,32 @@
+{% extends 'issues/issue.html' %}
+
+{% block container_classes %} class="grid grid-cols-1 gap-4 w-full h-full" {% endblock %}
+
+{% block issue_header %}
+    <input
+        name="title"
+        id="issue-title-input"
+        value="New Issue Title"
+        class="bg-transparent border-transparent border-0 border-b text-3xl w-full p-0 m-0 outline-none focus:border-b-green-800 transition"
+        onfocus="var temp_value=this.value; this.value=''; this.value=temp_value;"
+        autofocus
+    >
+{% endblock %}
+
+{% block change_history %} {% endblock %}
+
+{% block new_comment %}
+    <div class="flex flex-col relative rounded-xl bg-white w-full p-4 flex-1">
+        <h2 class="text-green-800 font-bold text-lg">Issue Description</h2>
+        <div id="description-editor"></div>
+    </div>
+    <script>
+        const quill = new Quill('#description-editor', quillOptions);
+
+        function getDescriptionContent() {
+            return quill.getContents();
+        }
+    </script>
+{% endblock %}
+
+{% block issue_sidebar %} {% endblock %}

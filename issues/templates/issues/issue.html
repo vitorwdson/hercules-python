@@ -1,0 +1,114 @@
+{% load static htmx_csrf_token %}
+
+<link rel="stylesheet" href="{% static 'vendor/quilljs/quill.snow.css' %}">
+<script src="{% static 'vendor/quilljs/quill.min.js' %}"></script>
+<script>
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['image'],                                        // image
+
+        ['clean'],                                        // remove formatting button
+    ];
+    const quillOptions =  {
+        theme: 'snow',
+        modules: {
+            toolbar: toolbarOptions
+        },
+    };
+</script>
+
+<div
+    {% block container_classes %} class="grid grid-cols-[1fr_15rem] gap-4 w-full h-full" {% endblock %}
+>
+    <div class="flex flex-col gap-4 overflow-y-auto">
+        <div
+            id="issue-header"
+            class="flex flex-row gap-4 relative rounded-xl bg-white w-full p-4"
+        >
+            <h1 class="group flex-1 text-green-800 text-3xl font-bold flex flex-row justify-start items-center gap-2">
+                {% block issue_header %}
+                    {% if issue.created_by == request.user or request.selected_project.can_rename_issues %}
+                        {% if renaming|default:False %}
+                            <input
+                                name="issue-title"
+                                id="issue-title-input"
+                                value="{{ issue.title }}"
+                                class="bg-transparent border-transparent border-0 border-b text-3xl p-0 m-0 outline-none focus:border-b-green-800 transition"
+                                size={{ issue.title|length }}
+                                oninput="this.size = this.value.length"
+                                onfocus="var temp_value=this.value; this.value=''; this.value=temp_value;"
+                                autofocus
+                            >
+                            <button
+                                class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
+                                hx-put="{% url 'issues:rename' %}"
+                                hx-swap="outerHTML"
+                                hx-target="#issue-header"
+                                hx-include="#issue-title-input"
+                                hx-trigger="click, keydown[key=='Enter'] from:#issue-title-input"
+                                {% htmx_csrf_token %}
+                                title="Rename Issue"
+                            >
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                        {% else %}
+                            {{ issue.title }}
+                            <button
+                                class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
+                                hx-get="{% url 'issues:rename' %}"
+                                hx-swap="outerHTML"
+                                hx-target="#issue-header"
+                                title="Rename Issue"
+                            >
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        {% endif %}
+                    {% else %}
+                        {{ issue.title }}
+                    {% endif %}
+                {% endblock %}
+            </h1>
+        </div>
+
+        {% block change_history %}
+            {% for change in history %}
+                {% if change.type == 1 %}
+                {% elif change.type == 2 %}
+                {% endif %}
+            {% endfor %}
+        {% endblock %}
+
+        {% block new_comment %}
+            <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[15rem]">
+                <h2 class="text-green-800 font-bold text-lg">Add comment</h2>
+                <div id="comment-editor"></div>
+            </div>
+            <script>
+                var quill = new Quill('#comment-editor', quillOptions);
+            </script>
+        {% endblock %}
+    </div>
+
+    {% block issue_sidebar %}
+        <div
+            class="flex flex-row gap-4 relative rounded-xl bg-white w-full p-4"
+        >
+        </div>
+    {% endblock %}
+</div> 
+

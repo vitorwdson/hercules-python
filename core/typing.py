@@ -30,6 +30,10 @@ class SelectedProject:
     def can_create_issue(self):
         return True  # TODO
 
+    @cached_property
+    def can_rename_issues(self):
+        return self.role in [Role.OWNER, Role.MANAGER]
+
 
 class HttpRequest(BHttpRequest):
     htmx: HtmxDetails
