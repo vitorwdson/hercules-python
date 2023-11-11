@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "core",
     "users",
     "projects",
+    "issues",
     "django_htmx",
 ]
 

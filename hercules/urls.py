@@ -26,5 +26,6 @@ if media_url[0] == "/":
 urlpatterns = [
     path('', include('users.urls')),
     path('', include('projects.urls')),
+    path('', include('issues.urls')),
     path(f"{media_url}<path:file_path>", media_server),
 ]
