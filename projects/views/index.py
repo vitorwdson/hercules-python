@@ -3,10 +3,11 @@ from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
+from issues.models import Issue
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
-from projects.models import ProjectMember, Role, Team
+from projects.models import ProjectMember, Team
 from projects.user import deselect_project
 from users.decorators import login_required, project_required
 
@@ -29,12 +30,12 @@ class Index(View):
                 "user__username",
             )
         )
-        teams = (
-            Team.objects.filter(
-                project=request.selected_project.project,
-            )
-            .order_by("name")
-        )
+        teams = Team.objects.filter(
+            project=request.selected_project.project,
+        ).order_by("name")
+        issues = Issue.objects.filter(
+            project=request.selected_project.project,
+        ).order_by("-created_at")
 
         return render_htmx(
             request,
@@ -42,6 +43,7 @@ class Index(View):
             {
                 "members": members[:3],
                 "teams": teams[:3],
+                "issues": issues[:5],
             },
         )
 
@@ -54,7 +56,7 @@ class Index(View):
                 "error",
                 "Only the owner of a project can delete it.",
             )
-        
+
         project = request.selected_project.project
 
         deleted, message = project.try_delete()

@@ -26,6 +26,10 @@ class SelectedProject:
     def can_create_team(self):
         return self.role in [Role.OWNER, Role.MANAGER]
 
+    @cached_property
+    def can_create_issue(self):
+        return True  # TODO
+
 
 class HttpRequest(BHttpRequest):
     htmx: HtmxDetails
