@@ -1,1 +1,1 @@
-from . import issue_list, issue
+from . import issue_list, new
