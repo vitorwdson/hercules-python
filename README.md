@@ -36,7 +36,10 @@ This project is part of my Software Engineering course's final paper.
 
   - [ ] Issues
 
-    - [ ] CRUD
+    - [x] Creating new issues
+    - [ ] Renaming issue
+    - [ ] Changing the issue's status
+    - [ ] Changing the issue's due date
     - [ ] Assign responsibilities to members (users or teams) over issues
     - [ ] History
 
