@@ -89,7 +89,7 @@
 
         {% block change_history %}
             {% for change in history %}
-                {% include 'issues/change.html' %}
+                {% include 'issues/change.html' with oob=False %}
             {% endfor %}
         {% endblock %}
 
