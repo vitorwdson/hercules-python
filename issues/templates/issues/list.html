@@ -33,7 +33,7 @@
                     >
                         <p class="flex-0 font-bold">#{{ issue.number }}&nbsp;&nbsp;</p>
                         <p class="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">{{ issue.title }}</p>
-                        <p class="min-w-[5rem] w-1/12 text-green-700 text-center">
+                        <p class="{% if not compact|default:False %} min-w-[5rem] w-1/12 {% else %} mr-2 {% endif %} text-green-700 text-center">
                             <i class="fa-solid fa-arrow-right"></i>
                         </p>
                     </a>
@@ -56,7 +56,7 @@
     {% endif %}
 
     {% if compact|default:False %}
-        <p class="text-right">
+        <p class="text-right mt-auto">
             <a
                 class="underline text-teal-600"
                 href="{% url 'issues:list' %}"
