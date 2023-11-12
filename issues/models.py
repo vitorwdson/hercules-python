@@ -1,6 +1,6 @@
 from django.db import models
-
 from django_stubs_ext.db.models import TypedModelMeta
+
 from projects.models import Project, Team
 from users.models import User
 
@@ -85,7 +85,7 @@ class History(models.Model):
     message = models.ForeignKey(
         Message, on_delete=models.CASCADE, blank=True, null=True
     )
-    assignmetn = models.ForeignKey(
+    assignment = models.ForeignKey(
         Assignment, on_delete=models.CASCADE, blank=True, null=True
     )
     status = models.IntegerField(

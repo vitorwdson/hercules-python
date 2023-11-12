@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'vendor/quilljs/quill.snow.css' %}">
 <script src="{% static 'vendor/quilljs/quill.min.js' %}"></script>
 <script>
-    const toolbarOptions = [
+    toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
 
@@ -24,7 +24,7 @@
 
         ['clean'],                                        // remove formatting button
     ];
-    const quillOptions =  {
+    quillOptions =  {
         theme: 'snow',
         modules: {
             toolbar: toolbarOptions
@@ -56,9 +56,10 @@
                             >
                             <button
                                 class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
-                                hx-put="{% url 'issues:rename' %}"
+                                hx-put="{% url 'issues:rename' issue.number %}"
                                 hx-swap="outerHTML"
                                 hx-target="#issue-header"
+                                hx-select="#issue-header"
                                 hx-include="#issue-title-input"
                                 hx-trigger="click, keydown[key=='Enter'] from:#issue-title-input"
                                 {% htmx_csrf_token %}
@@ -70,9 +71,10 @@
                             {{ issue.title }}
                             <button
                                 class="md:opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 h-8 w-8 rounded-full inline-flex justify-center items-center text-lg text-cyan-700 bg-cyan-700 bg-opacity-0 hover:bg-opacity-30 transition"
-                                hx-get="{% url 'issues:rename' %}"
+                                hx-get="{% url 'issues:rename' issue.number %}"
                                 hx-swap="outerHTML"
                                 hx-target="#issue-header"
+                                hx-select="#issue-header"
                                 title="Rename Issue"
                             >
                                 <i class="fa-solid fa-pen"></i>
@@ -97,16 +99,28 @@
             <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[15rem]">
                 <h2 class="text-green-800 font-bold text-lg">Add comment</h2>
                 <div id="comment-editor"></div>
-            </div>
-            <script>
-                var quill = new Quill('#comment-editor', quillOptions);
-            </script>
-        {% endblock %}
 
-        {% block new_comment_button %}
-            <div class="flex flex-row justify-end">
-                <button>Save</button>
+                <div class="flex flex-row justify-end mt-4">
+                    <button
+                        class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                    >Comment</button>
+                </div>
             </div>
+            <script defer>
+                commentQuill = null;
+
+                function setupCommentQuill() {
+                    commentQuill = new Quill('#comment-editor', quillOptions);
+                }
+
+                cqInterval = null;
+                cqInterval = setInterval(() => {
+                    if (window.Quill != undefined) {
+                        clearInterval(cqInterval);
+                        setupCommentQuill();
+                    }
+                }, window.Quill == undefined ? 50 : 0)
+            </script>
         {% endblock %}
     </div>
 

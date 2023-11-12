@@ -21,17 +21,44 @@
     <div class="flex flex-col relative rounded-xl bg-white w-full p-4 flex-1">
         <h2 class="text-green-800 font-bold text-lg">Issue Description</h2>
         <div id="description-editor"></div>
+        <div class="flex flex-row justify-end mt-4">
+            <button
+                class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                onclick="triggerSubmit();"
+            >Save</button>
+        </div>
+        <form
+            id="new-issue-form"
+            hx-post="{% url 'issues:new' %}"
+            hx-trigger="issues:createNewIssue from:body"
+            hx-include="#issue-title-input"
+            hx-vals="js:{description: getDescriptionContent()}"
+        >
+            {% csrf_token %}
+        </form>
     </div>
-    <script>
-        const quill = new Quill('#description-editor', quillOptions);
+    <script defer>
+        descriptionQuill = null;
+
+        function setupDescriptionQuill() {
+            descriptionQuill = new Quill('#description-editor', quillOptions);
+        }
+
+        dqInterval = null;
+        dqInterval = setInterval(() => {
+            if (window.Quill != undefined) {
+                clearInterval(dqInterval);
+                setupDescriptionQuill();
+            }
+        }, window.Quill == undefined ? 50 : 0)
 
         function getDescriptionContent() {
-            return quill.getContents();
+            return descriptionQuill.getContents();
         }
 
         function triggerSubmit() {
-            const text = quill.getText();
-            const length = quill.getLength();
+            const text = descriptionQuill.getText();
+            const length = descriptionQuill.getLength();
 
             if ((text === '' || text === '\n') && length <= 1) {
                 swal.fire({
@@ -47,24 +74,6 @@
             document.body.dispatchEvent(new Event('issues:createNewIssue'));
         }
     </script>
-{% endblock %}
-
-{% block new_comment_button %}
-    <div class="flex flex-row justify-end">
-        <button
-            class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
-            onclick="triggerSubmit();"
-        >Save</button>
-    </div>
-    <form
-        id="new-issue-form"
-        hx-post="{% url 'issues:new' %}"
-        hx-trigger="issues:createNewIssue from:body"
-        hx-include="#issue-title-input"
-        hx-vals="js:{description: getDescriptionContent()}"
-    >
-        {% csrf_token %}
-    </form>
 {% endblock %}
 
 {% block issue_sidebar %} {% endblock %}

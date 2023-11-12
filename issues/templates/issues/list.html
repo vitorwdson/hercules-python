@@ -27,6 +27,8 @@
                     class="group odd:bg-gray-50 hover:bg-gray-100 odd:hover:bg-gray-200 transition text-lg"
                 >
                     <a
+                        href="{% url 'issues:issue' issue.number %}"
+                        hx-boost="true"
                         class="flex flex-row py-2 pl-2"
                     >
                         <p class="flex-0 font-bold">#{{ issue.number }}&nbsp;&nbsp;</p>
