@@ -38,7 +38,7 @@ This project is part of my Software Engineering course's final paper.
 
     - [x] Creating new issues
     - [x] Renaming issue
-    - [ ] Changing the issue's status
+    - [x] Changing the issue's status
     - [ ] Assign responsibilities to members (users or teams) over issues
     - [x] History
 
