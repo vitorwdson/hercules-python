@@ -47,11 +47,6 @@
         <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the status to "{{ change.get_status_display }}"</h2>
         <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
     </div>
-{% elif change.type == HistoryType.DUE_DATE %}
-    <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
-        <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the due date to "{{ change.due_date }}"</h2>
-        <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
-    </div>
 {% elif change.type == HistoryType.TITLE %}
     <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
         <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the title to "{{ change.title }}"</h2>

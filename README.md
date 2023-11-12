@@ -39,7 +39,6 @@ This project is part of my Software Engineering course's final paper.
     - [x] Creating new issues
     - [x] Renaming issue
     - [ ] Changing the issue's status
-    - [ ] Changing the issue's due date
     - [ ] Assign responsibilities to members (users or teams) over issues
     - [x] History
 
@@ -50,4 +49,3 @@ This project is part of my Software Engineering course's final paper.
 
       - [x] Status Changes
       - [x] Title Changes
-      - [x] Due date Changes

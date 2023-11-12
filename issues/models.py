@@ -16,7 +16,6 @@ class Issue(models.Model):
     status = models.IntegerField(choices=Status.choices, default=Status.OPEN)
     created_by = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateField(null=True, blank=True)
     title = models.TextField()
 
     class Meta(TypedModelMeta):
@@ -75,8 +74,7 @@ class History(models.Model):
         MESSAGE = 1
         ASSIGNMENT = 2
         STATUS = 3
-        DUE_DATE = 4
-        TITLE = 5
+        TITLE = 4
 
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,5 +89,4 @@ class History(models.Model):
     status = models.IntegerField(
         choices=Issue.Status.choices, blank=True, null=True
     )
-    due_date = models.DateField(null=True, blank=True)
     title = models.TextField(null=True, blank=True)
