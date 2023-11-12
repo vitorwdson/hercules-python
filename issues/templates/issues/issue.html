@@ -90,7 +90,7 @@
         {% block change_history %}
             {% for change in history %}
                 {% if change.type == HistoryType.MESSAGE %}
-                    <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[15rem]">
+                    <div class="flex flex-col relative rounded-xl bg-white w-full p-4">
                         <h2 class="flex flex-row items-center text-green-800 font-bold text-lg">
                             {{ change.user.get_name }}
                             <p class="text-sm font-normal text-gray-600 ml-auto">{{ change.created_at }}</p>
@@ -149,16 +149,26 @@
         {% endblock %}
 
         {% block new_comment %}
-            <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[15rem]">
+            <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[30rem]">
                 <h2 class="text-green-800 font-bold text-lg">Add comment</h2>
                 <div id="new-comment-editor"></div>
 
                 <div class="flex flex-row justify-end mt-4">
                     <button
                         class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
-                    >Comment</button>
+                        onclick="triggerCommentSubmit();"
+                    >Save</button>
                 </div>
+                <form
+                    id="new-comment-form"
+                    hx-post="{% url 'issues:comment' issue.number %}"
+                    hx-trigger="issues:createNewComment from:body"
+                    hx-vals="js:{comment: getCommentContent()}"
+                >
+                    {% csrf_token %}
+                </form>
             </div>
+
             <script defer>
                 commentQuill = null;
 
@@ -173,6 +183,28 @@
                         setupCommentQuill();
                     }
                 }, window.Quill == undefined ? 50 : 0)
+
+                function getCommentContent() {
+                    return commentQuill.getContents();
+                }
+
+                function triggerCommentSubmit() {
+                    const text = commentQuill.getText();
+                    const length = commentQuill.getLength();
+
+                    if ((text === '' || text === '\n') && length <= 1) {
+                        swal.fire({
+                            icon: 'error',
+                            title: "The comment can't be empty",
+                            showConfirmButton: true,
+                            confirmButtonText: "Ok",
+                            heightAuto: false,
+                        });
+                        return;
+                    }
+
+                    document.body.dispatchEvent(new Event('issues:createNewComment'));
+                }
             </script>
         {% endblock %}
     </div>

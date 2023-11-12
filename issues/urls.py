@@ -12,4 +12,9 @@ urlpatterns = [
         views.issue.Rename.as_view(),
         name="rename",
     ),
+    path(
+        "issues/<int:number>/comment",
+        views.issue.comment,
+        name="comment",
+    ),
 ]

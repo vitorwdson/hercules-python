@@ -1,8 +1,10 @@
+import json
 from django.http.request import QueryDict
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
+from django_htmx.http import HttpResponseClientRefresh
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
@@ -103,3 +105,43 @@ class Rename(View):
                 "issue": issue,
             },
         )
+
+
+@login_required
+@project_required
+def comment(request: HttpRequest, number: int):
+    issue = get_object_or_404(
+        Issue, project=request.selected_project.project, number=number
+    )
+    comment_json = request.POST.get("comment")
+
+    try:
+        assert comment_json is not None
+        comment: dict = json.loads(comment_json)
+    except:
+        return show_message(
+            HttpResponseForbidden(),  # type: ignore
+            "error",
+            "The comment body is required.",
+        )
+
+    try:
+        message = Message.objects.create(
+            issue=issue,
+            created_by=request.user,
+            body=comment,
+        )
+        History.objects.create(
+            issue=issue,
+            user=request.user,
+            type=History.Type.MESSAGE,
+            message=message,
+        )
+    except:
+        return show_message(
+            HttpResponseForbidden(),  # type: ignore
+            "error",
+            "Server error",
+        )
+
+    return HttpResponseClientRefresh()
