@@ -6,8 +6,14 @@ from users.models import User
 
 
 class Issue(models.Model):
+    class Status(models.IntegerChoices):
+        OPEN = 1
+        DONE = 2
+        CLOSED = 3
+
     project = models.ForeignKey(Project, on_delete=models.RESTRICT)
     number = models.IntegerField()
+    status = models.IntegerField(choices=Status.choices, default=Status.OPEN)
     created_by = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateField(null=True, blank=True)
@@ -42,7 +48,7 @@ class Message(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.RESTRICT)
     created_by = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
-    body = models.TextField()
+    body = models.JSONField()
 
 
 class Assignment(models.Model):
@@ -62,3 +68,28 @@ class Assignment(models.Model):
                 name="un_issue_assignment",
             ),
         ]
+
+
+class History(models.Model):
+    class Type(models.IntegerChoices):
+        MESSAGE = 1
+        ASSIGNMENT = 2
+        STATUS = 3
+        DUE_DATE = 4
+        TITLE = 5
+
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    type = models.IntegerField(choices=Type.choices)
+    message = models.ForeignKey(
+        Message, on_delete=models.CASCADE, blank=True, null=True
+    )
+    assignmetn = models.ForeignKey(
+        Assignment, on_delete=models.CASCADE, blank=True, null=True
+    )
+    status = models.IntegerField(
+        choices=Issue.Status.choices, blank=True, null=True
+    )
+    due_date = models.DateField(null=True, blank=True)
+    title = models.TextField(null=True, blank=True)

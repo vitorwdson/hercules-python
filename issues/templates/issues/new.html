@@ -6,9 +6,11 @@
     <input
         name="title"
         id="issue-title-input"
+        form="new-issue-form"
         value="New Issue Title"
         class="bg-transparent border-transparent border-0 border-b text-3xl w-full p-0 m-0 outline-none focus:border-b-green-800 transition"
         onfocus="var temp_value=this.value; this.value=''; this.value=temp_value;"
+        required
         autofocus
     >
 {% endblock %}
@@ -26,7 +28,43 @@
         function getDescriptionContent() {
             return quill.getContents();
         }
+
+        function triggerSubmit() {
+            const text = quill.getText();
+            const length = quill.getLength();
+
+            if ((text === '' || text === '\n') && length <= 1) {
+                swal.fire({
+                    icon: 'error',
+                    title: "The issue description can't be empty",
+                    showConfirmButton: true,
+                    confirmButtonText: "Ok",
+                    heightAuto: false,
+                });
+                return;
+            }
+
+            document.body.dispatchEvent(new Event('issues:createNewIssue'));
+        }
     </script>
+{% endblock %}
+
+{% block new_comment_button %}
+    <div class="flex flex-row justify-end">
+        <button
+            class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
+            onclick="triggerSubmit();"
+        >Save</button>
+    </div>
+    <form
+        id="new-issue-form"
+        hx-post="{% url 'issues:new' %}"
+        hx-trigger="issues:createNewIssue from:body"
+        hx-include="#issue-title-input"
+        hx-vals="js:{description: getDescriptionContent()}"
+    >
+        {% csrf_token %}
+    </form>
 {% endblock %}
 
 {% block issue_sidebar %} {% endblock %}

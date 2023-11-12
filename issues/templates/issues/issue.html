@@ -102,6 +102,12 @@
                 var quill = new Quill('#comment-editor', quillOptions);
             </script>
         {% endblock %}
+
+        {% block new_comment_button %}
+            <div class="flex flex-row justify-end">
+                <button>Save</button>
+            </div>
+        {% endblock %}
     </div>
 
     {% block issue_sidebar %}
