@@ -1,13 +1,16 @@
 import json
+
 from django.http.request import QueryDict
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.http import require_POST
 from django_htmx.http import HttpResponseClientRefresh
 
 from core.htmx import render_htmx, show_message
-from core.typing import HttpRequest
+from core.typing import HttpRequest, HttpResponse
 from issues.models import History, Issue, Message
 from users.decorators import login_required, project_required
 
@@ -18,12 +21,16 @@ def issue(request: HttpRequest, number: int):
     issue = get_object_or_404(
         Issue, project=request.selected_project.project, number=number
     )
-    history = History.objects.filter(issue=issue).select_related(
-        'assignment__user',
-        'assignment__team',
-        'message',
-        'user',
-    ).order_by("created_at")
+    history = (
+        History.objects.filter(issue=issue)
+        .select_related(
+            "assignment__user",
+            "assignment__team",
+            "message",
+            "user",
+        )
+        .order_by("created_at")
+    )
 
     return render_htmx(
         request,
@@ -53,7 +60,7 @@ class Rename(View):
                 "Only the owner of a project can rename it.",
             )
 
-        return render_htmx(
+        return render(
             request,
             "issues/issue.html",
             {
@@ -87,28 +94,46 @@ class Rename(View):
                 "The issue title can't be empty",
             )
 
+        history = None
         if issue.title != new_title:
             issue.title = new_title
             issue.save()
 
-            History.objects.create(
+            history = History.objects.create(
                 issue=issue,
                 user=request.user,
                 type=History.Type.TITLE,
                 title=new_title,
             )
 
-        return render_htmx(
-            request,
-            "issues/issue.html",
-            {
-                "issue": issue,
-            },
+        html = render_to_string(
+            request=request,
+            template_name="issues/issue.html",
+            context={"issue": issue},
         )
+
+        if history is not None:
+            print(len(html))
+            change_html = render_to_string(
+                request=request,
+                template_name="issues/change.html",
+                context={
+                    "HistoryType": History.Type,
+                    "issue": issue,
+                    "change": history,
+                    "oob": True,
+                },
+            )
+            print(change_html)
+            html += change_html
+            print(len(html))
+
+        return HttpResponse(html)
 
 
 @login_required
 @project_required
+@require_POST
 def comment(request: HttpRequest, number: int):
     issue = get_object_or_404(
         Issue, project=request.selected_project.project, number=number
