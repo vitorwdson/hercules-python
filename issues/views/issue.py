@@ -16,7 +16,12 @@ def issue(request: HttpRequest, number: int):
     issue = get_object_or_404(
         Issue, project=request.selected_project.project, number=number
     )
-    history = History.objects.filter(issue=issue).order_by("created_at")
+    history = History.objects.filter(issue=issue).select_related(
+        'assignment__user',
+        'assignment__team',
+        'message',
+        'user',
+    ).order_by("created_at")
 
     return render_htmx(
         request,
@@ -24,6 +29,7 @@ def issue(request: HttpRequest, number: int):
         {
             "issue": issue,
             "history": history,
+            "HistoryType": History.Type,
         },
     )
 

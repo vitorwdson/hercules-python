@@ -41,14 +41,13 @@ This project is part of my Software Engineering course's final paper.
     - [ ] Changing the issue's status
     - [ ] Changing the issue's due date
     - [ ] Assign responsibilities to members (users or teams) over issues
-    - [ ] History
+    - [x] History
 
-      - [ ] Comments
+      - [x] Comments
 
-        - [ ] Text Messages
-        - [ ] Images
-        - [ ] Videos
+        - [x] Text Messages
+        - [x] Images
 
-      - [ ] Status Changes
-      - [ ] Title Changes
-      - [ ] Due date Changes
+      - [x] Status Changes
+      - [x] Title Changes
+      - [x] Due date Changes

@@ -89,8 +89,61 @@
 
         {% block change_history %}
             {% for change in history %}
-                {% if change.type == 1 %}
-                {% elif change.type == 2 %}
+                {% if change.type == HistoryType.MESSAGE %}
+                    <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[15rem]">
+                        <h2 class="flex flex-row items-center text-green-800 font-bold text-lg">
+                            {{ change.user.get_name }}
+                            <p class="text-sm font-normal text-gray-600 ml-auto">{{ change.created_at }}</p>
+                        </h2>
+                        <div id="comment-{{ change.message_id }}-editor"></div>
+                        {{ change.message.body|json_script }}
+                    </div>
+                    
+                    <script type="module">
+                        let rocqInterval = null;
+                        rocqInterval = setInterval(() => {
+                            if (window.Quill != undefined) {
+                                clearInterval(rocqInterval);
+                                const el = document.querySelector('#comment-{{ change.message_id }}-editor');
+                                const dataEl = el.parentElement.querySelector('script[type="application/json"]');
+                                const quill = new Quill(el, {
+                                    readOnly: true,
+                                    modules: {
+                                        toolbar: false,
+                                    },
+                                    theme: 'snow',
+                                });
+                                quill.setContents(JSON.parse(dataEl.innerHTML));
+                            }
+                        }, window.Quill == undefined ? 50 : 0)
+                    </script>
+                {% elif change.type == HistoryType.ASSIGNMENT %}
+                    {% if change.assignment.type == 1 %}
+                        <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
+                            <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} assigned the user "{{ change.assignment.user.get_name }}" to this issue</h2>
+                            <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
+                        </div>
+                    {% else %}
+                        <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
+                            <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} assigned the team "{{ change.assignment.team.name }}" to this issue</h2>
+                            <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
+                        </div>
+                    {% endif %}
+                {% elif change.type == HistoryType.STATUS %}
+                    <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
+                        <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the status to "{{ change.get_status_display }}"</h2>
+                        <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
+                    </div>
+                {% elif change.type == HistoryType.DUE_DATE %}
+                    <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
+                        <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the due date to "{{ change.due_date }}"</h2>
+                        <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
+                    </div>
+                {% elif change.type == HistoryType.TITLE %}
+                    <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
+                        <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the title to "{{ change.title }}"</h2>
+                        <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
+                    </div>
                 {% endif %}
             {% endfor %}
         {% endblock %}
@@ -98,7 +151,7 @@
         {% block new_comment %}
             <div class="flex flex-col relative rounded-xl bg-white w-full p-4 min-h-[15rem]">
                 <h2 class="text-green-800 font-bold text-lg">Add comment</h2>
-                <div id="comment-editor"></div>
+                <div id="new-comment-editor"></div>
 
                 <div class="flex flex-row justify-end mt-4">
                     <button
@@ -110,7 +163,7 @@
                 commentQuill = null;
 
                 function setupCommentQuill() {
-                    commentQuill = new Quill('#comment-editor', quillOptions);
+                    commentQuill = new Quill('#new-comment-editor', quillOptions);
                 }
 
                 cqInterval = null;

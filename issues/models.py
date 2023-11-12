@@ -58,8 +58,8 @@ class Assignment(models.Model):
 
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     type = models.IntegerField(choices=Type.choices)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta(TypedModelMeta):
         constraints = [
