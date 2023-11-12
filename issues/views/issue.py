@@ -132,8 +132,7 @@ class Rename(View):
         )
 
         if history is not None:
-            print(len(html))
-            change_html = render_to_string(
+            html += render_to_string(
                 request=request,
                 template_name="issues/change.html",
                 context={
@@ -143,9 +142,6 @@ class Rename(View):
                     "oob": True,
                 },
             )
-            print(change_html)
-            html += change_html
-            print(len(html))
 
         return HttpResponse(html)
 
@@ -158,6 +154,21 @@ def comment(request: HttpRequest, number: int):
         Issue, project=request.selected_project.project, number=number
     )
     comment_json = request.POST.get("comment")
+    status_str = request.POST.get("status")
+
+    try:
+        status = int(status_str or '')
+    except:
+        status = None
+
+    can_change_status = issue.created_by_id == request.user.pk  # type: ignore
+    can_change_status = can_change_status or request.selected_project.can_change_issue_status
+    if status is not None and not can_change_status:
+        return show_message(
+            HttpResponseForbidden(),  # type: ignore
+            "error",
+            "Only the owner of a project can rename it.",
+        )
 
     try:
         assert comment_json is not None
@@ -186,6 +197,17 @@ def comment(request: HttpRequest, number: int):
             HttpResponseForbidden(),  # type: ignore
             "error",
             "Server error",
+        )
+
+    if status is not None and can_change_status:
+        issue.status = status
+        issue.save()
+
+        History.objects.create(
+            issue=issue,
+            user=request.user,
+            type=History.Type.STATUS,
+            status=status,
         )
 
     return HttpResponseClientRefresh()

@@ -98,17 +98,34 @@
                 <h2 class="text-green-800 font-bold text-lg">Add comment</h2>
                 <div id="new-comment-editor"></div>
 
-                <div class="flex flex-row justify-end mt-4">
+                <div class="flex flex-row justify-end mt-4 gap-4">
+                    {% if issue.created_by == request.user or request.selected_project.can_change_issue_status %}
+                        {% if issue.status == 1 %}
+                            <button
+                                class="bg-cyan-800 hover:bg-cyan-700 transition text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                                onclick="triggerCommentSubmit(2);"
+                            >Comment and mark as done</button>
+                            <button
+                                class="bg-red-800 hover:bg-red-700 transition text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                                onclick="triggerCommentSubmit(3);"
+                            >Comment and mark as closed</button>
+                        {% else %}
+                            <button
+                                class="bg-cyan-800 hover:bg-cyan-700 transition text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                                onclick="triggerCommentSubmit(1);"
+                            >Comment and reopen</button>
+                        {% endif %}
+                    {% endif %}
                     <button
-                        class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                        class="bg-green-800 hover:bg-green-700 transition text-white text-xl font-bold px-8 py-1 rounded-2xl"
                         onclick="triggerCommentSubmit();"
-                    >Save</button>
+                    >Comment</button>
                 </div>
                 <form
                     id="new-comment-form"
                     hx-post="{% url 'issues:comment' issue.number %}"
                     hx-trigger="issues:createNewComment from:body"
-                    hx-vals="js:{comment: getCommentContent()}"
+                    hx-vals="js:{comment: getCommentContent(), status: commentStatus}"
                 >
                     {% csrf_token %}
                 </form>
@@ -116,6 +133,7 @@
 
             <script defer>
                 commentQuill = null;
+                commentStatus = null;
 
                 function setupCommentQuill() {
                     commentQuill = new Quill('#new-comment-editor', quillOptions);
@@ -133,7 +151,7 @@
                     return commentQuill.getContents();
                 }
 
-                function triggerCommentSubmit() {
+                function triggerCommentSubmit(status = null) {
                     const text = commentQuill.getText();
                     const length = commentQuill.getLength();
 
@@ -148,6 +166,7 @@
                         return;
                     }
 
+                    commentStatus = status;
                     document.body.dispatchEvent(new Event('issues:createNewComment'));
                 }
             </script>
@@ -164,7 +183,7 @@
             <div class="flex flex-row items-center justify-start gap-2">
                 <img
                   class="object-contain w-8 h-8 rounded-full overflow-hidden"
-                  src="{% if user.picture %}{{ issue.created_by.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+                  src="{% if issue.created_by.picture %}{{ issue.created_by.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
                   alt="Profile picture"
                 />
                 <p>{{ issue.created_by.get_name }}</p>
@@ -181,7 +200,7 @@
                 <div class="flex flex-row items-center justify-start gap-2">
                     <img
                       class="object-contain w-8 h-8 rounded-full overflow-hidden"
-                      src="{% if user.picture %}{{ assignment.user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+                      src="{% if assignment.user.picture %}{{ assignment.user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
                       alt="Profile picture"
                     />
                     <p>{{ assignment.user.get_name }}</p>
