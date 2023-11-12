@@ -55,9 +55,6 @@ dialog:not(.ignore-styles) > h1:first-child {
 
 *::-webkit-scrollbar-thumb {
     border-radius: 1em;
-}
-
-*::-webkit-scrollbar-thumb:hover {
     background: rgb(22 101 52);
 }
 
