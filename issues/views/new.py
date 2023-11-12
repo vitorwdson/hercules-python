@@ -78,4 +78,6 @@ class NewIssue(View):
 
         counter.save()
 
-        return HttpResponseClientRedirect(reverse("issues:list"))  # TODO
+        return HttpResponseClientRedirect(
+            reverse("issues:issue", args=[issue.number])
+        )
