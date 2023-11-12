@@ -11,7 +11,7 @@ from django_htmx.http import HttpResponseClientRefresh
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest, HttpResponse
-from issues.models import History, Issue, Message
+from issues.models import Assignment, History, Issue, Message
 from users.decorators import login_required, project_required
 
 
@@ -31,6 +31,23 @@ def issue(request: HttpRequest, number: int):
         )
         .order_by("created_at")
     )
+    assignments = (
+        Assignment.objects.select_related("user", "team")
+        .filter(issue=issue)
+        .order_by(
+            "user__first_name",
+            "user__last_name",
+            "user__username",
+            "team__name",
+        )
+    )
+
+    user_assignments = [
+        a for a in assignments if a.type == Assignment.Type.USER
+    ]
+    team_assignments = [
+        a for a in assignments if a.type == Assignment.Type.TEAM
+    ]
 
     return render_htmx(
         request,
@@ -39,6 +56,8 @@ def issue(request: HttpRequest, number: int):
             "issue": issue,
             "history": history,
             "HistoryType": History.Type,
+            "user_assignments": user_assignments,
+            "team_assignments": team_assignments,
         },
     )
 

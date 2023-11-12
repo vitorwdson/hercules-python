@@ -156,8 +156,54 @@
 
     {% block issue_sidebar %}
         <div
-            class="flex flex-row gap-4 relative rounded-xl bg-white w-full p-4"
+            class="flex flex-col relative rounded-xl bg-white w-full p-4 overflow-y-auto"
         >
+            <h3 class="text-center text-green-800 font-bold">Issue #{{ issue.number }}</h3>
+
+            <p class="text-green-800 font-bold mt-2">Created by</p>
+            <div class="flex flex-row items-center justify-start gap-2">
+                <img
+                  class="object-contain w-8 h-8 rounded-full overflow-hidden"
+                  src="{% if user.picture %}{{ issue.created_by.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+                  alt="Profile picture"
+                />
+                <p>{{ issue.created_by.get_name }}</p>
+            </div>
+
+            <p class="text-green-800 font-bold mt-2">Opened at</p>
+            <p>{{ issue.created_at }}</p>
+
+            <p class="text-green-800 font-bold mt-2">Status</p>
+            <p id="issue-status-text">{{ issue.get_status_display }}</p>
+
+            <p class="text-green-800 font-bold mt-2">Assigned users</p>
+            {% for assingment in user_assignments %}
+                <div class="flex flex-row items-center justify-start gap-2">
+                    <img
+                      class="object-contain w-8 h-8 rounded-full overflow-hidden"
+                      src="{% if user.picture %}{{ assignment.user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
+                      alt="Profile picture"
+                    />
+                    <p>{{ assignment.user.get_name }}</p>
+                </div>
+            {% empty %}
+                <p>No users assigned yet.</p>
+            {% endfor %}
+            <div class="flex flex-row justify-end">
+                <button type="button" class="text-green-800 hover:text-green-700 transition">Assign user</button>
+            </div>
+
+            <p class="text-green-800 font-bold mt-2">Assigned teams</p>
+            {% for assingment in team_assignments %}
+                <div class="flex flex-row items-center justify-start gap-2">
+                    <p>{{ assignment.team.name }}</p>
+                </div>
+            {% empty %}
+                <p>No teams assigned yet.</p>
+            {% endfor %}
+            <div class="flex flex-row justify-end">
+                <button type="button" class="text-green-800 hover:text-green-700 transition">Assign team</button>
+            </div>
         </div>
     {% endblock %}
 </div> 
