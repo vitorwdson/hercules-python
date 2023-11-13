@@ -5,7 +5,7 @@ This project is part of my Software Engineering course's final paper.
 
 ## Functionalities
 
-- [ ] Users
+- [x] Users
 
   - [x] Register
   - [x] Login
@@ -24,7 +24,7 @@ This project is part of my Software Engineering course's final paper.
     - [x] Update user info (name and email)
     - [x] Change password
 
-- [ ] Projects
+- [x] Projects
 
   - [x] CRUD
   - [x] Assign members and their roles (related to the project)
