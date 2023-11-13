@@ -9,13 +9,13 @@ This project is part of my Software Engineering course's final paper.
 
   - [x] Register
   - [x] Login
-  - [ ] Notification popup
+  - [x] Notification popup
 
     - [x] Notification counter
     - [x] Lazy loading
     - [x] Accepting project invitations
     - [x] Team assignment
-    - [ ] Issue assignment
+    - [x] Issue assignment
 
   - [x] Profile page
 

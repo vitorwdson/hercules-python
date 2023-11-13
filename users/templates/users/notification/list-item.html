@@ -59,6 +59,24 @@
     {% elif notification.notification_type == 3 %}
         <!-- Issue Assignment -->
         <h3 class="text-lg text-green-800 font-bold">Issue Assignment</h3>
-        <p>Notification type not implemented.</p>
+        {% if notification.issue_assignment.type == 1 %}
+            <p>
+                You were assigned to the issue
+                <a
+                    class="outline-none border-none font-bold"
+                    href="{% url 'issues:issue' notification.issue_assignment.issue.number %}"
+                    hx-boost
+                >#{{ notification.issue_assignment.issue.number }}</a>.
+            </p>
+        {% else %}
+            <p>
+                A team you are a part of ({{ notification.issue_assignment.team.name }}) got assigned to the issue
+                <a
+                    class="outline-none border-none font-bold"
+                    href="{% url 'issues:issue' notification.issue_assignment.issue.number %}"
+                    hx-boost
+                >#{{ notification.issue_assignment.issue.number }}</a>.
+            </p>
+        {% endif %}
    {% endif %}
 </div>

@@ -53,6 +53,8 @@ def notification_list(request: HttpRequest):
             "project_invitation",
             "team_assignment",
             "team_assignment__team",
+            "issue_assignment__issue",
+            "issue_assignment__team",
         )
         .filter(user=user)
         .order_by("-created_at")
