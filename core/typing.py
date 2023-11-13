@@ -38,6 +38,10 @@ class SelectedProject:
     def can_change_issue_status(self):
         return self.role in [Role.OWNER, Role.MANAGER]
 
+    @cached_property
+    def can_assign_to_issue(self):
+        return self.role in [Role.OWNER, Role.MANAGER]
+
 
 class HttpRequest(BHttpRequest):
     htmx: HtmxDetails

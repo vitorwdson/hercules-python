@@ -32,6 +32,16 @@
     };
 </script>
 
+<dialog
+    id="assign-user-dialog"
+    class="w-[90vw] md:w-[40vw] overflow-hidden h-60"
+></dialog>
+
+<dialog
+    id="assign-team-dialog"
+    class="w-[90vw] md:w-[40vw] overflow-hidden h-60"
+></dialog>
+
 <div
     {% block container_classes %} class="grid grid-cols-1 md:grid-cols-[1fr_15rem] gap-4 w-full h-full" {% endblock %}
 >
@@ -196,8 +206,8 @@
             <p id="issue-status-text">{{ issue.get_status_display }}</p>
 
             <p class="text-green-800 font-bold mt-2">Assigned users</p>
-            {% for assingment in user_assignments %}
-                <div class="flex flex-row items-center justify-start gap-2">
+            {% for assignment in user_assignments %}
+                <div class="flex flex-row items-center justify-start gap-2 {% if forloop.counter != 1 %} mt-1 {% endif %}">
                     <img
                       class="object-contain w-8 h-8 rounded-full overflow-hidden"
                       src="{% if assignment.user.picture %}{{ assignment.user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
@@ -208,21 +218,37 @@
             {% empty %}
                 <p>No users assigned yet.</p>
             {% endfor %}
-            <div class="flex flex-row justify-end">
-                <button type="button" class="text-green-800 hover:text-green-700 transition">Assign user</button>
-            </div>
+            {% if issue.created_by == request.user or request.selected_project.can_assign_to_issue %}
+                <div class="flex flex-row justify-end">
+                    <button
+                        type="button"
+                        class="text-green-800 hover:text-green-700 transition"
+                        hx-get="{% url 'issues:assign_user' issue.number %}"
+                        hx-target="#assign-user-dialog"
+                        hx-swap="innerHTML"
+                    >Assign user</button>
+                </div>
+            {% endif %}
 
             <p class="text-green-800 font-bold mt-2">Assigned teams</p>
-            {% for assingment in team_assignments %}
-                <div class="flex flex-row items-center justify-start gap-2">
+            {% for assignment in team_assignments %}
+                <div class="flex flex-row items-center justify-start {% if forloop.counter != 1 %} mt-1 {% endif %}">
                     <p>{{ assignment.team.name }}</p>
                 </div>
             {% empty %}
                 <p>No teams assigned yet.</p>
             {% endfor %}
-            <div class="flex flex-row justify-end">
-                <button type="button" class="text-green-800 hover:text-green-700 transition">Assign team</button>
-            </div>
+            {% if issue.created_by == request.user or request.selected_project.can_assign_to_issue %}
+                <div class="flex flex-row justify-end">
+                    <button
+                        type="button"
+                        class="text-green-800 hover:text-green-700 transition"
+                        hx-get="{% url 'issues:assign_team' issue.number %}"
+                        hx-target="#assign-team-dialog"
+                        hx-swap="innerHTML"
+                    >Assign team</button>
+                </div>
+            {% endif %}
         </div>
     {% endblock %}
 </div> 

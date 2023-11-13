@@ -17,4 +17,14 @@ urlpatterns = [
         views.issue.comment,
         name="comment",
     ),
+    path(
+        "issues/<int:number>/assign/user",
+        views.issue.AssignUser.as_view(),
+        name="assign_user",
+    ),
+    path(
+        "issues/<int:number>/assign/team",
+        views.issue.AssignTeam.as_view(),
+        name="assign_team",
+    ),
 ]

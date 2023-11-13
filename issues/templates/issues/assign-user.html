@@ -1,0 +1,145 @@
+{% load i18n %}
+
+<h1>{% translate "Assign User" context "title" %}</h1>
+
+<form
+    hx-post="{% url 'issues:assign_user' issue.number %}"
+    hx-swap="innerHTML"
+    hx-target="closest dialog"
+    class="flex-1 flex flex-col gap-2 p-2"
+>
+    {% csrf_token %}
+
+    <div class="flex flex-col">
+        <label for="assign-user-select"></label>
+        <select name="user" id="assign-user-select" required></select>
+        {% if user_error %}
+            <ul class="errorlist"><li>{{ user_error }}</li></ul>
+        {% endif %}
+    </div>
+
+    <div class="flex flex-row justify-end gap-4 mt-auto">
+        <button
+            type="button"
+            class="border-2 border-red-800 hover:border-red-700 text-red-800 hover:text-red-700 font-bold transition rounded py-2 px-8"
+            onclick="this.closest('dialog').close();"
+        >{% translate "Close" context "button" %}</button>
+        <button
+            type="submit"
+            class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded py-2 px-8"
+        >{% translate "Assign" context "button" %}</button>
+    </div>
+</form>
+
+<script type="module">
+    const element = document.getElementById("assign-user-select");
+    const choices = new Choices(element, {
+        silent: false,
+        items: [],
+        choices: [],
+        renderChoiceLimit: -1,
+        maxItemCount: -1,
+        addItems: true,
+        addItemFilter: null,
+        removeItems: true,
+        removeItemButton: false,
+        editItems: false,
+        allowHTML: true,
+        duplicateItemsAllowed: true,
+        delimiter: ',',
+        paste: true,
+        searchEnabled: true,
+        searchChoices: true,
+        searchFloor: 1,
+        searchResultLimit: 4,
+        searchFields: ['label', 'value'],
+        position: 'auto',
+        resetScrollPosition: true,
+        shouldSort: true,
+        shouldSortItems: false,
+        sorter: () => {},
+        placeholder: true,
+        placeholderValue: null,
+        searchPlaceholderValue: null,
+        prependValue: null,
+        appendValue: null,
+        renderSelectedChoices: 'auto',
+        loadingText: '{% translate "Close" context "selector texts" %}',
+        noResultsText: '{% translate "No results found" context "selector texts" %}',
+        noChoicesText: '{% translate "No choices to choose from" context "selector texts" %}',
+        itemSelectText: '{% translate "Press to select" context "selector texts" %}',
+        uniqueItemText: '{% translate "Only unique values can be added" context "selector texts" %}',
+        customAddItemText: '{% translate "Only values matching specific conditions can be added" context "selector texts" %}',
+        valueComparer: (value1, value2) => {
+            return value1 === value2;
+        },
+        classNames: {
+            containerOuter: 'choices',
+            containerInner: 'choices__inner',
+            input: 'choices__input',
+            inputCloned: 'choices__input--cloned',
+            list: 'choices__list',
+            listItems: 'choices__list--multiple',
+            listSingle: 'choices__list--single',
+            listDropdown: 'choices__list--dropdown',
+            item: 'choices__item',
+            itemSelectable: 'choices__item--selectable',
+            itemDisabled: 'choices__item--disabled',
+            itemChoice: 'choices__item--choice',
+            placeholder: 'choices__placeholder',
+            group: 'choices__group',
+            groupHeading: 'choices__heading',
+            button: 'choices__button',
+            activeState: 'is-active',
+            focusState: 'is-focused',
+            openState: 'is-open',
+            disabledState: 'is-disabled',
+            highlightedState: 'is-highlighted',
+            selectedState: 'is-selected',
+            flippedState: 'is-flipped',
+            loadingState: 'is-loading',
+            noResults: 'has-no-results',
+            noChoices: 'has-no-choices'
+        },
+        // Choices uses the great Fuse library for searching. You
+        // can find more options here: https://fusejs.io/api/options.html
+        fuseOptions: {
+            includeScore: true
+        },
+        labelId: '',
+        callbackOnInit: null,
+        callbackOnCreateTemplates: null
+    });
+
+    choices.passedElement.element.addEventListener(
+        'search',
+        (event) => {
+            const text = event.detail.value;
+            const params = new URLSearchParams({
+                filter: text,
+            });
+
+            fetch(
+                "{% url 'issues:assign_user' issue.number %}?" + params.toString(),
+                {
+                    credentials: "same-origin",
+                    headers: {
+                        "Accept": "application/json",
+                    },
+                }
+            )
+                .then(response => response.json())
+                .then(
+                    async (options) => choices.setChoices(
+                        options,
+                        'value',
+                        'label',
+                        true,
+                    )
+                )
+                .catch(console.error);
+        },
+        false,
+    );
+</script>
+

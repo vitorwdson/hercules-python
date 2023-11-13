@@ -1,7 +1,10 @@
 import json
 
+from django.db.models import Q, Value
+from django.db.models.functions import Concat
 from django.http.request import QueryDict
-from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
+from django.http.response import (HttpResponseBadRequest,
+                                  HttpResponseForbidden, JsonResponse)
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
@@ -12,7 +15,9 @@ from django_htmx.http import HttpResponseClientRefresh
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest, HttpResponse
 from issues.models import Assignment, History, Issue, Message
+from projects.models import ProjectMember, Team, TeamMember
 from users.decorators import login_required, project_required
+from users.models import Notification, NotificationType, User
 
 
 @login_required
@@ -157,12 +162,14 @@ def comment(request: HttpRequest, number: int):
     status_str = request.POST.get("status")
 
     try:
-        status = int(status_str or '')
+        status = int(status_str or "")
     except:
         status = None
 
     can_change_status = issue.created_by_id == request.user.pk  # type: ignore
-    can_change_status = can_change_status or request.selected_project.can_change_issue_status
+    can_change_status = (
+        can_change_status or request.selected_project.can_change_issue_status
+    )
     if status is not None and not can_change_status:
         return show_message(
             HttpResponseForbidden(),  # type: ignore
@@ -211,3 +218,257 @@ def comment(request: HttpRequest, number: int):
         )
 
     return HttpResponseClientRefresh()
+
+
+class AssignUser(View):
+    @method_decorator(login_required)
+    @method_decorator(project_required)
+    def get(self, request: HttpRequest, number: int):
+        issue = get_object_or_404(
+            Issue, project=request.selected_project.project, number=number
+        )
+
+        can_assign_user = issue.created_by_id == request.user.pk  # type: ignore
+        can_assign_user = (
+            can_assign_user or request.selected_project.can_assign_to_issue
+        )
+        if not can_assign_user:
+            return show_message(
+                HttpResponseForbidden(),  # type: ignore
+                "error",
+                "You can not assign users to this issue.",
+            )
+
+        accept = request.headers.get("Accept")
+        if accept == "application/json":
+            assigned_ids: list[int] = Assignment.objects.filter(  # type: ignore
+                issue=issue,
+                type=Assignment.Type.USER,
+            ).values_list("user_id", flat=True)
+
+            member_ids = ProjectMember.objects.filter(
+                project=request.selected_project.project,
+                accepted=True,
+                rejected=False,
+            ).values_list("user_id", flat=True)
+
+            filter = request.GET.get("filter") or ""
+            users = (
+                User.objects.annotate(
+                    fullname=Concat("first_name", Value(" "), "last_name")
+                )
+                .exclude(pk__in=assigned_ids)
+                .filter(
+                    Q(fullname__istartswith=filter)
+                    | Q(username__istartswith=filter)
+                )
+                .filter(pk__in=member_ids)
+            )
+
+            options = [
+                {
+                    "value": user.pk,
+                    "label": user.fullname.strip() or user.username,  # type: ignore
+                }
+                for user in users
+            ]
+
+            return JsonResponse(options, safe=False)
+
+        response = render(
+            request,
+            "issues/assign-user.html",
+            {"issue": issue},
+        )
+        response.headers["HX-Trigger"] = json.dumps(
+            {"form:showModal": "#assign-user-dialog"}
+        )
+
+        return response
+
+    @method_decorator(login_required)
+    @method_decorator(project_required)
+    def post(self, request: HttpRequest, number: int):
+        issue = get_object_or_404(
+            Issue, project=request.selected_project.project, number=number
+        )
+
+        can_assign_user = issue.created_by_id == request.user.pk  # type: ignore
+        can_assign_user = (
+            can_assign_user or request.selected_project.can_assign_to_issue
+        )
+        if not can_assign_user:
+            return show_message(
+                HttpResponseForbidden(),  # type: ignore
+                "error",
+                "You can not assign users to this issue.",
+            )
+
+        user_id = request.POST.get("user")
+
+        user_error = ""
+        user = User.objects.filter(pk=user_id).first()
+        if user is None:
+            user_error = "User not found"
+
+        member = Assignment.objects.filter(
+            issue=issue,
+            type=Assignment.Type.USER,
+            user=user,
+        ).first()
+        if member is not None:
+            user_error = "The selected user is already assigned"
+
+        if not user_error:
+            assignment = Assignment.objects.create(
+                issue=issue,
+                type=Assignment.Type.USER,
+                user=user,
+            )
+            Notification.objects.create(
+                user=user,
+                notification_type=NotificationType.ISSUE_ASSIGNMENT,
+                issue_assignment=assignment,
+            )
+
+        response = render(
+            request,
+            "issues/assign-user.html",
+            {
+                "issue": issue,
+                "user_error": user_error,
+            },
+        )
+
+        if not user_error:
+            response.headers["HX-Trigger"] = json.dumps(
+                {
+                    "form:hideModal": "#assign-user-dialog",
+                    "form:showMessage": "User assigned successfully!",
+                },
+            )
+
+        return response
+
+
+class AssignTeam(View):
+    @method_decorator(login_required)
+    @method_decorator(project_required)
+    def get(self, request: HttpRequest, number: int):
+        issue = get_object_or_404(
+            Issue, project=request.selected_project.project, number=number
+        )
+
+        can_assign_team = issue.created_by_id == request.user.pk  # type: ignore
+        can_assign_team = (
+            can_assign_team or request.selected_project.can_assign_to_issue
+        )
+        if not can_assign_team:
+            return show_message(
+                HttpResponseForbidden(),  # type: ignore
+                "error",
+                "You can not assign teams to this issue.",
+            )
+
+        accept = request.headers.get("Accept")
+        if accept == "application/json":
+            assigned_ids: list[int] = Assignment.objects.filter(  # type: ignore
+                issue=issue,
+                type=Assignment.Type.TEAM,
+            ).values_list("team_id", flat=True)
+
+            filter = request.GET.get("filter") or ""
+            teams = Team.objects.exclude(pk__in=assigned_ids).filter(
+                name__istartswith=filter
+            )
+
+            options = [
+                {
+                    "value": team.pk,
+                    "label": team.name,
+                }
+                for team in teams
+            ]
+
+            return JsonResponse(options, safe=False)
+
+        response = render(
+            request,
+            "issues/assign-team.html",
+            {"issue": issue},
+        )
+        response.headers["HX-Trigger"] = json.dumps(
+            {"form:showModal": "#assign-team-dialog"}
+        )
+
+        return response
+
+    @method_decorator(login_required)
+    @method_decorator(project_required)
+    def post(self, request: HttpRequest, number: int):
+        issue = get_object_or_404(
+            Issue, project=request.selected_project.project, number=number
+        )
+
+        can_assign_team = issue.created_by_id == request.user.pk  # type: ignore
+        can_assign_team = (
+            can_assign_team or request.selected_project.can_assign_to_issue
+        )
+        if not can_assign_team:
+            return show_message(
+                HttpResponseForbidden(),  # type: ignore
+                "error",
+                "You can not assign teams to this issue.",
+            )
+
+        team_id = request.POST.get("team")
+
+        team_error = ""
+        team = Team.objects.filter(pk=team_id).first()
+        if team is None:
+            team_error = "Team not found"
+
+        team_members = TeamMember.objects.filter(team=team).select_related(
+            "member__user"
+        )
+
+        member = Assignment.objects.filter(
+            issue=issue,
+            type=Assignment.Type.TEAM,
+            team=team,
+        ).first()
+        if member is not None:
+            team_error = "The selected team is already assigned"
+
+        if not team_error:
+            assignment = Assignment.objects.create(
+                issue=issue,
+                type=Assignment.Type.TEAM,
+                team=team,
+            )
+
+            for t_member in team_members:
+                Notification.objects.create(
+                    user=t_member.member.user,
+                    notification_type=NotificationType.ISSUE_ASSIGNMENT,
+                    issue_assignment=assignment,
+                )
+
+        response = render(
+            request,
+            "issues/assign-team.html",
+            {
+                "issue": issue,
+                "team_error": team_error,
+            },
+        )
+
+        if not team_error:
+            response.headers["HX-Trigger"] = json.dumps(
+                {
+                    "form:hideModal": "#assign-team-dialog",
+                    "form:showMessage": "Team assigned successfully!",
+                },
+            )
+
+        return response

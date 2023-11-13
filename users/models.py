@@ -33,7 +33,6 @@ class NotificationType(models.IntegerChoices):
     PROJECT_INVITATION = 1
     TEAM_ASSIGNMENT = 2
     ISSUE_ASSIGNMENT = 3
-    TEAM_ISSUE_ASSIGNMENT = 4
 
 
 class Notification(models.Model):
@@ -49,6 +48,12 @@ class Notification(models.Model):
     )
     team_assignment = models.ForeignKey(
         "projects.TeamMember",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    issue_assignment = models.ForeignKey(
+        "issues.Assignment",
         on_delete=models.CASCADE,
         null=True,
         blank=True,
