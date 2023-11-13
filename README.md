@@ -17,13 +17,12 @@ This project is part of my Software Engineering course's final paper.
     - [x] Team assignment
     - [ ] Issue assignment
 
-  - [ ] Profile page
+  - [x] Profile page
 
     - [x] Profile picture popup (links to logout and see profile)
     - [x] Upload/Update profile picture
     - [x] Update user info (name and email)
     - [x] Change password
-    - [ ] See due issues from all projects
 
 - [ ] Projects
 
