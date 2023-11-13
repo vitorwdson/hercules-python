@@ -216,10 +216,10 @@
                     <p>{{ assignment.user.get_name }}</p>
                 </div>
             {% empty %}
-                <p>No users assigned yet.</p>
+                <p id="no-users-assigned-p">No users assigned yet.</p>
             {% endfor %}
             {% if issue.created_by == request.user or request.selected_project.can_assign_to_issue %}
-                <div class="flex flex-row justify-end">
+                <div class="flex flex-row justify-end" id="assign-user-btn-container">
                     <button
                         type="button"
                         class="text-green-800 hover:text-green-700 transition"
@@ -236,10 +236,10 @@
                     <p>{{ assignment.team.name }}</p>
                 </div>
             {% empty %}
-                <p>No teams assigned yet.</p>
+                <p id="no-teams-assigned-p">No teams assigned yet.</p>
             {% endfor %}
             {% if issue.created_by == request.user or request.selected_project.can_assign_to_issue %}
-                <div class="flex flex-row justify-end">
+                <div class="flex flex-row justify-end" id="assign-team-btn-container">
                     <button
                         type="button"
                         class="text-green-800 hover:text-green-700 transition"

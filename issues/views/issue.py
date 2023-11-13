@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.http import require_POST
+from django.templatetags.static import static
 from django_htmx.http import HttpResponseClientRefresh
 
 from core.htmx import render_htmx, show_message
@@ -319,7 +320,7 @@ class AssignUser(View):
         if member is not None:
             user_error = "The selected user is already assigned"
 
-        if not user_error:
+        if not user_error and user is not None:
             assignment = Assignment.objects.create(
                 issue=issue,
                 type=Assignment.Type.USER,
@@ -331,7 +332,36 @@ class AssignUser(View):
                 issue_assignment=assignment,
             )
 
-        response = render(
+            picture_url = ""
+            if user.picture:
+                picture_url = user.picture.url
+            else:
+                picture_url = static("img/profile-placeholder.png")
+
+            response = HttpResponse(
+                f"""
+                    <div hx-swap-oob="beforebegin:#assign-user-btn-container">
+                        <div class="flex flex-row items-center justify-start gap-2">
+                            <img
+                              class="object-contain w-8 h-8 rounded-full overflow-hidden"
+                              src="{picture_url}"
+                              alt="Profile picture"
+                            />
+                            <p>{user.get_name()}</p>
+                        </div>
+                    </div>
+                    <p hx-swap-oob="delete:#no-users-assigned-p"></p>
+                """
+            )
+            response.headers["HX-Trigger"] = json.dumps(
+                {
+                    "form:hideModal": "#assign-user-dialog",
+                    "form:showMessage": "User assigned successfully!",
+                },
+            )
+            return response
+
+        return render(
             request,
             "issues/assign-user.html",
             {
@@ -339,16 +369,6 @@ class AssignUser(View):
                 "user_error": user_error,
             },
         )
-
-        if not user_error:
-            response.headers["HX-Trigger"] = json.dumps(
-                {
-                    "form:hideModal": "#assign-user-dialog",
-                    "form:showMessage": "User assigned successfully!",
-                },
-            )
-
-        return response
 
 
 class AssignTeam(View):
@@ -440,7 +460,7 @@ class AssignTeam(View):
         if member is not None:
             team_error = "The selected team is already assigned"
 
-        if not team_error:
+        if not team_error and team is not None:
             assignment = Assignment.objects.create(
                 issue=issue,
                 type=Assignment.Type.TEAM,
@@ -454,7 +474,25 @@ class AssignTeam(View):
                     issue_assignment=assignment,
                 )
 
-        response = render(
+            response = HttpResponse(
+                f"""
+                    <div hx-swap-oob="beforebegin:#assign-team-btn-container">
+                        <div class="flex flex-row items-center justify-start mt-1">
+                            <p>{team.name}</p>
+                        </div>
+                    </div>
+                    <p hx-swap-oob="delete:#no-teams-assigned-p"></p>
+                """
+            )
+            response.headers["HX-Trigger"] = json.dumps(
+                {
+                    "form:hideModal": "#assign-team-dialog",
+                    "form:showMessage": "Team assigned successfully!",
+                },
+            )
+            return response
+
+        return render(
             request,
             "issues/assign-team.html",
             {
@@ -462,13 +500,3 @@ class AssignTeam(View):
                 "team_error": team_error,
             },
         )
-
-        if not team_error:
-            response.headers["HX-Trigger"] = json.dumps(
-                {
-                    "form:hideModal": "#assign-team-dialog",
-                    "form:showMessage": "Team assigned successfully!",
-                },
-            )
-
-        return response

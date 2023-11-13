@@ -33,12 +33,12 @@ This project is part of my Software Engineering course's final paper.
     - [x] CRUD
     - [x] Assign members
 
-  - [ ] Issues
+  - [x] Issues
 
     - [x] Creating new issues
     - [x] Renaming issue
     - [x] Changing the issue's status
-    - [ ] Assign responsibilities to members (users or teams) over issues
+    - [x] Assign responsibilities to members (users or teams) over issues
     - [x] History
 
       - [x] Comments
