@@ -21,6 +21,31 @@
           alt="Hercules Logo"
         >
       </a>
+      <a
+        class="p-2 hover:bg-gray-100 transition w-full"
+        href="{% url 'projects:select_project' %}"
+        hx-boost
+      >Select Project</a>
+      <a
+        class="p-2 hover:bg-gray-100 transition w-full"
+        href="{% url 'projects:index' %}"
+        hx-boost
+      >Main Page</a>
+      <a
+        class="p-2 hover:bg-gray-100 transition w-full"
+        href="{% url 'projects:members' %}"
+        hx-boost
+      >Members</a>
+      <a
+        class="p-2 hover:bg-gray-100 transition w-full"
+        href="{% url 'projects:teams' %}"
+        hx-boost
+      >Teams</a>
+      <a
+        class="p-2 hover:bg-gray-100 transition w-full"
+        href="{% url 'issues:list' %}"
+        hx-boost
+      >Issues</a>
     </nav>
 
     <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
@@ -32,6 +57,14 @@
         />
       </a>
       {% if user.is_authenticated %}
+        <a
+          class="flex-shrink-0 text-xl text-gray-600 inline md:hidden"
+          href="{% url 'projects:select_project' %}"
+          hx-boost
+          title="Select Project"
+        >
+          <i class="fa-solid fa-right-left"></i>
+        </a>
         <div class="flex-shrink-0 text-3xl text-gray-600 relative cursor-pointer overflow-visible">
           <i class="fa-regular fa-bell"></i>
           {% include 'users/notification/list-container.html' %}
