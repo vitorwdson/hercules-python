@@ -1,10 +1,10 @@
-{% load static %}
+{% load static i18n %}
 
 <img
   {% if oob %} hx-swap-oob="outerHTML" {% endif %}
   id="header-profile-picture"
   class="object-contain w-16 h-16 rounded-full overflow-hidden"
   src="{% if user.picture %}{{ user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
-  alt="Profile picture"
+  alt="{% translate 'Profile picture' %}"
 />
 

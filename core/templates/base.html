@@ -1,4 +1,4 @@
-{% load static set_title %}
+{% load static set_title i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,7 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/995a8f6e56.js" crossorigin="anonymous"></script>
 
-    {% set_title 'Home' %}
+    {% translate "Home" as page_title %}
+    {% set_title page_title %}
   </head>
   <body class="overflow-y-hidden grid {% if not hide_sidebar %} md:grid-cols-[15rem_1fr] {% endif %} grid-rows-[5rem_minmax(0,1fr)] h-screen">
     <nav class="hidden {% if not hide_sidebar %} md:flex {% endif %} flex-col items-start justify-start row-span-2 bg-white">
@@ -21,34 +22,34 @@
         <img
           class="h-20 self-center object-contain p-2"
           src="{% static 'img/logo.png' %}"
-          alt="Hercules Logo"
+          alt="{% translate 'Hercules Logo' %}"
         >
       </a>
       <a
         class="p-2 hover:bg-gray-100 transition w-full"
         href="{% url 'projects:select_project' %}"
         hx-boost
-      >Select Project</a>
+      >{% translate 'Select Project' %}</a>
       <a
         class="p-2 hover:bg-gray-100 transition w-full"
         href="{% url 'projects:index' %}"
         hx-boost
-      >Main Page</a>
+      >{% translate 'Main Page' %}</a>
       <a
         class="p-2 hover:bg-gray-100 transition w-full"
         href="{% url 'projects:members' %}"
         hx-boost
-      >Members</a>
+      >{% translate 'Members' %}</a>
       <a
         class="p-2 hover:bg-gray-100 transition w-full"
         href="{% url 'projects:teams' %}"
         hx-boost
-      >Teams</a>
+      >{% translate 'Teams' %}</a>
       <a
         class="p-2 hover:bg-gray-100 transition w-full"
         href="{% url 'issues:list' %}"
         hx-boost
-      >Issues</a>
+      >{% translate 'Issues' %}</a>
     </nav>
 
     <header class="flex flex-row items-center justify-end gap-4 bg-gray-50">
@@ -56,7 +57,7 @@
         <img
           class="{% if not hide_sidebar %}md:hidden{% endif %} h-20 object-contain p-6 pl-2"
           src="{% static 'img/logo-mobile.png' %}"
-          alt="Hercules Logo"
+          alt="{% translate 'Hercules Logo' %}"
         />
       </a>
       {% if user.is_authenticated %}
@@ -64,7 +65,7 @@
           class="flex-shrink-0 text-xl text-gray-600 inline md:hidden"
           href="{% url 'projects:select_project' %}"
           hx-boost
-          title="Select Project"
+          title="{% translate 'Select Project' %}"
         >
           <i class="fa-solid fa-right-left"></i>
         </a>
