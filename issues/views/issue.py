@@ -7,10 +7,11 @@ from django.http.response import (HttpResponseBadRequest,
                                   HttpResponseForbidden, JsonResponse)
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from django.views import View
 from django.views.decorators.http import require_POST
-from django.templatetags.static import static
 from django_htmx.http import HttpResponseClientRefresh
 
 from core.htmx import render_htmx, show_message
@@ -82,7 +83,7 @@ class Rename(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "Only the owner of a project can rename it.",
+                _("Only the owner of a project can rename it."),
             )
 
         return render(
@@ -107,7 +108,7 @@ class Rename(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "Only the owner of a project can rename it.",
+                _("Only the owner of a project can rename it."),
             )
 
         data = QueryDict(request.body, True)
@@ -116,7 +117,7 @@ class Rename(View):
             return show_message(
                 HttpResponseBadRequest(),  # type: ignore
                 "error",
-                "The issue title can't be empty",
+                _("The issue title can't be empty"),
             )
 
         history = None
@@ -175,7 +176,7 @@ def comment(request: HttpRequest, number: int):
         return show_message(
             HttpResponseForbidden(),  # type: ignore
             "error",
-            "Only the owner of a project can rename it.",
+            _("Only the owner of a project can rename it."),
         )
 
     try:
@@ -185,7 +186,7 @@ def comment(request: HttpRequest, number: int):
         return show_message(
             HttpResponseForbidden(),  # type: ignore
             "error",
-            "The comment body is required.",
+            _("The comment body is required."),
         )
 
     try:
@@ -204,7 +205,7 @@ def comment(request: HttpRequest, number: int):
         return show_message(
             HttpResponseForbidden(),  # type: ignore
             "error",
-            "Server error",
+            _("Server error"),
         )
 
     if status is not None and can_change_status:
@@ -237,7 +238,7 @@ class AssignUser(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You can not assign users to this issue.",
+                _("You can not assign users to this issue."),
             )
 
         accept = request.headers.get("Accept")
@@ -302,7 +303,7 @@ class AssignUser(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You can not assign users to this issue.",
+                _("You can not assign users to this issue."),
             )
 
         user_id = request.POST.get("user")
@@ -310,7 +311,7 @@ class AssignUser(View):
         user_error = ""
         user = User.objects.filter(pk=user_id).first()
         if user is None:
-            user_error = "User not found"
+            user_error = _("User not found")
 
         member = Assignment.objects.filter(
             issue=issue,
@@ -318,7 +319,7 @@ class AssignUser(View):
             user=user,
         ).first()
         if member is not None:
-            user_error = "The selected user is already assigned"
+            user_error = _("The selected user is already assigned")
 
         if not user_error and user is not None:
             assignment = Assignment.objects.create(
@@ -345,7 +346,7 @@ class AssignUser(View):
                             <img
                               class="object-contain w-8 h-8 rounded-full overflow-hidden"
                               src="{picture_url}"
-                              alt="Profile picture"
+                              alt="{_('Profile picture')}"
                             />
                             <p>{user.get_name()}</p>
                         </div>
@@ -356,7 +357,7 @@ class AssignUser(View):
             response.headers["HX-Trigger"] = json.dumps(
                 {
                     "form:hideModal": "#assign-user-dialog",
-                    "form:showMessage": "User assigned successfully!",
+                    "form:showMessage": _("User assigned successfully!"),
                 },
             )
             return response
@@ -387,7 +388,7 @@ class AssignTeam(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You can not assign teams to this issue.",
+                _("You can not assign teams to this issue."),
             )
 
         accept = request.headers.get("Accept")
@@ -438,7 +439,7 @@ class AssignTeam(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You can not assign teams to this issue.",
+                _("You can not assign teams to this issue."),
             )
 
         team_id = request.POST.get("team")
@@ -446,7 +447,7 @@ class AssignTeam(View):
         team_error = ""
         team = Team.objects.filter(pk=team_id).first()
         if team is None:
-            team_error = "Team not found"
+            team_error = _("Team not found")
 
         team_members = TeamMember.objects.filter(team=team).select_related(
             "member__user"
@@ -458,7 +459,7 @@ class AssignTeam(View):
             team=team,
         ).first()
         if member is not None:
-            team_error = "The selected team is already assigned"
+            team_error = _("The selected team is already assigned")
 
         if not team_error and team is not None:
             assignment = Assignment.objects.create(
@@ -487,7 +488,7 @@ class AssignTeam(View):
             response.headers["HX-Trigger"] = json.dumps(
                 {
                     "form:hideModal": "#assign-team-dialog",
-                    "form:showMessage": "Team assigned successfully!",
+                    "form:showMessage": _("Team assigned successfully!"),
                 },
             )
             return response

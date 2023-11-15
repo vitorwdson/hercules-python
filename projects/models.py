@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext as _
 from django_stubs_ext.db.models import TypedModelMeta
 
 
@@ -21,7 +22,7 @@ class Project(models.Model):
                 e
             )  # TODO: Treat possible reasons and return meaningful messages
 
-        return True, ""
+        return True, _("")
 
 
 class ProjectMember(models.Model):
@@ -54,7 +55,7 @@ class Team(models.Model):
                 e
             )  # TODO: Treat possible reasons and return meaningful messages
 
-        return True, ""
+        return True, _("")
 
 
 class TeamMember(models.Model):

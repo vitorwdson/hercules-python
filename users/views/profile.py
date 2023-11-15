@@ -1,9 +1,11 @@
 import json
+
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http.response import HttpResponseBadRequest
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from django.views import View
 from django.views.decorators.http import require_POST, require_safe
 from PIL import Image
@@ -37,7 +39,7 @@ def upload_picture(request: HttpRequest):
         return show_message(
             HttpResponseBadRequest(),  # type: ignore
             "error",
-            "The uploaded file is not a valid image.",
+            _("The uploaded file is not a valid image."),
         )
 
     picture = form.cleaned_data["picture"]

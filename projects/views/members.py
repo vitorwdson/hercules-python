@@ -7,6 +7,7 @@ from django.db.models.functions import Concat
 from django.http.response import HttpResponseForbidden, JsonResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from django.views import View
 from django.views.generic.list import ListView
 
@@ -19,7 +20,7 @@ from users.models import Notification, NotificationType, User
 
 class Members(ListView):
     request: HttpRequest
-    template_name = "projects/members/list.html"
+    template_name: str = "projects/members/list.html"
     model: type[Model] = ProjectMember
     paginate_by = 15
     allow_empty = True
@@ -59,7 +60,9 @@ class InviteMember(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or a Manager to invite members",
+                _(
+                    "You must be the project Owner or a Manager to invite members"
+                ),
             )
 
         accept = request.headers.get("Accept")
@@ -111,7 +114,9 @@ class InviteMember(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or a Manager to invite members",
+                _(
+                    "You must be the project Owner or a Manager to invite members"
+                ),
             )
 
         user_id = request.POST.get("user")
@@ -120,7 +125,7 @@ class InviteMember(View):
         user_error = ""
         user = User.objects.filter(pk=user_id).first()
         if user is None:
-            user_error = "User not found"
+            user_error = _("User not found")
 
         member = ProjectMember.objects.filter(
             project=request.selected_project.project,
@@ -128,19 +133,19 @@ class InviteMember(View):
         ).first()
         if member is not None:
             if member.accepted:
-                user_error = "The selected user is already a member"
+                user_error = _("The selected user is already a member")
             elif not member.rejected:
-                user_error = "The selected user was already invited"
+                user_error = _("The selected user was already invited")
 
         role_error = ""
         role: int | None = None
         try:
             role = int(role_str or "")
         except:
-            role_error = "No role selected"
+            role_error = _("No role selected")
 
         if role not in Role.values:
-            role_error = "Invalid role"
+            role_error = _("Invalid role")
 
         if not user_error and not role_error:
             if member is not None:
@@ -176,7 +181,7 @@ class InviteMember(View):
             response.headers["HX-Trigger"] = json.dumps(
                 {
                     "form:hideModal": "#invite-member-dialog",
-                    "form:showMessage": "Member invited successfully!",
+                    "form:showMessage": _("Member invited successfully!"),
                 },
             )
 

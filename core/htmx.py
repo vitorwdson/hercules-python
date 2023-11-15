@@ -4,6 +4,7 @@ from typing import Any
 from django.http.response import HttpResponse as BHttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.translation import gettext as _
 from django_htmx.http import HttpResponseClientRedirect
 
 from core.typing import HttpRequest, HttpResponse
@@ -65,7 +66,14 @@ def show_message(
         response = HttpResponse(b"")
 
     if icon is None and message is None:
-        response.headers["HX-Trigger"] = "form:showMessage"
+        response.headers["HX-Trigger"] = json.dumps(
+            {
+                "form:showMessage": {
+                    "icon": "success",
+                    "message": _("Success!"),
+                }
+            }
+        )
     else:
         response.headers["HX-Trigger"] = json.dumps(
             {

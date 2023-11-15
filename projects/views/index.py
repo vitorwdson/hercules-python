@@ -2,11 +2,12 @@ from django.http import QueryDict
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from django.views import View
-from issues.models import Issue
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
+from issues.models import Issue
 from projects.models import ProjectMember, Team
 from projects.user import deselect_project
 from users.decorators import login_required, project_required
@@ -54,7 +55,7 @@ class Index(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "Only the owner of a project can delete it.",
+                _("Only the owner of a project can delete it."),
             )
 
         project = request.selected_project.project
@@ -64,7 +65,9 @@ class Index(View):
             deselect_project(request)
 
             response = show_message(
-                None, "success", "Project deleted successfully!"
+                None,
+                "success",
+                _("Project deleted successfully!"),
             )
             response.headers["HX-Redirect"] = reverse("projects:select_project")
             return response
@@ -91,7 +94,7 @@ class Rename(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "Only the owner of a project can rename it.",
+                _("Only the owner of a project can rename it."),
             )
 
         data = QueryDict(request.body, True)
@@ -100,7 +103,7 @@ class Rename(View):
             return show_message(
                 HttpResponseBadRequest(),  # type: ignore
                 "error",
-                "The project name can't be empty",
+                _("The project name can't be empty"),
             )
 
         project = request.selected_project.project

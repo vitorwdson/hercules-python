@@ -8,6 +8,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext as _
 from django.views import View
 from django.views.generic.list import ListView
 
@@ -21,7 +22,7 @@ from users.models import Notification, NotificationType
 
 class Teams(ListView):
     request: HttpRequest
-    template_name = "projects/teams/list.html"
+    template_name: str = "projects/teams/list.html"
     model: type[Model] = Team
     paginate_by = 15
     allow_empty = True
@@ -179,14 +180,16 @@ class Members(ListView):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You are not allowed to delete teams.",
+                _("You are not allowed to delete teams."),
             )
 
         team = get_object_or_404(Team, pk=team_id)
         deleted, message = team.try_delete()
         if deleted:
             response = show_message(
-                None, "success", "Team deleted successfully!"
+                None,
+                "success",
+                _("Team deleted successfully!"),
             )
             response.headers["HX-Redirect"] = reverse("projects:teams")
             return response
@@ -218,7 +221,7 @@ class Rename(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You are not allowed to rename teams.",
+                _("You are not allowed to rename teams."),
             )
 
         data = QueryDict(request.body, True)
@@ -227,7 +230,7 @@ class Rename(View):
             return show_message(
                 HttpResponseBadRequest(),  # type: ignore
                 "error",
-                "The project name can't be empty",
+                _("The project name can't be empty"),
             )
 
         team.name = new_name
@@ -252,7 +255,9 @@ class AssignMember(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or a Manager to assign members",
+                _(
+                    "You must be the project Owner or a Manager to assign members"
+                ),
             )
 
         accept = request.headers.get("Accept")
@@ -313,7 +318,9 @@ class AssignMember(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You must be the project Owner or a Manager to assign members",
+                _(
+                    "You must be the project Owner or a Manager to assign members"
+                ),
             )
 
         member_id = request.POST.get("member")
@@ -326,16 +333,18 @@ class AssignMember(View):
             rejected=False,
         ).first()
         if member is None:
-            member_error = "Member not found"
+            member_error = _("Member not found")
         elif member.project != request.selected_project.project:
-            member_error = "The selected member is not part of this project"
+            member_error = _("The selected member is not part of this project")
 
         team_member = TeamMember.objects.filter(
             team=team,
             member=member,
         ).first()
         if team_member is not None:
-            member_error = "The selected member was already part of this team."
+            member_error = _(
+                "The selected member was already part of this team."
+            )
 
         if not member_error and member:
             team_member = TeamMember.objects.create(
@@ -361,7 +370,7 @@ class AssignMember(View):
             response.headers["HX-Trigger"] = json.dumps(
                 {
                     "form:hideModal": "#assign-team-member-dialog",
-                    "form:showMessage": "Member assigned successfully!",
+                    "form:showMessage": _("Member assigned successfully!"),
                     "teamMembers:reloadTable": "",
                 },
             )

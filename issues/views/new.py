@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django_htmx.http import HttpResponseClientRedirect
+from django.utils.translation import gettext as _
 
 from core.htmx import render_htmx, show_message
 from core.typing import HttpRequest
@@ -27,7 +28,7 @@ class NewIssue(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "You are not allowed to create issues in this project.",
+                _("You are not allowed to create issues in this project."),
             )
 
         title = request.POST.get("title")
@@ -37,7 +38,7 @@ class NewIssue(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "The issue title is required.",
+                _("The issue title is required."),
             )
 
         try:
@@ -47,7 +48,7 @@ class NewIssue(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "The issue description is required.",
+                _("The issue description is required."),
             )
 
         counter = Counter.get_next(request.selected_project.project)
@@ -73,7 +74,7 @@ class NewIssue(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                "Server error",
+                _("Server error"),
             )
 
         counter.save()
