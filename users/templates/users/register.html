@@ -13,6 +13,7 @@
             hx-select="#register-form"
             hx-select="#register-form"
             hx-swap="outerHTML"
+            hx-indicator="find button[type=submit]"
 
             class="flex flex-col gap-4"
         >
@@ -38,11 +39,11 @@
             <div class="flex flex-row gap-4 items-center justify-center">
                 <a
                     href="{% url 'users:login' %}"
-                    class="text-center border-2 border-green-800 hover:border-green-700 text-green-800 hover:text-green-700 font-bold transition rounded p-2 flex-1"
+                    class="text-center border-2 border-green-800 hover:border-green-700 text-green-800 hover:text-green-700 font-bold transition rounded px-8 py-2 flex-1"
                 >{% translate "Login" context "button" %}</a>
                 <button
                     type="submit"
-                    class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded p-2 flex-1"
+                    class="bg-green-800 hover:bg-green-700 text-white font-bold transition rounded px-8 py-2 flex-1"
                 >{% translate "Register" context "button" %}</button>
             </div>
         </form>

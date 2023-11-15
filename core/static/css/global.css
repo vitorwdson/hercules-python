@@ -67,3 +67,70 @@ dialog:not(.ignore-styles) > h1:first-child {
     height: auto !important;
     overflow-y: auto;
 }
+
+:is(button, a).htmx-request {
+    position: relative;
+    filter: grayscale(50%);
+    pointer-events: none;
+}
+
+:is(button, a).htmx-request::before,
+body.htmx-request::after {
+    display: block;
+    content: ' ';
+
+    position: absolute;
+    height: 1rem;
+    width: 1rem;
+
+    border: 2px solid transparent;
+    border-bottom-color: white;
+    border-radius: 100%;
+
+    left: 0.5rem;
+    top: 50%;
+    translate: 0 -50%;
+
+    animation: spin 0.7s ease-in-out infinite;
+}
+
+body.htmx-request::after {
+    height: min(30vw, 15rem);
+    width: min(30vw, 15rem);
+
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+
+    border-width: 1rem;
+    border-bottom-color: rgb(22 101 52);
+
+    z-index: 999;
+}
+
+body.htmx-request::before {
+    display: block;
+    content: ' ';
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+
+    left: 0;
+    top: 0;
+
+    z-index: 998;
+
+    background-color: #0007;
+}
+
+@keyframes spin {
+    from {
+        rotate: 0deg;
+    }
+
+    to {
+        rotate: 360deg;
+    }
+}
+

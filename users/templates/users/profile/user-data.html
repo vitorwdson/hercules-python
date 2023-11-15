@@ -9,6 +9,8 @@
         hx-target="#profile-user-data-card"
         hx-swap="outerHTML"
         class="flex flex-col w-full h-full p-4"
+        hx-indicator="find button[type=submit]"
+        hx-disinherit="hx-indicator"
     >
         {% csrf_token %}
 

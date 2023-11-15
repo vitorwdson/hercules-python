@@ -23,7 +23,8 @@
         <div id="description-editor"></div>
         <div class="flex flex-row justify-end mt-4">
             <button
-                class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-1 rounded-2xl"
+                id="new-issue-submit-btn"
+                class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-2 rounded"
                 onclick="triggerSubmit();"
             >Save</button>
         </div>
@@ -33,6 +34,7 @@
             hx-trigger="issues:createNewIssue from:body"
             hx-include="#issue-title-input"
             hx-vals="js:{description: getDescriptionContent()}"
+            hx-indicator="#new-issue-submit-btn"
         >
             {% csrf_token %}
         </form>
