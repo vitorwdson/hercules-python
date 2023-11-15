@@ -1,0 +1,195 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-15 15:40-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: projects/templates/projects/members/dialog.html:3
+msgctxt "title"
+msgid "Invite Member"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:39
+#: projects/templates/projects/select/dialog.html:25
+#: projects/templates/projects/teams/dialog.html:26
+#: projects/templates/projects/teams/members/dialog.html:27
+msgctxt "button"
+msgid "Close"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:43
+msgctxt "button"
+msgid "Invite"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:80
+#: projects/templates/projects/teams/members/dialog.html:68
+msgctxt "selector texts"
+msgid "Close"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:81
+#: projects/templates/projects/teams/members/dialog.html:69
+msgctxt "selector texts"
+msgid "No results found"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:82
+#: projects/templates/projects/teams/members/dialog.html:70
+msgctxt "selector texts"
+msgid "No choices to choose from"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:83
+#: projects/templates/projects/teams/members/dialog.html:71
+msgctxt "selector texts"
+msgid "Press to select"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:84
+#: projects/templates/projects/teams/members/dialog.html:72
+msgctxt "selector texts"
+msgid "Only unique values can be added"
+msgstr ""
+
+#: projects/templates/projects/members/dialog.html:85
+#: projects/templates/projects/teams/members/dialog.html:73
+msgctxt "selector texts"
+msgid "Only values matching specific conditions can be added"
+msgstr ""
+
+#: projects/templates/projects/members/list.html:3
+msgctxt "page title"
+msgid "Project Members"
+msgstr ""
+
+#: projects/templates/projects/members/list.html:68
+#: projects/templates/projects/teams/list.html:78
+msgctxt "button"
+msgid "See more"
+msgstr ""
+
+#: projects/templates/projects/select/dialog.html:3
+msgctxt "title"
+msgid "Create new Project"
+msgstr ""
+
+#: projects/templates/projects/select/dialog.html:29
+#: projects/templates/projects/teams/dialog.html:30
+msgctxt "button"
+msgid "Create"
+msgstr ""
+
+#: projects/templates/projects/teams/dialog.html:3
+msgctxt "title"
+msgid "Create new Team"
+msgstr ""
+
+#: projects/templates/projects/teams/list.html:3
+msgctxt "page title"
+msgid "Teams"
+msgstr ""
+
+#: projects/templates/projects/teams/members/dialog.html:3
+msgctxt "title"
+msgid "Assign Member"
+msgstr ""
+
+#: projects/templates/projects/teams/members/dialog.html:31
+msgctxt "button"
+msgid "Assign"
+msgstr ""
+
+#: projects/templates/projects/teams/members/list.html:3
+msgctxt "page title"
+msgid "Team Members"
+msgstr ""
+
+#: projects/views/index.py:58
+msgid "Only the owner of a project can delete it."
+msgstr ""
+
+#: projects/views/index.py:70
+msgid "Project deleted successfully!"
+msgstr ""
+
+#: projects/views/index.py:97
+msgid "Only the owner of a project can rename it."
+msgstr ""
+
+#: projects/views/index.py:106 projects/views/teams.py:233
+msgid "The project name can't be empty"
+msgstr ""
+
+#: projects/views/members.py:64 projects/views/members.py:118
+msgid "You must be the project Owner or a Manager to invite members"
+msgstr ""
+
+#: projects/views/members.py:128
+msgid "User not found"
+msgstr ""
+
+#: projects/views/members.py:136
+msgid "The selected user is already a member"
+msgstr ""
+
+#: projects/views/members.py:138
+msgid "The selected user was already invited"
+msgstr ""
+
+#: projects/views/members.py:145
+msgid "No role selected"
+msgstr ""
+
+#: projects/views/members.py:148
+msgid "Invalid role"
+msgstr ""
+
+#: projects/views/members.py:184
+msgid "Member invited successfully!"
+msgstr ""
+
+#: projects/views/teams.py:183
+msgid "You are not allowed to delete teams."
+msgstr ""
+
+#: projects/views/teams.py:192
+msgid "Team deleted successfully!"
+msgstr ""
+
+#: projects/views/teams.py:224
+msgid "You are not allowed to rename teams."
+msgstr ""
+
+#: projects/views/teams.py:259 projects/views/teams.py:322
+msgid "You must be the project Owner or a Manager to assign members"
+msgstr ""
+
+#: projects/views/teams.py:336
+msgid "Member not found"
+msgstr ""
+
+#: projects/views/teams.py:338
+msgid "The selected member is not part of this project"
+msgstr ""
+
+#: projects/views/teams.py:346
+msgid "The selected member was already part of this team."
+msgstr ""
+
+#: projects/views/teams.py:373
+msgid "Member assigned successfully!"
+msgstr ""

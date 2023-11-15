@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-15 15:40-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: users/templates/users/login.html:5
+msgctxt "page title"
+msgid "Login"
+msgstr "Login"
+
+#: users/templates/users/login.html:36 users/templates/users/register.html:47
+msgctxt "button"
+msgid "Register"
+msgstr "Registrar"
+
+#: users/templates/users/login.html:40 users/templates/users/register.html:43
+msgctxt "button"
+msgid "Login"
+msgstr "Login"
+
+#: users/templates/users/profile/change-password.html:3
+msgctxt "title"
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: users/templates/users/profile/change-password.html:35
+msgctxt "button"
+msgid "Close"
+msgstr "Fechar"
+
+#: users/templates/users/profile/change-password.html:39
+#: users/templates/users/profile/user-data.html:50
+msgctxt "button"
+msgid "Save"
+msgstr "Salvar"
+
+#: users/templates/users/profile/user-data.html:46
+msgctxt "button"
+msgid "Change Password"
+msgstr "Alterar Senha"
+
+#: users/templates/users/register.html:5
+msgctxt "page title"
+msgid "Register"
+msgstr "Registar"
+
+#: users/views/profile.py:42
+msgid "The uploaded file is not a valid image."
+msgstr "O arquivo enviado não é uma imagem válida."

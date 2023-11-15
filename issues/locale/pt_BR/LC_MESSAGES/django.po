@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-15 15:40-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: issues/templates/issues/assign-team.html:3
+msgctxt "title"
+msgid "Assign Team"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:26
+#: issues/templates/issues/assign-user.html:26
+msgctxt "button"
+msgid "Close"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:30
+#: issues/templates/issues/assign-user.html:30
+msgctxt "button"
+msgid "Assign"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:67
+#: issues/templates/issues/assign-user.html:67
+msgctxt "selector texts"
+msgid "Close"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:68
+#: issues/templates/issues/assign-user.html:68
+msgctxt "selector texts"
+msgid "No results found"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:69
+#: issues/templates/issues/assign-user.html:69
+msgctxt "selector texts"
+msgid "No choices to choose from"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:70
+#: issues/templates/issues/assign-user.html:70
+msgctxt "selector texts"
+msgid "Press to select"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:71
+#: issues/templates/issues/assign-user.html:71
+msgctxt "selector texts"
+msgid "Only unique values can be added"
+msgstr ""
+
+#: issues/templates/issues/assign-team.html:72
+#: issues/templates/issues/assign-user.html:72
+msgctxt "selector texts"
+msgid "Only values matching specific conditions can be added"
+msgstr ""
+
+#: issues/templates/issues/assign-user.html:3
+msgctxt "title"
+msgid "Assign User"
+msgstr ""
+
+#: issues/templates/issues/list.html:3
+msgctxt "page title"
+msgid "Issues"
+msgstr ""
+
+#: issues/templates/issues/list.html:65
+msgctxt "button"
+msgid "See more"
+msgstr ""
+
+#: issues/views/issue.py:86 issues/views/issue.py:111 issues/views/issue.py:179
+msgid "Only the owner of a project can rename it."
+msgstr ""
+
+#: issues/views/issue.py:120
+msgid "The issue title can't be empty"
+msgstr ""
+
+#: issues/views/issue.py:189
+msgid "The comment body is required."
+msgstr ""
+
+#: issues/views/issue.py:208 issues/views/new.py:77
+msgid "Server error"
+msgstr ""
+
+#: issues/views/issue.py:241 issues/views/issue.py:306
+msgid "You can not assign users to this issue."
+msgstr ""
+
+#: issues/views/issue.py:314
+msgid "User not found"
+msgstr ""
+
+#: issues/views/issue.py:322
+msgid "The selected user is already assigned"
+msgstr ""
+
+#: issues/views/issue.py:360
+msgid "User assigned successfully!"
+msgstr ""
+
+#: issues/views/issue.py:391 issues/views/issue.py:442
+msgid "You can not assign teams to this issue."
+msgstr ""
+
+#: issues/views/issue.py:450
+msgid "Team not found"
+msgstr ""
+
+#: issues/views/issue.py:462
+msgid "The selected team is already assigned"
+msgstr ""
+
+#: issues/views/issue.py:491
+msgid "Team assigned successfully!"
+msgstr ""
+
+#: issues/views/new.py:31
+msgid "You are not allowed to create issues in this project."
+msgstr ""
+
+#: issues/views/new.py:41
+msgid "The issue title is required."
+msgstr ""
+
+#: issues/views/new.py:51
+msgid "The issue description is required."
+msgstr ""
