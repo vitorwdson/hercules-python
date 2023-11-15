@@ -93,5 +93,9 @@
     <script src="{% static 'vendor/htmx/htmx.min.js' %}"></script>
     <script src="{% static 'vendor/choices/choices.min.js' %}"></script>
     <script src="{% static 'js/global.js' %}"></script>
+    <script>
+      localStorage.setItem('swal-cancel-button', "{% translate 'No' %}");
+      localStorage.setItem('swal-confirm-button', "{% translate 'Yes' %}");
+    </script>
   </body>
 </html>

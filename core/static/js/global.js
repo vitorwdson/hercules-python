@@ -10,9 +10,9 @@ document.body.addEventListener("htmx:confirm", function(evt) {
             title: target.getAttribute("hx-confirm-swal"),
             icon: target.getAttribute("hx-confirm-swal-icon") || "question",
             showCancelButton: true,
-            cancelButtonText: "No",
+            cancelButtonText: localStorage.getItem('swal-cancel-button') || 'No',
             showConfirmButton: true,
-            confirmButtonText: "Yes",
+            confirmButtonText: localStorage.getItem('swal-confirm-button') || 'Yes',
             heightAuto: false,
         })
         .then(({ isConfirmed }) => {
