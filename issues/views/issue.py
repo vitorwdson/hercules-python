@@ -83,7 +83,7 @@ class Rename(View):
             return show_message(
                 HttpResponseForbidden(),  # type: ignore
                 "error",
-                _("Only the owner of a project can rename it."),
+                _("You are not allowed to rename this issue."),
             )
 
         return render(
@@ -176,7 +176,7 @@ def comment(request: HttpRequest, number: int):
         return show_message(
             HttpResponseForbidden(),  # type: ignore
             "error",
-            _("Only the owner of a project can rename it."),
+            _("You are not allowed to change this issue's status"),
         )
 
     try:

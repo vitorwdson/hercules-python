@@ -257,7 +257,7 @@ msgstr "O usuário selecionado já é um membro"
 
 #: projects/views/members.py:138
 msgid "The selected user was already invited"
-msgstr "O usuaŕio selecionado já foi convidado"
+msgstr "O usuário selecionado já foi convidado"
 
 #: projects/views/members.py:145
 msgid "No role selected"

@@ -1,4 +1,4 @@
-{% load static htmx_csrf_token %}
+{% load static htmx_csrf_token i18n %}
 
 <link rel="stylesheet" href="{% static 'vendor/quilljs/quill.snow.css' %}">
 <script src="{% static 'vendor/quilljs/quill.min.js' %}"></script>
@@ -73,7 +73,7 @@
                                 hx-include="#issue-title-input"
                                 hx-trigger="click, keydown[key=='Enter'] from:#issue-title-input"
                                 {% htmx_csrf_token %}
-                                title="Rename Issue"
+                                title="{% translate 'Rename Issue' %}"
                             >
                                 <i class="fa-solid fa-floppy-disk"></i>
                             </button>
@@ -85,7 +85,7 @@
                                 hx-swap="outerHTML"
                                 hx-target="#issue-header"
                                 hx-select="#issue-header"
-                                title="Rename Issue"
+                                title="{% translate 'Rename Issue' %}"
                             >
                                 <i class="fa-solid fa-pen"></i>
                             </button>
@@ -114,22 +114,22 @@
                             <button
                                 class="bg-cyan-800 hover:bg-cyan-700 transition text-white text-base md:text-xl font-bold px-2 md:px-8 py-2 rounded"
                                 onclick="triggerCommentSubmit(2);"
-                            >Mark as done</button>
+                            >{% translate "Mark as done" %}</button>
                             <button
                                 class="bg-red-800 hover:bg-red-700 transition text-white text-base md:text-xl font-bold px-2 md:px-8 py-2 rounded"
                                 onclick="triggerCommentSubmit(3);"
-                            >Mark as closed</button>
+                            >{% translate "Mark as closed"%}</button>
                         {% else %}
                             <button
                                 class="bg-cyan-800 hover:bg-cyan-700 transition text-white text-base md:text-xl font-bold px-2 md:px-8 py-2 rounded"
                                 onclick="triggerCommentSubmit(1);"
-                            >Reopen</button>
+                            >{% translate "Reopen" %}</button>
                         {% endif %}
                     {% endif %}
                     <button
                         class="bg-green-800 hover:bg-green-700 transition text-white text-lg md:text-xl font-bold px-2 md:px-8 py-2 rounded"
                         onclick="triggerCommentSubmit();"
-                    >Comment</button>
+                    >{% translate "Comment" %}</button>
                 </div>
                 <form
                     id="new-comment-form"
@@ -169,7 +169,7 @@
                     if ((text === '' || text === '\n') && length <= 1) {
                         swal.fire({
                             icon: 'error',
-                            title: "The comment can't be empty",
+                            title: `{% translate "The comment can't be empty" %}`,
                             showConfirmButton: true,
                             confirmButtonText: "Ok",
                             heightAuto: false,
@@ -188,9 +188,9 @@
         <div
             class="flex flex-col relative rounded-xl bg-white w-full p-4 md:overflow-y-auto"
         >
-            <h3 class="text-center text-green-800 font-bold">Issue #{{ issue.number }}</h3>
+            <h3 class="text-center text-green-800 font-bold">{% translate "Issue" %} #{{ issue.number }}</h3>
 
-            <p class="text-green-800 font-bold mt-2">Created by</p>
+            <p class="text-green-800 font-bold mt-2">{% translate "Created by" %}</p>
             <div class="flex flex-row items-center justify-start gap-2">
                 <img
                   class="object-contain w-8 h-8 rounded-full overflow-hidden"
@@ -200,24 +200,24 @@
                 <p>{{ issue.created_by.get_name }}</p>
             </div>
 
-            <p class="text-green-800 font-bold mt-2">Opened at</p>
+            <p class="text-green-800 font-bold mt-2">{% translate "Opened at" context "issue sidebar" %}</p>
             <p>{{ issue.created_at }}</p>
 
-            <p class="text-green-800 font-bold mt-2">Status</p>
+            <p class="text-green-800 font-bold mt-2">{% translate "Status" %}</p>
             <p id="issue-status-text">{{ issue.get_status_display }}</p>
 
-            <p class="text-green-800 font-bold mt-2">Assigned users</p>
+            <p class="text-green-800 font-bold mt-2">{% translate "Assigned users" %}</p>
             {% for assignment in user_assignments %}
                 <div class="flex flex-row items-center justify-start gap-2 {% if forloop.counter != 1 %} mt-1 {% endif %}">
                     <img
                       class="object-contain w-8 h-8 rounded-full overflow-hidden"
                       src="{% if assignment.user.picture %}{{ assignment.user.picture.url }}{% else %}{% static 'img/profile-placeholder.png' %}{% endif %}"
-                      alt="Profile picture"
+                        alt="{% translate 'Profile picture' %}"
                     />
                     <p>{{ assignment.user.get_name }}</p>
                 </div>
             {% empty %}
-                <p id="no-users-assigned-p">No users assigned yet.</p>
+                <p id="no-users-assigned-p">{% translate "No users assigned yet." %}</p>
             {% endfor %}
             {% if issue.created_by == request.user or request.selected_project.can_assign_to_issue %}
                 <div class="flex flex-row justify-end" id="assign-user-btn-container">
@@ -227,17 +227,17 @@
                         hx-get="{% url 'issues:assign_user' issue.number %}"
                         hx-target="#assign-user-dialog"
                         hx-swap="innerHTML"
-                    >Assign user</button>
+                    >{% translate "Assign user" %}</button>
                 </div>
             {% endif %}
 
-            <p class="text-green-800 font-bold mt-2">Assigned teams</p>
+            <p class="text-green-800 font-bold mt-2">{% translate "Assigned teams" %}</p>
             {% for assignment in team_assignments %}
                 <div class="flex flex-row items-center justify-start {% if forloop.counter != 1 %} mt-1 {% endif %}">
                     <p>{{ assignment.team.name }}</p>
                 </div>
             {% empty %}
-                <p id="no-teams-assigned-p">No teams assigned yet.</p>
+                <p id="no-teams-assigned-p">{% translate "No teams assigned yet." %}</p>
             {% endfor %}
             {% if issue.created_by == request.user or request.selected_project.can_assign_to_issue %}
                 <div class="flex flex-row justify-end" id="assign-team-btn-container">
@@ -247,7 +247,7 @@
                         hx-get="{% url 'issues:assign_team' issue.number %}"
                         hx-target="#assign-team-dialog"
                         hx-swap="innerHTML"
-                    >Assign team</button>
+                    >{% translate "Assign team" %}</button>
                 </div>
             {% endif %}
         </div>

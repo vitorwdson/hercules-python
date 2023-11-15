@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 15:40-0400\n"
+"POT-Creation-Date: 2023-11-15 17:15-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,130 +17,261 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: issues/models.py:12
+msgid "Open"
+msgstr "Aberta"
+
+#: issues/models.py:12
+msgid "Done"
+msgstr "Finalizada"
+
+#: issues/models.py:13
+msgid "Closed"
+msgstr "Fechada"
+
 #: issues/templates/issues/assign-team.html:3
 msgctxt "title"
 msgid "Assign Team"
-msgstr ""
+msgstr "Designar Time"
 
 #: issues/templates/issues/assign-team.html:26
 #: issues/templates/issues/assign-user.html:26
 msgctxt "button"
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: issues/templates/issues/assign-team.html:30
 #: issues/templates/issues/assign-user.html:30
 msgctxt "button"
 msgid "Assign"
-msgstr ""
+msgstr "Designar"
 
 #: issues/templates/issues/assign-team.html:67
 #: issues/templates/issues/assign-user.html:67
 msgctxt "selector texts"
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: issues/templates/issues/assign-team.html:68
 #: issues/templates/issues/assign-user.html:68
 msgctxt "selector texts"
 msgid "No results found"
-msgstr ""
+msgstr "Nenhum resultado encontrado"
 
 #: issues/templates/issues/assign-team.html:69
 #: issues/templates/issues/assign-user.html:69
 msgctxt "selector texts"
 msgid "No choices to choose from"
-msgstr ""
+msgstr "Nenhuma opção"
 
 #: issues/templates/issues/assign-team.html:70
 #: issues/templates/issues/assign-user.html:70
 msgctxt "selector texts"
 msgid "Press to select"
-msgstr ""
+msgstr "Pressione para selecionar"
 
 #: issues/templates/issues/assign-team.html:71
 #: issues/templates/issues/assign-user.html:71
 msgctxt "selector texts"
 msgid "Only unique values can be added"
-msgstr ""
+msgstr "Não podem existir valores duplicados"
 
 #: issues/templates/issues/assign-team.html:72
 #: issues/templates/issues/assign-user.html:72
 msgctxt "selector texts"
 msgid "Only values matching specific conditions can be added"
-msgstr ""
+msgstr "Somente opções válidas podem ser adicionadas"
 
 #: issues/templates/issues/assign-user.html:3
 msgctxt "title"
 msgid "Assign User"
-msgstr ""
+msgstr "Designar Usuário"
+
+#: issues/templates/issues/change.html:38
+#, python-format
+msgid "%(user)s assigned the user \"%(assigned)s\" to this issue"
+msgstr "%(user)s designou o usuário \"%(assigned)s\" a esta issue"
+
+#: issues/templates/issues/change.html:43
+#, python-format
+msgid "%(user)s assigned the team \"%(team)s\" to this issue"
+msgstr "%(user)s designou o time \"%(team)s\" a esta issue"
+
+#: issues/templates/issues/change.html:49
+#, python-format
+msgid "%(user)s changed the status to \"%(status)s\""
+msgstr "%(user)s alterou a situação para \"%(status)s\""
+
+#: issues/templates/issues/change.html:54
+#, python-format
+msgid "%(user)s changed the title to \"%(title)s\""
+msgstr "%(user)s alterou o título para \"%(title)s\""
+
+#: issues/templates/issues/issue.html:76 issues/templates/issues/issue.html:88
+msgid "Rename Issue"
+msgstr "Renomear Issue"
+
+#: issues/templates/issues/issue.html:117
+msgid "Mark as done"
+msgstr "Marcar como finalizado"
+
+#: issues/templates/issues/issue.html:121
+msgid "Mark as closed"
+msgstr "Marcar como fechado"
+
+#: issues/templates/issues/issue.html:126
+msgid "Reopen"
+msgstr "Reabrir"
+
+#: issues/templates/issues/issue.html:132
+msgid "Comment"
+msgstr "Comentar"
+
+#: issues/templates/issues/issue.html:172
+msgid "The comment can't be empty"
+msgstr "O comentário não pode ser vazio"
+
+#: issues/templates/issues/issue.html:191
+msgid "Issue"
+msgstr "Issue"
+
+#: issues/templates/issues/issue.html:193
+msgid "Created by"
+msgstr "Criada por"
+
+#: issues/templates/issues/issue.html:203
+msgctxt "issue sidebar"
+msgid "Opened at"
+msgstr "Aberta em"
+
+#: issues/templates/issues/issue.html:206
+msgid "Status"
+msgstr "Situação"
+
+#: issues/templates/issues/issue.html:209
+msgid "Assigned users"
+msgstr "Usuários designados"
+
+#: issues/templates/issues/issue.html:215
+msgid "Profile picture"
+msgstr "Imagem de perfil"
+
+#: issues/templates/issues/issue.html:220
+msgid "No users assigned yet."
+msgstr "Nenhum usuário designado"
+
+#: issues/templates/issues/issue.html:230
+msgid "Assign user"
+msgstr "Designar usuário"
+
+#: issues/templates/issues/issue.html:234
+msgid "Assigned teams"
+msgstr "Times designados"
+
+#: issues/templates/issues/issue.html:240
+msgid "No teams assigned yet."
+msgstr "Nenhum time desginado."
+
+#: issues/templates/issues/issue.html:250
+msgid "Assign team"
+msgstr "Designar time"
 
 #: issues/templates/issues/list.html:3
 msgctxt "page title"
 msgid "Issues"
-msgstr ""
+msgstr "Issues"
+
+#: issues/templates/issues/list.html:47 issues/templates/issues/list.html:52
+msgid "No issues created"
+msgstr "Nenhuma issue criada"
+
+#: issues/templates/issues/list.html:53
+msgid "You can use the button above to create a new issue."
+msgstr "Você pode usar o botão acima para criar uma nova issue."
 
 #: issues/templates/issues/list.html:65
 msgctxt "button"
 msgid "See more"
-msgstr ""
+msgstr "Ver mais"
 
-#: issues/views/issue.py:86 issues/views/issue.py:111 issues/views/issue.py:179
+#: issues/templates/issues/new.html:23
+msgid "Issue Description"
+msgstr "Descrição da Issue"
+
+#: issues/templates/issues/new.html:30
+msgid "Save"
+msgstr "Salvar"
+
+#: issues/templates/issues/new.html:69
+msgid "The issue description can't be empty"
+msgstr "A descrição da issue não pode ser vazia"
+
+#: issues/views/issue.py:86
+#, fuzzy
+msgid "You are not allowed to rename this issue."
+msgstr "Você não pode renomear esta issue."
+
+#: issues/views/issue.py:111
 msgid "Only the owner of a project can rename it."
-msgstr ""
+msgstr "Somente o dono do projeto"
 
 #: issues/views/issue.py:120
 msgid "The issue title can't be empty"
-msgstr ""
+msgstr "O título da issue não pode ser vazio"
+
+#: issues/views/issue.py:179
+msgid "You are not allowed to change this issue's status"
+msgstr "Você não pode alterar a situação desta issue"
 
 #: issues/views/issue.py:189
 msgid "The comment body is required."
-msgstr ""
+msgstr "O corpo do comentário é obrigatório"
 
 #: issues/views/issue.py:208 issues/views/new.py:77
 msgid "Server error"
-msgstr ""
+msgstr "Erro no servidor"
 
 #: issues/views/issue.py:241 issues/views/issue.py:306
 msgid "You can not assign users to this issue."
-msgstr ""
+msgstr "Você não pode designar usuários a esta issue."
 
 #: issues/views/issue.py:314
 msgid "User not found"
-msgstr ""
+msgstr "Usuário não encontrado"
 
 #: issues/views/issue.py:322
 msgid "The selected user is already assigned"
-msgstr ""
+msgstr "O usuário selecionado já foi designado"
 
 #: issues/views/issue.py:360
 msgid "User assigned successfully!"
-msgstr ""
+msgstr "Usuário designado com sucesso!"
 
 #: issues/views/issue.py:391 issues/views/issue.py:442
 msgid "You can not assign teams to this issue."
-msgstr ""
+msgstr "Você não pode designar times a esta issue."
 
 #: issues/views/issue.py:450
 msgid "Team not found"
-msgstr ""
+msgstr "Time não encontrado"
 
 #: issues/views/issue.py:462
 msgid "The selected team is already assigned"
-msgstr ""
+msgstr "O time selecionado já foi desingado"
 
 #: issues/views/issue.py:491
 msgid "Team assigned successfully!"
-msgstr ""
+msgstr "Time designado com sucesso!"
 
 #: issues/views/new.py:31
 msgid "You are not allowed to create issues in this project."
-msgstr ""
+msgstr "Você não pode criar issues neste projeto."
 
 #: issues/views/new.py:41
 msgid "The issue title is required."
-msgstr ""
+msgstr "O título da issue é obrigatorio."
 
 #: issues/views/new.py:51
 msgid "The issue description is required."
-msgstr ""
+msgstr "A descrição da issue é obrigatória."

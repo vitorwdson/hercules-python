@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% if oob %}
     <div  hx-swap-oob="beforebegin:#new-comment-container">
 {% endif %}
@@ -33,23 +35,23 @@
 {% elif change.type == HistoryType.ASSIGNMENT %}
     {% if change.assignment.type == 1 %}
         <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
-            <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} assigned the user "{{ change.assignment.user.get_name }}" to this issue</h2>
+            <h2 class="text-gray-700 font-bold text-base flex-1">{% blocktranslate with user=change.user.get_name assigned=change.assignment.user.get_name %}{{ user }} assigned the user "{{ assigned }}" to this issue{% endblocktranslate %}</h2>
             <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
         </div>
     {% else %}
         <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
-            <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} assigned the team "{{ change.assignment.team.name }}" to this issue</h2>
+        <h2 class="text-gray-700 font-bold text-base flex-1">{% blocktranslate with user=change.user.get_name team=change.assignment.team.name %}{{ user }} assigned the team "{{ team }}" to this issue{% endblocktranslate %}</h2>
             <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
         </div>
     {% endif %}
 {% elif change.type == HistoryType.STATUS %}
     <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
-        <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the status to "{{ change.get_status_display }}"</h2>
+        <h2 class="text-gray-700 font-bold text-base flex-1">{% blocktranslate with user=change.user.get_name status=change.get_status_display %}{{ user }} changed the status to "{{ status }}"{% endblocktranslate %}</h2>
         <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
     </div>
 {% elif change.type == HistoryType.TITLE %}
     <div class="flex flex-row items-center rounded-xl bg-gray-50 w-full p-4">
-        <h2 class="text-gray-700 font-bold text-base flex-1">{{ change.user.get_name }} changed the title to "{{ change.title }}"</h2>
+        <h2 class="text-gray-700 font-bold text-base flex-1">{% blocktranslate with user=change.user.get_name title=change.title %}{{ user }} changed the title to "{{ title }}"{% endblocktranslate %}</h2>
         <p class="text-sm text-gray-600 ml-auto">{{ change.created_at }}</p>
     </div>
 {% endif %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django_stubs_ext.db.models import TypedModelMeta
 
 from projects.models import Project, Team
@@ -7,9 +8,9 @@ from users.models import User
 
 class Issue(models.Model):
     class Status(models.IntegerChoices):
-        OPEN = 1
-        DONE = 2
-        CLOSED = 3
+        OPEN = 1, _("Open")
+        DONE = 2, _("Done")
+        CLOSED = 3, _("Closed")
 
     project = models.ForeignKey(Project, on_delete=models.RESTRICT)
     number = models.IntegerField()
@@ -57,8 +58,12 @@ class Assignment(models.Model):
 
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     type = models.IntegerField(choices=Type.choices)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True
+    )
+    team = models.ForeignKey(
+        Team, on_delete=models.CASCADE, null=True, blank=True
+    )
 
     class Meta(TypedModelMeta):
         constraints = [

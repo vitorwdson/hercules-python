@@ -1,4 +1,5 @@
 {% extends 'issues/issue.html' %}
+{% load i18n %}
 
 {% block container_classes %} class="grid grid-cols-1 gap-4 w-full h-full" {% endblock %}
 
@@ -19,14 +20,14 @@
 
 {% block new_comment %}
     <div class="flex flex-col relative rounded-xl bg-white w-full p-4 flex-1">
-        <h2 class="text-green-800 font-bold text-lg">Issue Description</h2>
+        <h2 class="text-green-800 font-bold text-lg">{% translate "Issue Description" %}</h2>
         <div id="description-editor"></div>
         <div class="flex flex-row justify-end mt-4">
             <button
                 id="new-issue-submit-btn"
                 class="bg-green-800 hover:bg-green-700 text-white text-xl font-bold px-8 py-2 rounded"
                 onclick="triggerSubmit();"
-            >Save</button>
+            >{% translate "Save" %}</button>
         </div>
         <form
             id="new-issue-form"
@@ -65,7 +66,7 @@
             if ((text === '' || text === '\n') && length <= 1) {
                 swal.fire({
                     icon: 'error',
-                    title: "The issue description can't be empty",
+                    title: `{% translate "The issue description can't be empty" %}`,
                     showConfirmButton: true,
                     confirmButtonText: "Ok",
                     heightAuto: false,
