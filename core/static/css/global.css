@@ -1,61 +1,65 @@
+*:not(i) {
+  font-family: "Roboto", sans-serif;
+}
+
 .errorlist {
-    color: #991b1b;
+  color: #991b1b;
 }
 
 dialog:not(.ignore-styles)::backdrop {
-    background: #0007;
-    filter: blur(3px);
+  background: #0007;
+  filter: blur(3px);
 }
 
 dialog:not(.ignore-styles) {
-    background: linear-gradient(
-        0deg,
-        #fff 0px,
-        #fff calc(100% - 3.5em),
-        rgb(22 101 52) calc(100% - 3.5em),
-        rgb(22 101 52) 100%
-    );
-    border: 0;
-    box-shadow: 0.8em 0.8em 1em 0 rgba(0, 0, 0, 0.5);
-    border-radius: 1em;
-    opacity: 1;
+  background: linear-gradient(
+    0deg,
+    #fff 0px,
+    #fff calc(100% - 3.5em),
+    rgb(22 101 52) calc(100% - 3.5em),
+    rgb(22 101 52) 100%
+  );
+  border: 0;
+  box-shadow: 0.8em 0.8em 1em 0 rgba(0, 0, 0, 0.5);
+  border-radius: 1em;
+  opacity: 1;
 }
 
 dialog:not(.ignore-styles):modal {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 dialog:not(.ignore-styles) > h1:first-child {
-    height: 2.7em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3em;
-    color: white;
-    font-weight: 450;
-    pointer-events: none;
-    position: relative;
-    margin-top: 0;
+  height: 2.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  color: white;
+  font-weight: 450;
+  pointer-events: none;
+  position: relative;
+  margin-top: 0;
 }
 
 * {
-    scrollbar-color: rgb(22 101 52) #eee;
+  scrollbar-color: rgb(22 101 52) #eee;
 }
 
 *::-webkit-scrollbar {
-    width: 0.5em;
-    border: 0;
+  width: 0.5em;
+  border: 0;
 }
 
 *::-webkit-scrollbar-track {
-    border: 0;
-    background: transparent;
+  border: 0;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-thumb {
-    border-radius: 1em;
-    background: rgb(22 101 52);
+  border-radius: 1em;
+  background: rgb(22 101 52);
 }
 
 .choices {
@@ -63,74 +67,73 @@ dialog:not(.ignore-styles) > h1:first-child {
 }
 
 .ql-container {
-    flex: 1;
-    height: auto !important;
-    overflow-y: auto;
+  flex: 1;
+  height: auto !important;
+  overflow-y: auto;
 }
 
 :is(button, a).htmx-request {
-    position: relative;
-    filter: grayscale(50%);
-    pointer-events: none;
+  position: relative;
+  filter: grayscale(50%);
+  pointer-events: none;
 }
 
 :is(button, a).htmx-request::before,
 body.htmx-request::after {
-    display: block;
-    content: ' ';
+  display: block;
+  content: " ";
 
-    position: absolute;
-    height: 1rem;
-    width: 1rem;
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
 
-    border: 2px solid transparent;
-    border-bottom-color: white;
-    border-radius: 100%;
+  border: 2px solid transparent;
+  border-bottom-color: white;
+  border-radius: 100%;
 
-    left: 0.5rem;
-    top: 50%;
-    translate: 0 -50%;
+  left: 0.5rem;
+  top: 50%;
+  translate: 0 -50%;
 
-    animation: spin 0.7s ease-in-out infinite;
+  animation: spin 0.7s ease-in-out infinite;
 }
 
 body.htmx-request::after {
-    height: min(30vw, 15rem);
-    width: min(30vw, 15rem);
+  height: min(30vw, 15rem);
+  width: min(30vw, 15rem);
 
-    left: 50%;
-    top: 50%;
-    translate: -50% -50%;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
 
-    border-width: 1rem;
-    border-bottom-color: rgb(22 101 52);
+  border-width: 1rem;
+  border-bottom-color: rgb(22 101 52);
 
-    z-index: 999;
+  z-index: 999;
 }
 
 body.htmx-request::before {
-    display: block;
-    content: ' ';
+  display: block;
+  content: " ";
 
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
 
-    left: 0;
-    top: 0;
+  left: 0;
+  top: 0;
 
-    z-index: 998;
+  z-index: 998;
 
-    background-color: #0007;
+  background-color: #0007;
 }
 
 @keyframes spin {
-    from {
-        rotate: 0deg;
-    }
+  from {
+    rotate: 0deg;
+  }
 
-    to {
-        rotate: 360deg;
-    }
+  to {
+    rotate: 360deg;
+  }
 }
-
