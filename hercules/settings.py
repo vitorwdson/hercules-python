@@ -14,6 +14,8 @@ import json
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,7 @@ if os.environ.get("HERCULES_USE_ENV", "0") == "1":
     server_host = os.environ.get("NGINX_SERVER_HOSTNAME")
     if server_host:
         allowed_hosts.append(server_host)
-        trusted_origins.append(f'https://{server_host}')
+        trusted_origins.append(f"https://{server_host}")
 
     cache = None
     if os.environ.get("DJANGO_CACHE", "default") == "redis":
@@ -48,7 +50,9 @@ if os.environ.get("HERCULES_USE_ENV", "0") == "1":
         "secret-key": os.environ.get("DJANGO_SECRET_KEY"),
         "language-code": os.environ.get("DJANGO_LANGUAGE_CODE"),
         "time-zone": os.environ.get("TZ"),
-        "secret-media-path": os.environ.get("NGINX_SECRET_MEDIA_PATH", "secret-files"),
+        "secret-media-path": os.environ.get(
+            "NGINX_SECRET_MEDIA_PATH", "secret-files"
+        ),
         "cache": cache,
     }
 else:
@@ -56,7 +60,9 @@ else:
         config = json.load(f)
 
     cache = None
-    if config.get("cache") is not None and config["cache"].get("use-redis", False):
+    if config.get("cache") is not None and config["cache"].get(
+        "use-redis", False
+    ):
         cache = {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
             "LOCATION": config["cache"].get("location"),
@@ -210,6 +216,11 @@ if not DEBUG:
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
+
+LANGUAGES = [
+    ("pt-br", _("Brazilian Portuguese")),
+    ("en", _("English")),
+]
 
 LANGUAGE_CODE = config["language-code"]
 
