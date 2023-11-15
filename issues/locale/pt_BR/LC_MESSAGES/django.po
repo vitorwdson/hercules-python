@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 17:18-0400\n"
+"POT-Creation-Date: 2023-11-15 17:29-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,6 +194,10 @@ msgstr "Você pode usar o botão acima para criar uma nova issue."
 msgctxt "button"
 msgid "See more"
 msgstr "Ver mais"
+
+#: issues/templates/issues/new.html:11
+msgid "New Issue Title"
+msgstr "Titulo da nova Issue"
 
 #: issues/templates/issues/new.html:23
 msgid "Issue Description"
