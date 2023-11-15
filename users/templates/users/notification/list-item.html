@@ -1,4 +1,4 @@
-{% load htmx_csrf_token %}
+{% load htmx_csrf_token i18n %}
 
 <div
     {% if lazy_load %}
@@ -15,38 +15,38 @@
 >
     {% if notification.notification_type == 1 %}
         <!-- Project Invitation -->
-        <h3 class="text-lg text-green-800 font-bold">Project Invitation</h3>
-        <p>You were invited to the <span class="font-bold">"{{ notification.project_invitation.project.name }}"</span> project.</p>
+        <h3 class="text-lg text-green-800 font-bold">{% blocktranslate %}Project Invitation{% endblocktranslate %}</h3>
+        <p>{% blocktranslate with name=notification.project_invitation.project.name %}You were invited to the <span class="font-bold">"{{ name }}"</span> project.{% endblocktranslate %}</p>
         {% if notification.project_invitation.accepted %}
-            <p><i class="fa-solid fa-check text-green-800"></i> You already accepted the invitation.</p>
+            <p><i class="fa-solid fa-check text-green-800"></i> {% translate "You already accepted the invitation." %}</p>
         {% elif notification.project_invitation.rejected %}
-            <p><i class="fa-solid fa-xmark text-red-500"></i> You already rejected the invitation.</p>
+            <p><i class="fa-solid fa-xmark text-red-500"></i> {% translate "You already rejected the invitation." %}</p>
         {% else %}
             <p class="flex flex-row justify-center align-center gap-2">
-                <span style="line-height: 2rem;">Do you accept?</span>
+                <span style="line-height: 2rem;">{% blocktranslate %}Do you accept?{% endblocktranslate %}</span>
                 <button
                     hx-put="{% url 'users:notifications_accept_invitation' notification.pk %}"
                     {% htmx_csrf_token %}
-                    hx-confirm-swal="Are you sure you want to accept the invitation?"
+                    hx-confirm-swal="{% translate "Are you sure you want to accept the invitation?" %}"
                     hx-confirm-swal-icon="question"
                     hx-target="closest [data-notification-id]"
                     hx-swap="outerHTML"
 
                     class="text-green-800 hover:text-green-700 active:text-green-900 focus:text-green-700 transition text-2xl outline-none ml-auto"
-                    title="Accept invitation"
+                    title="{% translate "Accept invitation" %}"
                 >
                     <i class="fa-solid fa-square-check"></i>
                 </button>
                 <button
                     hx-put="{% url 'users:notifications_reject_invitation' notification.pk %}"
                     {% htmx_csrf_token %}
-                    hx-confirm-swal="Are you sure you want to reject the invitation?"
+                    hx-confirm-swal="{% translate "Are you sure you want to reject the invitation?" %}"
                     hx-confirm-swal-icon="warning"
                     hx-target="closest [data-notification-id]"
                     hx-swap="outerHTML"
 
                     class="text-red-600 hover:text-red-500 active:text-red-700 focus:text-red-500 transition text-2xl outline-none"
-                    title="Reject invitation"
+                    title="{% translate "Reject invitation" %}"
                 >
                     <i class="fa-solid fa-square-xmark"></i>
                 </button>
@@ -54,14 +54,14 @@
         {% endif %}
     {% elif notification.notification_type == 2 %}
         <!-- Team Assignment -->
-        <h3 class="text-lg text-green-800 font-bold">Team Assignment</h3>
-        <p>You were assigned to the <span class="font-bold">"{{ notification.team_assignment.team.name }}"</span> team.</p>
+        <h3 class="text-lg text-green-800 font-bold">{% blocktranslate %}Team Assignment{% endblocktranslate %}</h3>
+        <p>{% blocktranslate with name=notification.team_assignment.team.name %}You were assigned to the <span class="font-bold">"{{ name }}"</span> team.{% endblocktranslate %}</p>
     {% elif notification.notification_type == 3 %}
         <!-- Issue Assignment -->
-        <h3 class="text-lg text-green-800 font-bold">Issue Assignment</h3>
+        <h3 class="text-lg text-green-800 font-bold">{% translate "Issue Assignment" %}</h3>
         {% if notification.issue_assignment.type == 1 %}
             <p>
-                You were assigned to the issue
+                {% translate "You were assigned to the issue" %}
                 <a
                     class="outline-none border-none font-bold"
                     href="{% url 'issues:issue' notification.issue_assignment.issue.number %}"
@@ -70,7 +70,7 @@
             </p>
         {% else %}
             <p>
-                A team you are a part of ({{ notification.issue_assignment.team.name }}) got assigned to the issue
+                {% blocktranslate with name=notification.issue_assignment.team.name %}A team you are a part of ({{ name }}) got assigned to the issue{% endblocktranslate %}
                 <a
                     class="outline-none border-none font-bold"
                     href="{% url 'issues:issue' notification.issue_assignment.issue.number %}"

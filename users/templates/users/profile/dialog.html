@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <dialog
     id="profile-dialog"
     class="ignore-styles absolute z-50 open:flex flex-col outline-none rounded-lg border-gray-700 border w-[30vw] md:w-32 translate-x-[calc(-100%+4rem)] translate-y-2 cursor-auto overflow-hidden"
@@ -10,7 +12,7 @@
                 class="outline-none"
                 href="{% url 'users:profile' %}"
                 hx-boost="true"
-           >Your Profile</a>
+            >{% translate "Your Profile" %}</a>
         </li>
         <li
             class="text-base py-1 px-2 first:pt-2 last:pb-2 hover:bg-gray-100 focus-within:bg-gray-100 transition outline-none"
@@ -18,7 +20,7 @@
             <a
                 class="outline-none"
                 href="{% url 'users:logout' %}"
-            >Logout</a>
+            >{% translate "Logout" %}</a>
         </li>
     </ul>
 </dialog>

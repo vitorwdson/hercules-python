@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 15:40-0400\n"
+"POT-Creation-Date: 2023-11-15 16:07-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
 #: users/templates/users/login.html:5
 msgctxt "page title"
 msgid "Login"
@@ -31,6 +32,71 @@ msgstr "Registrar"
 msgctxt "button"
 msgid "Login"
 msgstr "Login"
+
+#: users/templates/users/notification/list-item.html:18
+msgid "Project Invitation"
+msgstr "Convite para um Projeto"
+
+#: users/templates/users/notification/list-item.html:19
+#, python-format
+msgid ""
+"You were invited to the <span class=\"font-bold\">\"%(name)s\"</span> "
+"project."
+msgstr ""
+"Você foi convidado para o projeto <span class=\"font-bold\">\"%(name)s\"</"
+"span>."
+
+#: users/templates/users/notification/list-item.html:21
+msgid "You already accepted the invitation."
+msgstr "Você já aceitou este convite."
+
+#: users/templates/users/notification/list-item.html:23
+msgid "You already rejected the invitation."
+msgstr "Você já rejeitou este convite."
+
+#: users/templates/users/notification/list-item.html:26
+msgid "Do you accept?"
+msgstr "Você aceita?"
+
+#: users/templates/users/notification/list-item.html:30
+msgid "Are you sure you want to accept the invitation?"
+msgstr "Tem certeza que deseja aceitar o convite?"
+
+#: users/templates/users/notification/list-item.html:36
+msgid "Accept invitation"
+msgstr "Aceitar Convite"
+
+#: users/templates/users/notification/list-item.html:43
+msgid "Are you sure you want to reject the invitation?"
+msgstr "Tem certeza que deseja rejeitar o convite?"
+
+#: users/templates/users/notification/list-item.html:49
+msgid "Reject invitation"
+msgstr "Rejeitar Convite"
+
+#: users/templates/users/notification/list-item.html:57
+msgid "Team Assignment"
+msgstr "Designação a um Time"
+
+#: users/templates/users/notification/list-item.html:58
+#, python-format
+msgid ""
+"You were assigned to the <span class=\"font-bold\">\"%(name)s\"</span> team."
+msgstr ""
+"Você foi designado ao time <span class=\"font-bold\">\"%(name)s\"</span>."
+
+#: users/templates/users/notification/list-item.html:61
+msgid "Issue Assignment"
+msgstr "Designação a uma Issue"
+
+#: users/templates/users/notification/list-item.html:64
+msgid "You were assigned to the issue"
+msgstr "Você foi designado à issue"
+
+#: users/templates/users/notification/list-item.html:73
+#, python-format
+msgid "A team you are a part of (%(name)s) got assigned to the issue"
+msgstr "Um time que você faz parte (%(name)s) foi designado à issue"
 
 #: users/templates/users/profile/change-password.html:3
 msgctxt "title"
@@ -47,6 +113,14 @@ msgstr "Fechar"
 msgctxt "button"
 msgid "Save"
 msgstr "Salvar"
+
+#: users/templates/users/profile/dialog.html:15
+msgid "Your Profile"
+msgstr "Seu Perfil"
+
+#: users/templates/users/profile/dialog.html:23
+msgid "Logout"
+msgstr "Sair"
 
 #: users/templates/users/profile/user-data.html:46
 msgctxt "button"
