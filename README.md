@@ -2,6 +2,7 @@
 
 Hercules is a bug-tracker application made to track issues related to software development and help teams manage their projects.
 This project is part of my Software Engineering course's final paper.
+You can test the project [here](https://hercules.vitorwdson.dev/)
 
 ## Functionalities
 
