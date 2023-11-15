@@ -22,7 +22,7 @@ class Project(models.Model):
                 e
             )  # TODO: Treat possible reasons and return meaningful messages
 
-        return True, _("")
+        return True, ""
 
 
 class ProjectMember(models.Model):
@@ -55,7 +55,7 @@ class Team(models.Model):
                 e
             )  # TODO: Treat possible reasons and return meaningful messages
 
-        return True, _("")
+        return True, ""
 
 
 class TeamMember(models.Model):
