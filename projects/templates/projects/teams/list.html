@@ -27,7 +27,7 @@
                 hx-target="#new-team-dialog"
                 hx-swap="innerHTML"
                 class="text-md w-8 h-8 rounded-full text-green-700 hover:text-green-800 bg-green-800 bg-opacity-5 hover:bg-opacity-30 transition"
-                title="Create new Team"
+                title="{% translate 'Create new Team' %}"
             >
                 <i class="fa-solid fa-plus"></i>
             </button>
@@ -56,14 +56,14 @@
     {% else %}
         {% if compact|default:False %}
             <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-2 justify-center items-center">
-                 <i class="fa-solid fa-users-slash text-4xl md:text-8xl"></i>
-                 <p class="text-xl md:text-2xl select-none">No teams created</p>
-             </div>
+                <i class="fa-solid fa-users-slash text-4xl md:text-8xl"></i>
+                <p class="text-xl md:text-2xl select-none">{% translate 'No teams created' %}</p>
+            </div>
         {% else %}
              <div class="text-green-800 text-opacity-50 font-bold text-center flex-1 flex flex-col gap-4 justify-center items-center">
-                 <i class="fa-solid fa-users-slash text-9xl md:text-[12rem]"></i>
-                 <p class="text-2xl md:text-4xl select-none">No teams created</p>
-                 <p class="text-lg md:text-2xl select-none">You can use the button above to create a new team.</p>
+                <i class="fa-solid fa-users-slash text-9xl md:text-[12rem]"></i>
+                <p class="text-2xl md:text-4xl select-none">{% translate 'No teams created' %}</p>
+                <p class="text-lg md:text-2xl select-none">{% translate 'You can use the button above to create a new team.' %}</p>
              </div>
         {% endif %}
     {% endif %}

@@ -1,4 +1,4 @@
-{% load htmx_csrf_token %}
+{% load htmx_csrf_token i18n %}
 
 <div
     id="team-header"
@@ -25,7 +25,7 @@
                     hx-include="#team-name-input"
                     hx-trigger="click, keydown[key=='Enter'] from:#team-name-input"
                     {% htmx_csrf_token %}
-                    title="Rename Team"
+                    title="{% translate 'Rename Team' %}"
                 >
                     <i class="fa-solid fa-floppy-disk"></i>
                 </button>
@@ -36,7 +36,7 @@
                     hx-get="{% url 'projects:rename_team' team.id %}"
                     hx-swap="outerHTML"
                     hx-target="#team-header"
-                    title="Rename Team"
+                    title="{% translate 'Rename Team' %}"
                 >
                     <i class="fa-solid fa-pen"></i>
                 </button>
@@ -50,11 +50,11 @@
             <button
                 class="text-lg w-8 h-8 rounded-full text-red-700 hover:text-red-800 bg-red-800 bg-opacity-5 hover:bg-opacity-30 transition"
                 hx-delete="{% url 'projects:team' team.id %}"
-                hx-confirm-swal="Are you sure you want to delete this team?"
+                hx-confirm-swal="{% translate 'Are you sure you want to delete this team?' %}"
                 hx-confirm-swal-icon="warning"
                 hx-swap="none"
                 {% htmx_csrf_token %}
-                title="Delete Team"
+                title="{% translate 'Delete Team' %}"
             >
                 <i class="fa-solid fa-trash"></i>
             </button>
@@ -63,7 +63,7 @@
                 hx-target="#assign-team-member-dialog"
                 hx-swap="innerHTML"
                 class="text-lg w-8 h-8 rounded-full text-green-700 hover:text-green-800 bg-green-800 bg-opacity-5 hover:bg-opacity-30 transition"
-                title="Assign Member"
+                title="{% translate 'Assign Member' %}"
             >
                 <i class="fa-solid fa-user-plus"></i>
             </button>

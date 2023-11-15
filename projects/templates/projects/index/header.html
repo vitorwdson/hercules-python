@@ -1,4 +1,4 @@
-{% load htmx_csrf_token %}
+{% load htmx_csrf_token i18n %}
 
 <div
     id="project-header"
@@ -25,7 +25,7 @@
                     hx-include="#project-name-input"
                     hx-trigger="click, keydown[key=='Enter'] from:#project-name-input"
                     {% htmx_csrf_token %}
-                    title="Rename Project"
+                    title="{% translate 'Rename Project' %}"
                 >
                     <i class="fa-solid fa-floppy-disk"></i>
                 </button>
@@ -36,7 +36,7 @@
                     hx-get="{% url 'projects:rename' %}"
                     hx-swap="outerHTML"
                     hx-target="#project-header"
-                    title="Rename Project"
+                    title="{% translate 'Rename Project' %}"
                 >
                     <i class="fa-solid fa-pen"></i>
                 </button>
@@ -49,11 +49,11 @@
         <button
             class="mr-3 h-9 w-9 rounded-full flex justify-center items-center text-white bg-red-700 hover:bg-red-600 transition"
             hx-delete="{% url 'projects:index' %}"
-            hx-confirm-swal="Are you sure you want to delete this project?"
+            hx-confirm-swal="{% translate 'Are you sure you want to delete this project?' %}"
             hx-confirm-swal-icon="warning"
             hx-swap="none"
             {% htmx_csrf_token %}
-            title="Delete Project"
+            title="{% translate 'Delete Project' %}"
         >
             <i class="fa-solid fa-trash"></i>
         </button>

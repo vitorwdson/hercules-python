@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 15:40-0400\n"
+"POT-Creation-Date: 2023-11-15 16:41-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,44 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: projects/models.py:7
+msgid "Owner"
+msgstr "Dono"
+
+#: projects/models.py:8
+msgid "Manager"
+msgstr "Gestor"
+
+#: projects/models.py:9
+msgid "Developer"
+msgstr "Desenvolvedor"
+
+#: projects/models.py:10
+msgid "Tester"
+msgstr "Testador"
+
+#: projects/models.py:15 projects/models.py:48
+msgid "Name"
+msgstr "Nome"
+
+#: projects/templates/projects/index/header.html:28
+#: projects/templates/projects/index/header.html:39
+msgid "Rename Project"
+msgstr "Renomear Projeto"
+
+#: projects/templates/projects/index/header.html:52
+msgid "Are you sure you want to delete this project?"
+msgstr "Tem certeza que deseja excluir este projeto?"
+
+#: projects/templates/projects/index/header.html:56
+msgid "Delete Project"
+msgstr "Excluir Projeto"
+
 #: projects/templates/projects/members/dialog.html:3
 msgctxt "title"
 msgid "Invite Member"
-msgstr ""
+msgstr "Convidar Membro"
 
 #: projects/templates/projects/members/dialog.html:39
 #: projects/templates/projects/select/dialog.html:25
@@ -28,168 +62,243 @@ msgstr ""
 #: projects/templates/projects/teams/members/dialog.html:27
 msgctxt "button"
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: projects/templates/projects/members/dialog.html:43
 msgctxt "button"
 msgid "Invite"
-msgstr ""
+msgstr "Convidar"
 
 #: projects/templates/projects/members/dialog.html:80
 #: projects/templates/projects/teams/members/dialog.html:68
 msgctxt "selector texts"
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: projects/templates/projects/members/dialog.html:81
 #: projects/templates/projects/teams/members/dialog.html:69
 msgctxt "selector texts"
 msgid "No results found"
-msgstr ""
+msgstr "Nenhum resultado encontrado"
 
 #: projects/templates/projects/members/dialog.html:82
 #: projects/templates/projects/teams/members/dialog.html:70
 msgctxt "selector texts"
 msgid "No choices to choose from"
-msgstr ""
+msgstr "Nenhuma opçao"
 
 #: projects/templates/projects/members/dialog.html:83
 #: projects/templates/projects/teams/members/dialog.html:71
 msgctxt "selector texts"
 msgid "Press to select"
-msgstr ""
+msgstr "Pressione para selecionar"
 
 #: projects/templates/projects/members/dialog.html:84
 #: projects/templates/projects/teams/members/dialog.html:72
 msgctxt "selector texts"
 msgid "Only unique values can be added"
-msgstr ""
+msgstr "Não podem existir valores duplicados"
 
 #: projects/templates/projects/members/dialog.html:85
 #: projects/templates/projects/teams/members/dialog.html:73
 msgctxt "selector texts"
 msgid "Only values matching specific conditions can be added"
-msgstr ""
+msgstr "Somente opções válidas podem ser adicionadas"
 
 #: projects/templates/projects/members/list.html:3
 msgctxt "page title"
 msgid "Project Members"
-msgstr ""
+msgstr "Membros do Projeto"
+
+#: projects/templates/projects/members/list.html:22
+msgid "Invite member"
+msgstr "Convidar Membro"
+
+#: projects/templates/projects/members/list.html:50
+#: projects/templates/projects/members/list.html:55
+msgid "No project members"
+msgstr "Nenhum membro do projeto"
+
+#: projects/templates/projects/members/list.html:56
+msgid "You can use the button above to invite new members."
+msgstr "Você pode usar o botão acima para convidar novos membros"
 
 #: projects/templates/projects/members/list.html:68
 #: projects/templates/projects/teams/list.html:78
 msgctxt "button"
 msgid "See more"
-msgstr ""
+msgstr "Ver mais"
 
 #: projects/templates/projects/select/dialog.html:3
 msgctxt "title"
 msgid "Create new Project"
-msgstr ""
+msgstr "Criar novo Projeto"
 
 #: projects/templates/projects/select/dialog.html:29
 #: projects/templates/projects/teams/dialog.html:30
 msgctxt "button"
 msgid "Create"
+msgstr "Criar"
+
+#: projects/templates/projects/select/list.html:2
+msgid "Select a Project"
+msgstr "Selecionar um Projeto"
+
+#: projects/templates/projects/select/list.html:21
+msgid "Projects"
+msgstr "Projetos"
+
+#: projects/templates/projects/select/list.html:28
+msgid "Create new project"
+msgstr "Criar novo Projeto"
+
+#: projects/templates/projects/select/list.html:59
+msgid "No projects found!"
+msgstr "Nenhum projeto encontrado!"
+
+#: projects/templates/projects/select/list.html:60
+msgid ""
+"You can create a new project or ask for your manager to invite you to their "
+"project."
 msgstr ""
+"Você pode criar um novo projeto ou pedir ao seu gestor(a) para convidá-lo(a) "
+"ao projeto."
 
 #: projects/templates/projects/teams/dialog.html:3
 msgctxt "title"
 msgid "Create new Team"
-msgstr ""
+msgstr "Criar novo Time"
 
 #: projects/templates/projects/teams/list.html:3
 msgctxt "page title"
 msgid "Teams"
-msgstr ""
+msgstr "Times"
+
+#: projects/templates/projects/teams/list.html:30
+msgid "Create new Team"
+msgstr "Criar novo Time"
+
+#: projects/templates/projects/teams/list.html:60
+#: projects/templates/projects/teams/list.html:65
+msgid "No teams created"
+msgstr "Nenhum time criado"
+
+#: projects/templates/projects/teams/list.html:66
+msgid "You can use the button above to create a new team."
+msgstr "Você pode usar o botão acima para criar um novo time."
 
 #: projects/templates/projects/teams/members/dialog.html:3
 msgctxt "title"
 msgid "Assign Member"
-msgstr ""
+msgstr "Designar Membro"
 
 #: projects/templates/projects/teams/members/dialog.html:31
 msgctxt "button"
 msgid "Assign"
-msgstr ""
+msgstr "Designar"
+
+#: projects/templates/projects/teams/members/header.html:28
+#: projects/templates/projects/teams/members/header.html:39
+msgid "Rename Team"
+msgstr "Renomear Time"
+
+#: projects/templates/projects/teams/members/header.html:53
+msgid "Are you sure you want to delete this team?"
+msgstr "Tem certeza que deseja excluir este time?"
+
+#: projects/templates/projects/teams/members/header.html:57
+msgid "Delete Team"
+msgstr "Excluir Time"
+
+#: projects/templates/projects/teams/members/header.html:66
+msgid "Assign Member"
+msgstr "Designar Membro"
 
 #: projects/templates/projects/teams/members/list.html:3
 msgctxt "page title"
 msgid "Team Members"
-msgstr ""
+msgstr "Membros do Time"
+
+#: projects/templates/projects/teams/members/list.html:43
+msgid "No team members"
+msgstr "Nenhum membro"
+
+#: projects/templates/projects/teams/members/list.html:44
+msgid "You can use the button above to assign new members."
+msgstr "Você pode usar o botão acima para designar novos membros."
 
 #: projects/views/index.py:58
 msgid "Only the owner of a project can delete it."
-msgstr ""
+msgstr "Somente o dono de um projeto pode excluí-lo."
 
 #: projects/views/index.py:70
 msgid "Project deleted successfully!"
-msgstr ""
+msgstr "Projeto excluido com sucesso!"
 
 #: projects/views/index.py:97
 msgid "Only the owner of a project can rename it."
-msgstr ""
+msgstr "Somente o dono de um projeto pode renomeá-lo."
 
 #: projects/views/index.py:106 projects/views/teams.py:233
 msgid "The project name can't be empty"
-msgstr ""
+msgstr "O nome do projeto não pode ser vazio"
 
 #: projects/views/members.py:64 projects/views/members.py:118
 msgid "You must be the project Owner or a Manager to invite members"
-msgstr ""
+msgstr "Você deve ser o Dono ou um Gestor do projeto para convidar membros"
 
 #: projects/views/members.py:128
 msgid "User not found"
-msgstr ""
+msgstr "Usuário não encontradi"
 
 #: projects/views/members.py:136
 msgid "The selected user is already a member"
-msgstr ""
+msgstr "O usuário selecionado já é um membro"
 
 #: projects/views/members.py:138
 msgid "The selected user was already invited"
-msgstr ""
+msgstr "O usuaŕio selecionado já foi convidado"
 
 #: projects/views/members.py:145
 msgid "No role selected"
-msgstr ""
+msgstr "Nenhuma função selecionada"
 
 #: projects/views/members.py:148
 msgid "Invalid role"
-msgstr ""
+msgstr "Função inválida"
 
 #: projects/views/members.py:184
 msgid "Member invited successfully!"
-msgstr ""
+msgstr "Membro convidado com sucesso!"
 
 #: projects/views/teams.py:183
 msgid "You are not allowed to delete teams."
-msgstr ""
+msgstr "Você não pode excluir times."
 
 #: projects/views/teams.py:192
 msgid "Team deleted successfully!"
-msgstr ""
+msgstr "Time excluído com sucesso!"
 
 #: projects/views/teams.py:224
 msgid "You are not allowed to rename teams."
-msgstr ""
+msgstr "Você não pode renomear times."
 
 #: projects/views/teams.py:259 projects/views/teams.py:322
 msgid "You must be the project Owner or a Manager to assign members"
-msgstr ""
+msgstr "Você deve ser o Dono ou um Gestor do projeto para designar membros"
 
 #: projects/views/teams.py:336
 msgid "Member not found"
-msgstr ""
+msgstr "Membro não encontrado"
 
 #: projects/views/teams.py:338
 msgid "The selected member is not part of this project"
-msgstr ""
+msgstr "O membro selecionado não faz parte deste projeto"
 
 #: projects/views/teams.py:346
 msgid "The selected member was already part of this team."
-msgstr ""
+msgstr "O membro selecionado já faz parte deste time."
 
 #: projects/views/teams.py:373
 msgid "Member assigned successfully!"
-msgstr ""
+msgstr "Membro designado com sucesso!"

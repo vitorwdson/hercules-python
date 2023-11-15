@@ -1,18 +1,18 @@
 from django.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django_stubs_ext.db.models import TypedModelMeta
 
 
 class Role(models.IntegerChoices):
-    OWNER = 1
-    MANAGER = 2
-    DEVELOPER = 3
-    TESTER = 4
+    OWNER = 1, _("Owner")
+    MANAGER = 2, _("Manager")
+    DEVELOPER = 3, _("Developer")
+    TESTER = 4, _("Tester")
 
 
 class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    name = models.TextField()
+    name = models.TextField(verbose_name=_("Name"))
 
     def try_delete(self) -> tuple[bool, str]:
         try:
@@ -45,7 +45,7 @@ class ProjectMember(models.Model):
 class Team(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    name = models.TextField()
+    name = models.TextField(verbose_name=_("Name"))
 
     def try_delete(self) -> tuple[bool, str]:
         try:
