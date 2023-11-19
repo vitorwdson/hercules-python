@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-15 16:46-0400\n"
+"POT-Creation-Date: 2023-11-18 21:00-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,39 +22,39 @@ msgstr ""
 msgid "Success!"
 msgstr "Sucesso!"
 
-#: core/templates/base.html:16
+#: core/templates/base.html:21
 msgid "Home"
 msgstr "Início"
 
-#: core/templates/base.html:25 core/templates/base.html:60
+#: core/templates/base.html:30 core/templates/base.html:65
 msgid "Hercules Logo"
 msgstr "Logo Hercules"
 
-#: core/templates/base.html:32 core/templates/base.html:68
+#: core/templates/base.html:37 core/templates/base.html:73
 msgid "Select Project"
 msgstr "Escolher Projeto"
 
-#: core/templates/base.html:37
+#: core/templates/base.html:42
 msgid "Main Page"
 msgstr "Página Principal"
 
-#: core/templates/base.html:42
+#: core/templates/base.html:47
 msgid "Members"
 msgstr "Membros"
 
-#: core/templates/base.html:47
+#: core/templates/base.html:52
 msgid "Teams"
 msgstr "Times"
 
-#: core/templates/base.html:52
+#: core/templates/base.html:57
 msgid "Issues"
 msgstr "Issues"
 
-#: core/templates/base.html:97
+#: core/templates/base.html:102
 msgid "No"
 msgstr "Não"
 
-#: core/templates/base.html:98
+#: core/templates/base.html:103
 msgid "Yes"
 msgstr "Sim"
 
