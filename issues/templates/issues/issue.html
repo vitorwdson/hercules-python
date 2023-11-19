@@ -1,5 +1,8 @@
 {% load set_title static htmx_csrf_token i18n %}
-{% set_title 'Issues' %}
+
+{% with issue.number|stringformat:'d' as issue_nr %}
+    {% set_title 'Issue #'|add:issue_nr %}
+{% endwith %}
 
 <link rel="stylesheet" href="{% static 'vendor/quilljs/quill.snow.css' %}">
 <script src="{% static 'vendor/quilljs/quill.min.js' %}"></script>
